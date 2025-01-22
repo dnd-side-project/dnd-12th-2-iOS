@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		FB8E733C2D40CCCB005F935D /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = FB8E733B2D40CCCB005F935D /* ComposableArchitecture */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		FB8E73282D40CB60005F935D /* dnd-12th-2-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "dnd-12th-2-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB8E733C2D40CCCB005F935D /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = "dnd-12th-2-iOS";
 			packageProductDependencies = (
+				FB8E733B2D40CCCB005F935D /* ComposableArchitecture */,
 			);
 			productName = "dnd-12th-2-iOS";
 			productReference = FB8E73282D40CB60005F935D /* dnd-12th-2-iOS.app */;
@@ -94,6 +100,10 @@
 			);
 			mainGroup = FB8E731F2D40CB60005F935D;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				FB8E73392D40CC25005F935D /* XCRemoteSwiftPackageReference "Moya" */,
+				FB8E733A2D40CCCB005F935D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = FB8E73292D40CB60005F935D /* Products */;
 			projectDirPath = "";
@@ -324,6 +334,33 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FB8E73392D40CC25005F935D /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.3;
+			};
+		};
+		FB8E733A2D40CCCB005F935D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.17.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FB8E733B2D40CCCB005F935D /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FB8E733A2D40CCCB005F935D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FB8E73202D40CB60005F935D /* Project object */;
 }
