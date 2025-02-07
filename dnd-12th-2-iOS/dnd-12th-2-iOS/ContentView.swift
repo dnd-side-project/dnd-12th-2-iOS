@@ -17,10 +17,13 @@ struct ContentView: View {
                 .font(.system(size: 20))
             Text("Hello, world!")
                 .font(.pretendard(size: 20, weight: .regular))
+            
+            DDatePicker()
+            DDProgessCard(title: "10키로 감량 다이어트")
         }
         .padding()
         
-        DDatePicker()
+     
     }
 }
 
