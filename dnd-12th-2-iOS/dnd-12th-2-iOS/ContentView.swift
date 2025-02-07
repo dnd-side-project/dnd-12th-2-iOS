@@ -19,9 +19,11 @@ struct ContentView: View {
                 .font(.pretendard(size: 20, weight: .regular))
         }
         .padding()
+        
+        DDatePicker()
     }
 }
 
-#Preview {
-    ContentView()
-}
+//#Preview {
+//    ContentView()
+//}
