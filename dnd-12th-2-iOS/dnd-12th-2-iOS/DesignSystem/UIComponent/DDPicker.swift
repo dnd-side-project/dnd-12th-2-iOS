@@ -46,10 +46,10 @@ struct DDPicker: UIViewRepresentable {
         func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
             pickerView.subviews[1].alpha = 0
             
-            let view = UIView(frame: CGRect(x: 0, y: 0, width: 44, height: 56))
+            let view = UIView(frame: CGRect(x: 0, y: 0, width: 44, height: 56))            
             let label = UILabel(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height))
-                        
-            label.textColor = (row == pickerView.selectedRow(inComponent: component)) ? UIColor.purple800 : UIColor.gray200
+            
+            label.textColor = UIColor.gray700
             label.textAlignment = .center
             label.font = UIFont(name: "Pretendard-Medium", size: 22)
             
