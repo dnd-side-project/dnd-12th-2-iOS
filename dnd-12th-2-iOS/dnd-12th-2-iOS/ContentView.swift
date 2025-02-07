@@ -20,9 +20,16 @@ struct ContentView: View {
             
             DDatePicker()
             DDProgessCard(title: "10키로 감량 다이어트")
-        }
-        .padding()
-        
+        }        
+        .padding()        
+        .navigationBar(left: {
+            Image(.appLogo)
+        }, right: {
+            HStack {
+                Image(.iconChart)
+                Image(.iconUser)
+            }
+        })
      
     }
 }
