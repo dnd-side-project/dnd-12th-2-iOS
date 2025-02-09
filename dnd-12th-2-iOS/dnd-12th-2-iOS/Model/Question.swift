@@ -4,15 +4,17 @@
 //
 //  Created by 권석기 on 2/9/25.
 //
+import Foundation
 
 struct Answer: Hashable {
-    let question: String
+    let text: String
+    var isSelected: Bool = false
 }
 
 struct Question: Hashable {
     let section: Int
     let title: String
     let description: String
-    let answers: [Answer]
+    var answers: [Answer]
 }
 
