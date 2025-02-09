@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 struct ContentView: View {
     @State var text = ""
@@ -51,7 +52,9 @@ struct ContentView: View {
             })
             .navigationDestination(for: String.self) { screenName in
                 if screenName == "Onboarding" {
-                    OnboardingView()
+                    OnboardingView(store:  Store(initialState: OnboardingFeature.State()) {
+                        OnboardingFeature()
+                    })
                 }
             }
         }
