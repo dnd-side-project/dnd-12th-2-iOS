@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DDButton: View {
     let image: Image?
+    let imageSize: CGFloat?
     let title: String
     let font: Font
     let backgroundColor: Color
@@ -19,6 +20,7 @@ struct DDButton: View {
     let action: () -> Void
     
     init(image: Image? = nil,
+         imageSize: CGFloat? = 12,
          title: String = "다음",
          font: Font = .pretendard(size: 16, weight: .semibold),
          backgroundColor: Color = .gray100,
@@ -28,6 +30,7 @@ struct DDButton: View {
          cornerRadius: CGFloat = 12,
          action: @escaping () -> Void) {
         self.image = image
+        self.imageSize = imageSize
         self.title = title
         self.font = font
         self.backgroundColor = backgroundColor
@@ -46,7 +49,7 @@ struct DDButton: View {
                         .resizable()
                         .scaledToFit()
                         .foregroundStyle(.white)
-                        .frame(width: 12, height: 12)
+                        .frame(width: imageSize, height: imageSize)
                 }
                 Text(title)
                     .font(font)
