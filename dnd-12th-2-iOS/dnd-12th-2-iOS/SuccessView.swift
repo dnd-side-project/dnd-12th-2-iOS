@@ -24,8 +24,8 @@ struct SuccessView: View {
                 .scaledToFit()
                 .frame(width: 288, height: 288)
                 .padding(.bottom, 95)
-            DDButton(title: "새로운 목표 설정하기", textColor: .white, width: 335, height: 60) {
-                print("d")
+            DDButton(title: "새로운 목표 설정하기", backgroundColor:  .purple500, textColor: .white, width: 335, height: 60) {
+                print("새로운 목표 설정하기")
             }
             .padding(.bottom, 12)
             Button(action: {
