@@ -6,23 +6,23 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 struct ContentView: View {
     @State private var isLaunch: Bool = true
     @State var text = ""
+    @State var path = NavigationPath()
     var body: some View {
-        if isLaunch {
-            SplashView()
-                .onAppear {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                        withAnimation(.linear) {
-                            self.isLaunch = false
-                        }
-                    }
-                }
-        } else {
+        NavigationStack(path: $path) {
             ScrollView {
                 VStack {
+                    Text("DatePicker")
+                        .font(.title)
+                    Button(action: {
+                        path.append("Onboarding")
+                    }, label: {
+                        Text("Go to onboarding")
+                    })
                     Text("DatePicker")
                         .font(.title)
                     DDatePicker()
@@ -51,7 +51,15 @@ struct ContentView: View {
                     Image(.iconUser)
                 }
             })
+            .navigationDestination(for: String.self) { screenName in
+                if screenName == "Onboarding" {
+                    OnboardingView(store:  Store(initialState: OnboardingFeature.State()) {
+                        OnboardingFeature()
+                    })
+                }
+            }
         }
+        
     }
 }
 
