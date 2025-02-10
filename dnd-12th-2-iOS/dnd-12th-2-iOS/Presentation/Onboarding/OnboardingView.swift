@@ -51,23 +51,21 @@ struct OnboardingView: View {
                 
                 Spacer()
                 
-                if store.isLastQuestion {
-                    VStack {
-                        Text("언제든지 [프로필 > 설정 > 알림]에서 변경할 수 있어요")
-                            .font(.pretendard(size: 14, weight: .medium))
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .foregroundStyle(Color.gray500)
-                        
-                        Spacer()
-                            .frame(height: 12)
-                    }
+                if store.isLastPage {
+                    Text("언제든지 [프로필 > 설정 > 알림]에서 변경할 수 있어요.")
+                        .font(.pretendard(size: 14, weight: .medium))
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .foregroundStyle(Color.gray500)
+                    
+                    Spacer()
+                        .frame(height: 12)
                 }
                 DDButton(title: store.isLastPage ? "알림받고 목표에 도달하기" : "다음", action: { store.send(.goToPage(store.currentStep + 1)) })
             }
             .padding(.horizontal, 16)
             .id(store.currentStep)
-            .animation(.easeIn)
-            .transition(store.isNextPage ? .backslide : .forwardSlide)
+            .animation(.default, value: store.currentStep)
+            .transition(store.isNextPage ? .backslide : .forwardSlide)     
             .navigationBar(left: {
                 DDBackButton(action: { store.send(.goToPage(store.currentStep - 1)) })
                     .hidden(store.isFirstPage)

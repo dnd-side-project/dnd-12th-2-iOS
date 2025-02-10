@@ -64,14 +64,14 @@ struct OnboardingFeature {
         Reduce { state, action in
             switch action {
             case let .goToPage(step):
-                if state.isLastPage && step >= state.currentStep {
+                if state.isLastPage && step >= state.currentStep {                    
                     return .send(.complete)
                 } else {
                     state.prevStep = state.currentStep
                     state.currentStep = step
                     return .none
                 }
-                print(state.isNextPage)
+              
             case let .answerTapped(answerId):
                 state.questions[state.currentStep].answers[answerId].isSelected.toggle()
                 return .none
