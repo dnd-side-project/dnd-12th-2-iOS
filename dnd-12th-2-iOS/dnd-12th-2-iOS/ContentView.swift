@@ -9,6 +9,7 @@ import SwiftUI
 import ComposableArchitecture
 
 struct ContentView: View {
+    @State private var isLaunch: Bool = true
     @State var text = ""
     @State var path = NavigationPath()
     var body: some View {
