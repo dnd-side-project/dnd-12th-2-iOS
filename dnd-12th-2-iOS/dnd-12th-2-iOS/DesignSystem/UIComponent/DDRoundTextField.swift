@@ -17,9 +17,10 @@ struct DDRoundTextFiled: View {
                 .cornerRadius(12)
             
             HStack {
-                TextField("dd", text: $text, prompt: Text("ex) OO에서 OO하기"))
+                TextField("", text: $text, prompt: Text("ex) OO에서 OO하기")
+                    .font(.pretendard(size: 16, weight: .medium)))
                     .font(.pretendard(size: 16, weight: .medium))
-                    .foregroundStyle(Color.gray300)
+                    .foregroundStyle(Color.black)
                 
                 Text("0/50")
                     .font(.pretendard(size: 12, weight: .regular))
