@@ -16,6 +16,7 @@ struct ContentView: View {
         NavigationStack(path: $path) {
             ScrollView {
                 VStack {
+                    DDGoal(title: "오픽 AL받기", action: {})
                     Text("DatePicker")
                         .font(.title)
                     Button(action: {
