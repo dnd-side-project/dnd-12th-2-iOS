@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct DDButton: View {
+    let isDisable: Bool
     let image: Image?
     let imageSize: CGFloat?
     let title: String
@@ -23,11 +24,12 @@ struct DDButton: View {
          imageSize: CGFloat? = 12,
          title: String = "다음",
          font: Font = .pretendard(size: 16, weight: .semibold),
-         backgroundColor: Color = .gray100,
-         textColor: Color = .gray500,
+         backgroundColor: Color = .purple500,
+         textColor: Color = .white,
          width: CGFloat = 343,
          height: CGFloat = 54,
          cornerRadius: CGFloat = 12,
+         isDisable: Bool = false,
          action: @escaping () -> Void) {
         self.image = image
         self.imageSize = imageSize
@@ -39,6 +41,7 @@ struct DDButton: View {
         self.height = height
         self.cornerRadius = cornerRadius
         self.action = action
+        self.isDisable = isDisable
     }
     
     var body: some View {
@@ -57,8 +60,9 @@ struct DDButton: View {
 
             }
             .frame(width: width, height: height)
-            .background(backgroundColor)
+            .background(isDisable ? .gray100 : backgroundColor)
             .cornerRadius(cornerRadius)
+            .disabled(isDisable)
         }
     }
 }
