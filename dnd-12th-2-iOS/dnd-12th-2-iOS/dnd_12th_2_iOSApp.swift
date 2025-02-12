@@ -11,7 +11,7 @@ import SwiftUI
 struct dnd_12th_2_iOSApp: App {
     var body: some Scene {
         WindowGroup {            
-            ContentView()
+            FeedbackCompleteView()
         }
     }
 }
