@@ -26,7 +26,7 @@ struct HomeView: View {
                             if offset != 0 {
                                 DDFeedbackRow(result: .success, title: "다음에는 계획을 더 구체적으로 세워봐요!")
                             }
-                            DDResultRow(result: .success, title: "오픽 신청하기")
+                            DDResultRow(result: .success, title: "오픽 신청하기")                            
                         }
                     }
                     Spacer()
