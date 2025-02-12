@@ -8,7 +8,8 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct HomeView: View {    
+struct HomeView: View {
+    @State var isShowSheet = false
     var body: some View {
         WithPerceptionTracking {
             Spacer()
@@ -19,6 +20,7 @@ struct HomeView: View {
                 .background(Color.gray200)
             Spacer()
                 .frame(height: 16)
+            
             ScrollView {
                 LazyVStack(spacing: 16) {
                     ForEach(0...10, id: \.self) { offset in
@@ -26,7 +28,7 @@ struct HomeView: View {
                             if offset != 0 {
                                 DDFeedbackRow(result: .success, title: "다음에는 계획을 더 구체적으로 세워봐요!")
                             }
-                            DDResultRow(result: .success, title: "오픽 신청하기")                            
+                            DDResultRow(result: .success, title: "오픽 신청하기")
                         }
                     }
                     Spacer()
@@ -39,9 +41,13 @@ struct HomeView: View {
                     .offset(x: -16, y: -25)
             })
         }
-    
+        .bottomSheet(isPresented: $isShowSheet, content: {
+            GoalListView()
+        })
         .navigationBar(left: {
-            DDGoal(title: "오픽 AL받기", action: {})
+            DDGoal(title: "오픽 AL받기", action: {
+                isShowSheet = true
+            })
         }, right: {
             Button(action: {}, label: {
                 Text("더보기")
@@ -54,4 +60,21 @@ struct HomeView: View {
 
 #Preview {
     HomeView()
+}
+struct ClearBackgroundView: UIViewRepresentable {
+    func makeUIView(context: Context) -> UIView {
+        return InnerView()
+    }
+    
+    func updateUIView(_ uiView: UIView, context: Context) {
+    }
+    
+    private class InnerView: UIView {
+        override func didMoveToWindow() {
+            super.didMoveToWindow()
+            
+            superview?.superview?.backgroundColor = .clear
+        }
+        
+    }
 }
