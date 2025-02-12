@@ -8,7 +8,7 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct HomeView: View {
+struct HomeView: View {    
     var body: some View {
         WithPerceptionTracking {
             Spacer()

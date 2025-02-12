@@ -50,11 +50,11 @@ struct ContentView: View {
                 }
                 .tag(Tab.home)
                 NavigationStack {
-                    
+                    StatisticView()
                 }
                 .tag(Tab.statistics)
                 NavigationStack {
-                    
+                    ProfileView()
                 }
                 .tag(Tab.profile)
             }
