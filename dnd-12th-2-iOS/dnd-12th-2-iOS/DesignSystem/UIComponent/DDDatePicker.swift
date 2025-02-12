@@ -13,7 +13,7 @@ struct DDatePicker: View {
         HStack {
             // DDPicker를 합쳐서 DDatePicker를 만든다
             
-            DDPicker(items: ["오전", "오후"])
+            DDPicker(items: ["오늘", "내일"])
                 .frame(height: 56 * 3)
                 .overlay(alignment: .top) {
                     Divider()
@@ -67,19 +67,21 @@ struct DDatePicker: View {
                     .blendMode(.overlay)
                     .allowsHitTesting(false)
                 )
+            Spacer()
+                .frame(width: 45)
         }
-        .frame(width: 307, height: 168)
+        .frame(width: 307, height: 198)
         .overlay(alignment: .top) {
             Rectangle()
                 .frame(height: 15)
                 .foregroundStyle(Color.white)
-                .offset(y: -10)
+                .offset(y: 10)
         }
         .overlay(alignment: .bottom) {
             Rectangle()
                 .frame(height: 15)
                 .foregroundStyle(Color.white)
-                .offset(y: 10)
+                .offset(y: -10)
         }
     }
 }

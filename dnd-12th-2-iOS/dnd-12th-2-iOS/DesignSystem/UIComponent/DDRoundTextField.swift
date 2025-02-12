@@ -12,7 +12,7 @@ struct DDRoundTextFiled: View {
     var body: some View {
         ZStack {
             Rectangle()
-                .frame(maxWidth: .infinity, minHeight: 48)
+                .frame(maxWidth: .infinity, minHeight: 48, maxHeight: 48)
                 .foregroundColor(Color.gray50)
                 .cornerRadius(12)
             

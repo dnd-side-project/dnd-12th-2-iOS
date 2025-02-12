@@ -14,7 +14,8 @@ struct OnboardingView: View {
     var body: some View {
         WithPerceptionTracking {
             VStack(alignment: .leading, spacing: 0) {
-                Spacer().frame(height: 16)
+                Spacer()
+                    .frame(height: 16)
                 
                 // 타이틀
                 Text(store.questions[store.currentStep].title)

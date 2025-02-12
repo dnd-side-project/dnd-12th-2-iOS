@@ -28,7 +28,7 @@ struct DDNavigationModifier<C, L, R>: ViewModifier where C: View, L: View, R: Vi
                     Spacer()
                     right?()
                 }
-                .padding(.horizontal, 16)
+                .padding(.horizontal, 8)
                 .frame(maxWidth: .infinity)
                 
                 HStack {
