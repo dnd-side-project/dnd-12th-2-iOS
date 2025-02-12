@@ -34,8 +34,12 @@ struct HomeView: View {
                 }
                 .padding(.horizontal, 16)
             }
+            .overlay(alignment: .bottomTrailing, content: {
+                DDFloatingButton()
+                    .offset(x: -16, y: -25)
+            })
         }
-      
+    
         .navigationBar(left: {
             DDGoal(title: "오픽 AL받기", action: {})
         }, right: {
