@@ -27,7 +27,8 @@ struct FeedbackResultView: View {
                 Image("successBadge")
                     .padding(.top, 32)
                 
-                CompleteCell(completeType: .success)
+                CompleteList()
+//                CompleteCell(completeType: .success)
                     .padding(.top, 31.92)
                 Image("line")
                     .padding(.top, 20)
