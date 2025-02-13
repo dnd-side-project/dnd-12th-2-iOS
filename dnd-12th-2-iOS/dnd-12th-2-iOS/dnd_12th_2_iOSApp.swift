@@ -11,7 +11,7 @@ import ComposableArchitecture
 struct dnd_12th_2_iOSApp: App {
     var body: some Scene {
         WindowGroup {            
-            FeedbackResultView()
+            SuccessView()
         }
     }
 }
