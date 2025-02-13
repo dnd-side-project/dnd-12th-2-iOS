@@ -10,20 +10,21 @@ import SwiftUI
 
 struct BottomSheetModifier<ContentView: View>: ViewModifier {
     @Binding var isPresented: Bool
+    let height: CGFloat
     let contentView: () -> ContentView
     
     func body(content: Content) -> some View {
         content
             .sheet(isPresented: $isPresented) {
                 contentView()
-                    .presentationDetents([.fraction(0.75)])
+                    .presentationDetents([.height(height)])
                     .presentationCornerRadius(24)
             }
     }
 }
 
 extension View {
-    func bottomSheet<Content: View>(isPresented: Binding<Bool>, content: @escaping () -> Content) -> some View {
-        modifier(BottomSheetModifier(isPresented: isPresented, contentView: content))
+    func bottomSheet<Content: View>(isPresented: Binding<Bool>, height: CGFloat, content: @escaping () -> Content) -> some View {
+        modifier(BottomSheetModifier(isPresented: isPresented, height: height, contentView: content))
     }
 }

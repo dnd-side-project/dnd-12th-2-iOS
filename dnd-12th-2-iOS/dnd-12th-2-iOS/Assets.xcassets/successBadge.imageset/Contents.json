@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "x.png",
+      "filename" : "successBadge.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "x@2x.png",
+      "filename" : "Property 1=success@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "x@3x.png",
+      "filename" : "Property 1=success@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
