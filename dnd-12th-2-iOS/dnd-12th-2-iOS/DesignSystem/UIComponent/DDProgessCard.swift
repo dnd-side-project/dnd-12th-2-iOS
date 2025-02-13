@@ -11,39 +11,42 @@ struct DDProgessCard: View {
     let title: String
     
     var body: some View {
-        VStack(spacing: 0) {
-            VStack(spacing: 0) {
+        VStack {
+            VStack(spacing: 12) {
                 HStack {
                     Text(title)
-                        .font(.pretendard(size: 16, weight: .semibold))
-                        .foregroundStyle(.gray800)
+                        .font(.pretendard(size: 16, weight: .semibold), lineHeight: 24)
+                        .foregroundStyle(Color.gray900)
                     Spacer()
-                    Image(.iconRight)
+                    Button(action: {}, label: {
+                        Image("iconRight")
+                    })
                 }
-                Spacer()
-                    .frame(height: 8)
-                VStack(spacing: 0) {
-                    HStack {
-                        Text("계획 성공률")
-                            .font(.pretendard(size: 12, weight: .medium))
-                            .foregroundStyle(Color.gray400)
-                        Spacer()
-                        Text("80%")
-                            .font(.pretendard(size: 12, weight: .bold))
-                            .foregroundStyle(Color.purple600)
+                
+                VStack {
+                    VStack(spacing: 8) {
+                        Text("성공률")
+                            .font(.pretendard(size: 14, weight: .medium))
+                            .foregroundStyle(Color.gray600)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        
+                        HStack(spacing: 12) {
+                            LinearProgressView(shape: .capsule, value: 0.8)
+                                .frame(height: 12)
+                            
+                            Text("75%")
+                                .font(.pretendard(size: 12, weight: .bold), lineHeight: 14)
+                                .foregroundStyle(Color.purple500)
+                        }
                     }
-                    
-                    Spacer()
-                        .frame(height: 4)
-                    
-                    LinearProgressView(shape: Capsule(), value: 0.6)
-                        .frame(height: 12)
+                    .padding(12)
                 }
+                .background(Color.white)
+                .cornerRadius(12)
             }
-            .padding(.horizontal, 18)
-            .padding(.vertical, 16)
+            .padding(16)
         }
-        .background(Color.purple50)
+        .background(Color.gray50)
         .cornerRadius(12)
     }
 }
@@ -54,10 +57,10 @@ struct LinearProgressView<Shape: SwiftUI.Shape>: View {
     
     var body: some View {
         VStack {
-            shape.fill(.gray200)
+            shape.fill(.gray50)
                 .overlay(alignment: .leading) {
                     GeometryReader { proxy in
-                        shape.fill(Color.purple600)
+                        shape.fill(Color.purple500)
                             .frame(width: proxy.size.width * value)
                     }
                 }

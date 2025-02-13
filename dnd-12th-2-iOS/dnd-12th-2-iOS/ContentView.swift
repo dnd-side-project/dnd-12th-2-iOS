@@ -46,15 +46,15 @@ struct ContentView: View {
         ZStack {
             TabView(selection: $selection) {
                 NavigationStack {
-                    
+                    HomeView()
                 }
                 .tag(Tab.home)
                 NavigationStack {
-                    
+                    StatisticView()
                 }
                 .tag(Tab.statistics)
                 NavigationStack {
-                    
+                    ProfileView()
                 }
                 .tag(Tab.profile)
             }

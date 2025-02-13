@@ -20,7 +20,7 @@ enum ResultType {
     
     var backgroundColor: Color {
         switch self {
-        case .success: return .purple100
+        case .success: return .purple50
         case .fail: return .gray50
         }
     }
@@ -43,39 +43,39 @@ enum ResultType {
 struct DDResultRow: View {
     let result: ResultType
     let title: String
-    let width: CGFloat
-    let height: CGFloat
     
     init(result: ResultType,
-         title: String,
-         width: CGFloat = 343,
-         height: CGFloat = 72) {
+         title: String) {
         self.result = result
         self.title = title
-        self.width = width
-        self.height = height
     }
     
     var body: some View {
-        HStack() {
-            result.image
-                .resizable()
-                .scaledToFit()
-                .frame(width: 40, height: 40)
-                .padding(.trailing, 12)
-                .padding(.leading, 16)
-            VStack(alignment: .leading) {
-                Text(result.title)
-                    .font(.pretendard(size: 12, weight: .medium))
-                    .foregroundStyle(result.titleColor)
-                    .padding(.bottom, 1)
-                Text(title)
-                    .font(.pretendard(size: 14, weight: .semibold))
-                    .foregroundStyle(.gray900)
+        VStack {
+            HStack(spacing: 0) {
+                result.image
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 40, height: 40)
+                    .padding(.trailing, 12)
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(result.title)
+                        .font(.pretendard(size: 12, weight: .medium), lineHeight: 14)
+                        .foregroundStyle(result.titleColor)
+                        .padding(.bottom, 1)
+                    Text(title)
+                        .font(.pretendard(size: 14, weight: .semibold), lineHeight: 24)
+                        .foregroundStyle(.gray900)
+                }
+                Spacer()
+                
+                Button(action: {}, label: {
+                    Image(.iconRight)
+                })
             }
-            Spacer()
+            .padding(.vertical, 14)
+            .padding(.horizontal, 12)
         }
-        .frame(width: width, height: height)
         .background(result.backgroundColor)
         .cornerRadius(12)
     }

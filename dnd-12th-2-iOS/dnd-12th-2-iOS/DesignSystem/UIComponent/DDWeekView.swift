@@ -27,11 +27,6 @@ struct DDWeekView: View {
             }
             .padding(.vertical, 8)
         }
-        .overlay(alignment: .bottom) {
-            Rectangle()
-                .frame(height: 1)
-                .foregroundStyle(Color.gray200)
-        }
     }
 }
 
