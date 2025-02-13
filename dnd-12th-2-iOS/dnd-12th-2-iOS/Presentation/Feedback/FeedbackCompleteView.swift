@@ -8,6 +8,7 @@
 import SwiftUI
 import ComposableArchitecture
 struct FeedbackCompleteView: View {
+    @Environment(\.safeAreaInsets) private var safeAreaInsets
     var body: some View {
         WithPerceptionTracking {
             
@@ -26,10 +27,13 @@ struct FeedbackCompleteView: View {
         .padding(.horizontal, 16)
         .background(alignment: .top, content: {
             Image("partyBackground")
-                .offset(y: -48.0)
+                .offset(y: -(48.0 + safeAreaInsets.top))
                 .allowsHitTesting(false)
                 .ignoresSafeArea()
         })
+//        .background(alignment: .bottom, content: {
+//            Image("stairsSuccess")
+//        })
         .navigationBar(left: {
             DDBackButton(action: {print("1")})
         })
