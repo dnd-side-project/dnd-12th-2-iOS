@@ -26,7 +26,7 @@ struct DDButton: View {
          font: Font = .pretendard(size: 16, weight: .semibold),
          backgroundColor: Color = .purple500,
          textColor: Color = .white,
-         width: CGFloat = 343,
+         width: CGFloat = .infinity,
          height: CGFloat = 54,
          cornerRadius: CGFloat = 12,
          isDisable: Bool = false,
@@ -59,7 +59,7 @@ struct DDButton: View {
                     .foregroundStyle(textColor)
 
             }
-            .frame(width: width, height: height)
+            .frame(maxWidth: width == .infinity ? .infinity : width, minHeight: height, maxHeight: height)
             .background(isDisable ? .gray100 : backgroundColor)
             .cornerRadius(cornerRadius)
             .disabled(isDisable)

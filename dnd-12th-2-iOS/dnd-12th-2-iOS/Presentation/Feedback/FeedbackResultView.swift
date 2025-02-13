@@ -53,7 +53,7 @@ struct FeedbackResultView: View {
                                 
                 Spacer()
                 
-                DDButton(action: {})
+                DDButton(title: "확인", action: {})
             }
         }
         .padding(.horizontal, 16)
