@@ -10,6 +10,7 @@ import ComposableArchitecture
 
 struct HomeView: View {
     @State var isShowSheet = false
+    @State var isShowMenu = false
     var body: some View {
         WithPerceptionTracking {
             Spacer()
@@ -41,15 +42,52 @@ struct HomeView: View {
                     .offset(x: -16, y: -25)
             })
         }
-        .bottomSheet(isPresented: $isShowSheet, content: {
+        .bottomSheet(isPresented: $isShowSheet, height: UIScreen.screenHeight * 0.75, content: {
             GoalListView()
+        })
+        .bottomSheet(isPresented: $isShowMenu, height: 210, content: {
+            VStack(spacing: 34) {
+                Button(action: {}, label: {
+                    HStack(spacing: 8) {
+                        Image("iconFlag")
+                        Text("목표 달성")
+                            .font(.pretendard(size: 16, weight: .semibold), lineHeight: 24)
+                            .foregroundStyle(Color.gray900)
+                        Spacer()
+                    }
+                })
+                
+                Button(action: {}, label: {
+                    HStack(spacing: 8) {
+                        Image("iconEdit")
+                        Text("목표 수정")
+                            .font(.pretendard(size: 16, weight: .semibold), lineHeight: 24)
+                            .foregroundStyle(Color.gray900)
+                        Spacer()
+                    }
+                })
+                
+                Button(action: {}, label: {
+                    HStack(spacing: 8) {
+                        Image("iconTrash")
+                        Text("삭제하기")
+                            .font(.pretendard(size: 16, weight: .semibold), lineHeight: 24)
+                            .foregroundStyle(Color.gray900)
+                        Spacer()
+                    }
+                })
+            }
+            .padding(.leading, 23)
+            .padding(.vertical, 30)
         })
         .navigationBar(left: {
             DDGoal(title: "오픽 AL받기", action: {
                 isShowSheet = true
             })
         }, right: {
-            Button(action: {}, label: {
+            Button(action: {
+                isShowMenu = true
+            }, label: {
                 Text("더보기")
                     .font(.pretendard(size: 14, weight: .semibold))
                     .foregroundStyle(Color.purple700)
