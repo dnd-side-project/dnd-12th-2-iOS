@@ -18,6 +18,19 @@ extension UIApplication {
         tapRecognizer.delegate = self
         window.addGestureRecognizer(tapRecognizer)
     }
+    
+    public var keyWindow: UIWindow? {
+        connectedScenes
+            .compactMap {
+                $0 as? UIWindowScene
+            }
+            .flatMap {
+                $0.windows
+            }
+            .first {
+                $0.isKeyWindow
+            }
+    }
 }
 
 extension UIApplication: UIGestureRecognizerDelegate {
@@ -25,3 +38,4 @@ extension UIApplication: UIGestureRecognizerDelegate {
         return false
     }
 }
+

@@ -11,28 +11,29 @@ struct FeedbackCompleteView: View {
     var body: some View {
         WithPerceptionTracking {
             
-            Text("오늘의 계획을 완료하셨나요?")
+            Text("계획을 달성했어요! \n한 걸음 더 성장한 당신을 응원해요.")
                 .font(.pretendard(size: 22, weight: .bold), lineHeight: 31)
                 .foregroundStyle(Color.gray900)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.vertical, 20)
             
-            CompleteCell()
+            CompleteCell(completeType: .success)
             
             Spacer()
             
-            DDButton(title:"완료하지 못했어요", backgroundColor: .purple50, textColor: .purple500, action: {})
-                .background(alignment: .bottomTrailing, content: {
-                    Image("selecteComplete")
-                        .offset(x: 43)
-                })
-            DDButton(title:"완료했어요",backgroundColor: .purple500, action: {})
+            DDButton(title:"다음",backgroundColor: .purple500, action: {})
         }
         .padding(.horizontal, 16)
-        
-        .navigationBar(left: {
-            DDBackButton(action: {})
+        .background(alignment: .top, content: {
+            Image("partyBackground")
+                .offset(y: -48.0)
+                .allowsHitTesting(false)
+                .ignoresSafeArea()
         })
+        .navigationBar(left: {
+            DDBackButton(action: {print("1")})
+        })
+        
     }
 }
 
