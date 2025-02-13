@@ -31,9 +31,10 @@ struct FeedbackCompleteView: View {
                 .allowsHitTesting(false)
                 .ignoresSafeArea()
         })
-//        .background(alignment: .bottom, content: {
-//            Image("stairsSuccess")
-//        })
+        .background(alignment: .bottom, content: {
+            Image("stairsSuccess")
+                .offset(y: safeAreaInsets.bottom)
+        })
         .navigationBar(left: {
             DDBackButton(action: {print("1")})
         })
