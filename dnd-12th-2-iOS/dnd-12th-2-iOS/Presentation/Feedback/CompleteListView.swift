@@ -9,6 +9,8 @@ import SwiftUI
 import ComposableArchitecture
 
 struct CompleteListView: View {
+    let store: StoreOf<FeedbackFeature>
+    
     var body: some View {
         WithPerceptionTracking {
             
@@ -27,7 +29,7 @@ struct CompleteListView: View {
                     Image("selecteComplete")
                         .offset(x: 43)
                 })
-            DDButton(title:"완료했어요",backgroundColor: .purple500, action: {})
+            DDButton(title:"완료했어요",backgroundColor: .purple500, action: { store.send(.goToComplete) })
         }
         .padding(.horizontal, 16)
         
@@ -37,6 +39,6 @@ struct CompleteListView: View {
     }
 }
 
-#Preview {
-    CompleteListView()
-}
+//#Preview {
+//    CompleteListView()
+//}

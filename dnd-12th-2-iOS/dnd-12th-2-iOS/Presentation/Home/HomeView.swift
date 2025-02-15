@@ -11,10 +11,10 @@ import ComposableArchitecture
 struct HomeView: View {
     @State var isShowSheet = false
     @State var isShowMenu = false
-    let store: StoreOf<HomeNavigation>
+    @Perception.Bindable var store: StoreOf<HomeNavigation>
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
             WithPerceptionTracking {
                 Spacer()
                     .frame(height: 14)
@@ -30,7 +30,9 @@ struct HomeView: View {
                         ForEach(0...10, id: \.self) { offset in
                             VStack(spacing: 16) {
                                 let resultType: ResultType = [.fail, .ready, .success].randomElement()!
-                                DDResultRow(result: resultType, title: "오픽 신청하기", action: {print("11")})
+                                DDResultRow(result: resultType, title: "오픽 신청하기", action: {
+                                    store.send(.completeButtonTapped)
+                                })
                                 if offset != 10 {
                                     DDFeedbackRow(result: resultType == .fail ? .fail : .success, title: "다음에는 계획을 더 구체적으로 세워봐요!")
                                 }
@@ -97,6 +99,15 @@ struct HomeView: View {
                         .foregroundStyle(Color.purple700)
                 })
             })
+        } destination: { store in
+            switch store.case {
+            case let .completeScreen(store):
+                FeedbackCompleteView(store: store)
+            case let .resultScreen(store):
+                FeedbackResultView(store: store)
+            case let .selecteScreen(store):
+                CompleteListView(store: store)
+            }
         }
     }
 }

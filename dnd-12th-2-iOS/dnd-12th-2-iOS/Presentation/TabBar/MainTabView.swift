@@ -74,19 +74,22 @@ struct MainTabView: View {
     }
     
     var body: some View {
-        ZStack {
-            TabView(selection: $selection) {
-                HomeView(store: store.scope(state: \.home, action: \.home))
-                    .tag(Tab.home)
-                StatisticView()
-                    .tag(Tab.statistics)
-                ProfileView(store: store.scope(state: \.profile, action: \.profile))
-                    .tag(Tab.profile)
-            }
-            
-            VStack(spacing: 0) {
-                Spacer()
-                tabBar
+        NavigationStack {
+            ZStack {
+                TabView(selection: $selection) {
+                    HomeView(store: store.scope(state: \.home, action: \.home))
+                        .tag(Tab.home)
+                    StatisticView()
+                        .tag(Tab.statistics)
+                    ProfileView(store: store.scope(state: \.profile, action: \.profile))
+                        .tag(Tab.profile)
+                }
+                .navigationBarHidden(true)
+                
+                VStack(spacing: 0) {
+                    Spacer()
+                    tabBar
+                }
             }
         }
     }
@@ -98,7 +101,7 @@ struct MainTabView: View {
 struct NoTapAnimationStyle: PrimitiveButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            // Make the whole button surface tappable. Without this only content in the label is tappable and not whitespace. Order is important so add it before the tap gesture
+        // Make the whole button surface tappable. Without this only content in the label is tappable and not whitespace. Order is important so add it before the tap gesture
             .contentShape(Rectangle())
             .onTapGesture(perform: configuration.trigger)
     }
