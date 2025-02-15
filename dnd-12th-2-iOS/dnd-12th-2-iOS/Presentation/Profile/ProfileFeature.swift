@@ -1,5 +1,5 @@
 //
-//  TabFeature.swift
+//  ProfileFeature.swift
 //  dnd-12th-2-iOS
 //
 //  Created by 권석기 on 2/15/25.
@@ -8,8 +8,8 @@
 import ComposableArchitecture
 
 @Reducer
-struct TabFeature {
-    struct State{}
+struct ProfileFeature {
+    struct State {}
     
     enum Action {}
     

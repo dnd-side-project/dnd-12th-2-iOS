@@ -45,8 +45,9 @@ struct MainTabView: View {
             Divider()
                 .background(.gray100)
             HStack {
+                Spacer()
+                
                 ForEach(Tab.allCases, id: \.self) { tab in
-                    Spacer()
                     Button {
                         selection = tab
                     } label: {
@@ -60,7 +61,9 @@ struct MainTabView: View {
                                 .font(.pretendard(size: 10, weight: selection == tab ? .bold : .regular))
                                 .foregroundStyle(selection == tab ? .purple700 : .gray400)
                         }
-                    }
+                        .frame(maxWidth: .infinity)
+                        .contentShape(Rectangle())
+                    }.buttonStyle(NoTapAnimationStyle())
                     Spacer()
                 }
             }
@@ -73,18 +76,12 @@ struct MainTabView: View {
     var body: some View {
         ZStack {
             TabView(selection: $selection) {
-                NavigationStack {
-                    HomeView()
-                }
-                .tag(Tab.home)
-                NavigationStack {
-                    StatisticView()
-                }
-                .tag(Tab.statistics)
-                NavigationStack {
-                    ProfileView()
-                }
-                .tag(Tab.profile)
+                HomeView()
+                    .tag(Tab.home)
+                StatisticView()
+                    .tag(Tab.statistics)
+                ProfileView()
+                    .tag(Tab.profile)
             }
             
             VStack(spacing: 0) {
@@ -98,3 +95,11 @@ struct MainTabView: View {
 //#Preview {
 //    MainTabView()
 //}
+struct NoTapAnimationStyle: PrimitiveButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            // Make the whole button surface tappable. Without this only content in the label is tappable and not whitespace. Order is important so add it before the tap gesture
+            .contentShape(Rectangle())
+            .onTapGesture(perform: configuration.trigger)
+    }
+}

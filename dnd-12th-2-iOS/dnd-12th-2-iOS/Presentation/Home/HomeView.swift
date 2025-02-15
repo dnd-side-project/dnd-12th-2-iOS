@@ -22,7 +22,7 @@ struct HomeView: View {
             Spacer()
                 .frame(height: 16)
             
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 LazyVStack(spacing: 16) {
                     ForEach(0...10, id: \.self) { offset in
                         VStack(spacing: 16) {
