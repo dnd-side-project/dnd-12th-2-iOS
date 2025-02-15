@@ -44,7 +44,9 @@ struct HomeView: View {
                     .padding(.horizontal, 16)
                 }
                 .overlay(alignment: .bottomTrailing, content: {
-                    DDFloatingButton()
+                    DDFloatingButton {
+                        store.send(.goToGoalScreen)
+                    }
                         .offset(x: -16, y: -25)
                 })
             }
@@ -107,6 +109,8 @@ struct HomeView: View {
                 FeedbackResultView(store: store)
             case let .selecteScreen(store):
                 CompleteListView(store: store)
+            case let .goalScreen(store):
+                GoalView(store: store)
             }
         }
     }

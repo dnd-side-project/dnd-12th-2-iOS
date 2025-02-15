@@ -14,6 +14,7 @@ struct HomeNavigation {
         case selecteScreen(FeedbackFeature)
         case completeScreen(FeedbackFeature)
         case resultScreen(FeedbackFeature)
+        case goalScreen(GoalFeature)
     }
     @ObservableState
     struct State {
@@ -23,6 +24,7 @@ struct HomeNavigation {
     enum Action {
         case path(StackActionOf<Path>)
         case completeButtonTapped
+        case goToGoalScreen
     }
     
     var body: some Reducer<State, Action> {
@@ -30,6 +32,9 @@ struct HomeNavigation {
             switch action {
             case .completeButtonTapped:
                 state.path.append(.selecteScreen(.init()))
+                return .none
+            case .goToGoalScreen:          
+                state.path.append(.goalScreen(.init()))
                 return .none
             case let .path(action):
                 switch action {
@@ -40,6 +45,9 @@ struct HomeNavigation {
                     state.path.append(.resultScreen(.init()))
                     return .none
                 case .element(id: _, action: .resultScreen(.completeButtonTapped)):
+                    state.path.removeAll()
+                    return .none
+                case .element(id: _, action: .goalScreen(.completeButtonTapped)):
                     state.path.removeAll()
                     return .none
                 default:
