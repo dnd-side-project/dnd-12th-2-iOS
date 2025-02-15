@@ -62,7 +62,7 @@ struct DDButton: View {
             .frame(maxWidth: width == .infinity ? .infinity : width, minHeight: height, maxHeight: height)
             .background(isDisable ? .gray100 : backgroundColor)
             .cornerRadius(cornerRadius)
-            .disabled(isDisable)
-        }
+      
+        }.disabled(isDisable)
     }
 }

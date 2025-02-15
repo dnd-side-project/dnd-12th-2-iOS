@@ -48,7 +48,7 @@ struct HomeView: View {
                         .offset(x: -16, y: -25)
                 })
             }
-            .bottomSheet(isPresented: $isShowSheet, height: UIScreen.screenHeight * 0.75, content: {
+            .bottomSheet(isPresented: $isShowSheet, height: UIScreen.screenHeight * 0.7, content: {
                 GoalListView()
             })
             .bottomSheet(isPresented: $isShowMenu, height: 210, content: {
