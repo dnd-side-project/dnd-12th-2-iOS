@@ -9,6 +9,7 @@ import SwiftUI
 import ComposableArchitecture
 
 struct GoalResultView: View {
+    let store: StoreOf<GoalFeature>
     var body: some View {
         WithPerceptionTracking {
             Spacer()
@@ -57,15 +58,19 @@ struct GoalResultView: View {
             .clipShape(Capsule())
             Spacer()
                 .frame(height: 16)
-            DDButton(action: {})
+            DDButton(action: {
+                store.send(.resultButtonTapped)
+            })
         }
         .padding(.horizontal, 16)
         .navigationBar(left: {
-            DDBackButton(action: {})
+            DDBackButton(action: {
+               
+            })
         })
     }
 }
 
-#Preview {
-    GoalResultView()
-}
+//#Preview {
+//    GoalResultView()
+//}

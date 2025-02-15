@@ -57,7 +57,7 @@ struct OnboardingFeature {
     enum Action {
         case goToPage(Int)
         case answerTapped(Int)
-        case complete
+        case completeButtonTapped
     }
     
     var body: some Reducer<State, Action> {
@@ -65,7 +65,7 @@ struct OnboardingFeature {
             switch action {
             case let .goToPage(step):
                 if state.isLastPage && step >= state.currentStep {                    
-                    return .send(.complete)
+                    return .send(.completeButtonTapped)
                 } else {
                     state.prevStep = state.currentStep
                     state.currentStep = step
@@ -75,9 +75,7 @@ struct OnboardingFeature {
             case let .answerTapped(answerId):
                 state.questions[state.currentStep].answers[answerId].isSelected.toggle()
                 return .none
-            case .complete:
-                // 서버에 결과를 보내는 동작
-                print(state.questions)
+            case .completeButtonTapped:
                 return .none
             }
         }

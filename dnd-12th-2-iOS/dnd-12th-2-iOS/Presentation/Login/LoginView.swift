@@ -60,8 +60,12 @@ struct LoginView: View {
             }
         } destination: { store in
             switch store.case {                
-            case .onboadingScreen:
-                Text("test")
+            case let .onboadingScreen(store):
+                OnboardingView(store: store)
+            case let .goalScreen(store):
+                GoalSettingView(store: store)
+            case let .resultScreen(store):
+                GoalResultView(store: store)
             }
         }
     }

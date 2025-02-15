@@ -36,7 +36,9 @@ struct FeedbackCompleteView: View {
                 .offset(y: safeAreaInsets.bottom)
         })
         .navigationBar(left: {
-            DDBackButton(action: {print("1")})
+            DDBackButton(action: {
+                
+            })
         })
         
     }
