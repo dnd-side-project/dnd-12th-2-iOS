@@ -63,7 +63,7 @@ struct LoginView: View {
             case let .onboadingScreen(store):
                 OnboardingView(store: store)
             case let .goalScreen(store):
-                GoalSettingView(store: store)
+                GoalView(store: store)
             case let .resultScreen(store):
                 GoalResultView(store: store)
             }

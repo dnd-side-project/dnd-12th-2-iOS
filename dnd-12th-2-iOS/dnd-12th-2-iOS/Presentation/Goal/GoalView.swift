@@ -8,7 +8,7 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct GoalSettingView: View {
+struct GoalView: View {
     let store: StoreOf<GoalFeature>
     @State var text = ""
     @State var isStartTimeToggle = false

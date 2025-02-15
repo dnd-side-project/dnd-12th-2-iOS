@@ -26,10 +26,11 @@ struct HomeView: View {
                 LazyVStack(spacing: 16) {
                     ForEach(0...10, id: \.self) { offset in
                         VStack(spacing: 16) {
-                            if offset != 0 {
-                                DDFeedbackRow(result: .success, title: "다음에는 계획을 더 구체적으로 세워봐요!")
+                            let resultType: ResultType = [.fail, .ready, .success].randomElement()!
+                            DDResultRow(result: resultType, title: "오픽 신청하기", action: {print("11")})
+                            if offset != 10 {
+                                DDFeedbackRow(result: resultType == .fail ? .fail : .success, title: "다음에는 계획을 더 구체적으로 세워봐요!")
                             }
-                            DDResultRow(result: .success, title: "오픽 신청하기")
                         }
                     }
                     Spacer()
