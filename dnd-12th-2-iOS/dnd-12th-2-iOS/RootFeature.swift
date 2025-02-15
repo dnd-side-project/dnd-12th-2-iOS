@@ -28,6 +28,9 @@ struct RootFeature {
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
+            case .loggedIn(.profile(.logoutButtonTapped)):
+                state = .loggedOut(.init())
+                return .none
             case let .loginCheck(.loginCompleted(isLogin)):
                 if isLogin {
                     state = .loggedIn(.init())

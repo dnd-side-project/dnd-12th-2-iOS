@@ -9,10 +9,12 @@ import SwiftUI
 import ComposableArchitecture
 
 struct ProfileView: View {
-//    let store: StoreOf<ProfileFeature>
+    let store: StoreOf<ProfileNavigation>
     
     var body: some View {
-        Button(action: {}) {
+        Button(action: {
+            store.send(.logoutButtonTapped)
+        }) {
             Text("Logout")
         }
     }

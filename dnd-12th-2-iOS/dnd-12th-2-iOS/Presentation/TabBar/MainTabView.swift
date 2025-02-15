@@ -80,7 +80,7 @@ struct MainTabView: View {
                     .tag(Tab.home)
                 StatisticView()
                     .tag(Tab.statistics)
-                ProfileView()
+                ProfileView(store: store.scope(state: \.profile, action: \.profile))
                     .tag(Tab.profile)
             }
             

@@ -9,11 +9,18 @@ import ComposableArchitecture
 
 @Reducer
 struct TabFeature {
-    struct State{}
+    struct State{
+        var profile: ProfileNavigation.State = .init()
+    }
     
-    enum Action {}
+    enum Action {
+        case profile(ProfileNavigation.Action)
+    }
     
     var body: some Reducer<State, Action> {
+        Scope(state: \.profile, action: \.profile) {
+            ProfileNavigation()
+        }
         Reduce { state, action in
             switch action {
             default:
