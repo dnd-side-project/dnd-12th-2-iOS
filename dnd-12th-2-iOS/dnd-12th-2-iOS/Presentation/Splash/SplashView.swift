@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 struct SplashView: View {
+    let store: StoreOf<SplashFeature>
     var body: some View {
         VStack {
             Spacer()
@@ -19,9 +21,12 @@ struct SplashView: View {
         }
         .frame(maxHeight: .infinity)
         .ignoresSafeArea(.all)
+        .onAppear {
+            store.send(.loginCheck)
+        }
     }
 }
 
-#Preview {
-    SplashView()
-}
+//#Preview {
+//    SplashView()
+//}

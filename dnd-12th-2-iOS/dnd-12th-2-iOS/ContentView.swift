@@ -13,6 +13,7 @@ struct ContentView: View {
     @State var text = ""
     @State var path = NavigationPath()
     @State private var selection: Tab = .home
+    let store: StoreOf<RootFeature>
     
     enum Tab: CaseIterable {
         case home, statistics, profile
@@ -43,25 +44,20 @@ struct ContentView: View {
     }
     
     var body: some View {
-        ZStack {
-            TabView(selection: $selection) {
-                NavigationStack {
-                    HomeView()
+        SwitchStore(self.store) { state in
+            switch state {
+            case .loginCheck:
+                CaseLet(/RootFeature.State.loginCheck, action: RootFeature.Action.loginCheck) {
+                    SplashView(store: $0)
                 }
-                .tag(Tab.home)
-                NavigationStack {
-                    StatisticView()
+            case .loggedIn:
+                CaseLet(/RootFeature.State.loggedIn, action: RootFeature.Action.loggedIn) { loggedInStore in
+                    Text("dd")
                 }
-                .tag(Tab.statistics)
-                NavigationStack {
-                    ProfileView()
+            case .loggedOut:
+                CaseLet(/RootFeature.State.loggedOut, action: RootFeature.Action.loggedOut) {
+                    LoginView(store: $0)
                 }
-                .tag(Tab.profile)
-            }
-            
-            VStack(spacing: 0) {
-                Spacer()
-                tabBar
             }
         }
     }
@@ -97,6 +93,6 @@ struct ContentView: View {
     }
 }
 
-#Preview {
-    ContentView()
-}
+//#Preview {
+//    ContentView()
+//}
