@@ -6,13 +6,20 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 struct ProfileView: View {
+    let store: StoreOf<ProfileNavigation>
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Button(action: {
+            store.send(.logoutButtonTapped)
+        }) {
+            Text("Logout")
+        }
     }
 }
 
-#Preview {
-    ProfileView()
-}
+//#Preview {
+//    ProfileView()
+//}

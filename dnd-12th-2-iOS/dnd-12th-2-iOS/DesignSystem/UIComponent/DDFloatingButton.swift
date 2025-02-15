@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct DDFloatingButton: View {
+    let action: () -> Void
     var body: some View {
-        Button(action: {}, label: {
+        Button(action: action, label: {
             HStack(spacing: 4) {
                 Image("iconPlus")
                 Text("계획 추가")
@@ -23,6 +24,6 @@ struct DDFloatingButton: View {
     }
 }
 
-#Preview {
-    DDFloatingButton()
-}
+//#Preview {
+//    DDFloatingButton()
+//}

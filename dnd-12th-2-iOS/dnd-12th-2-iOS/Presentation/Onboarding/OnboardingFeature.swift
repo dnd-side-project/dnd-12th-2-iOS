@@ -22,6 +22,9 @@ struct OnboardingFeature {
         var isNextPage: Bool {
             currentStep >= prevStep
         }
+        var isSelected: Bool {
+            questions[currentStep].answers.filter { $0.isSelected }.count > 0 || questions.count - 1 == currentStep
+        }
         var questions: [Question] = [
             Question(section: 0,
                      title: "어떤 목표 분야에 \n가장 관심이 있으신가요?",
@@ -49,7 +52,7 @@ struct OnboardingFeature {
                                Answer(text: "기타")]),
             Question(section: 3,
                      title: "목표 달성, \n알림 하나로 더 가까워집니다!",
-                     description: "즉각적인 행동이 목표 달성률을 30% 높인다는 연구 결과\n가 있습니다. 알림으로 중요한 순간을 놓치지 마세요!",
+                     description: "즉각적인 행동이 목표 달성률을 30% 높인다는 연구 \n결과가 있습니다. 알림으로 중요한 순간을 놓치지 마세요!",
                      answers: []),
         ]
     }
@@ -57,27 +60,25 @@ struct OnboardingFeature {
     enum Action {
         case goToPage(Int)
         case answerTapped(Int)
-        case complete
+        case completeButtonTapped
     }
     
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
             case let .goToPage(step):
-                if state.isLastPage && step >= state.currentStep {                    
-                    return .send(.complete)
+                if state.isLastPage && step >= state.currentStep {
+                    return .send(.completeButtonTapped)
                 } else {
                     state.prevStep = state.currentStep
                     state.currentStep = step
                     return .none
                 }
-              
+                
             case let .answerTapped(answerId):
                 state.questions[state.currentStep].answers[answerId].isSelected.toggle()
                 return .none
-            case .complete:
-                // 서버에 결과를 보내는 동작
-                print(state.questions)
+            case .completeButtonTapped:
                 return .none
             }
         }

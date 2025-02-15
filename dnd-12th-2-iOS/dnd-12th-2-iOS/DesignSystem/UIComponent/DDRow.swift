@@ -14,7 +14,7 @@ struct DDRow: View {
     let isSelected: Bool
 
     init(title: String,
-         width: CGFloat = 343,
+         width: CGFloat = .infinity,
          height: CGFloat = 60,
          isSelected: Bool = false) {
         self.title = title
@@ -37,7 +37,7 @@ struct DDRow: View {
             }
         }
         .padding(.horizontal, 12)
-        .frame(width: width, height: height)
+        .frame(maxWidth: width == .infinity ? .infinity : width, minHeight: height, maxHeight: height)
         .background(isSelected ? Color.purple50 : Color.gray50)
         .overlay(
             RoundedRectangle(cornerRadius: 12)

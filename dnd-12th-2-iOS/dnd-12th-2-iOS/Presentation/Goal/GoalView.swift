@@ -8,7 +8,8 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct GoalSettingView: View {
+struct GoalView: View {
+    let store: StoreOf<GoalFeature>
     @State var text = ""
     @State var isStartTimeToggle = false
     @State var isEndTimeToggle = false
@@ -105,7 +106,10 @@ struct GoalSettingView: View {
             }
             .scrollDisabled(true)
             
-            DDButton(action: {})
+            DDButton(action: {
+                store.send(.completeButtonTapped)
+            })
+                .padding(.horizontal, 16)
                 .padding(.bottom, 8)
         }
         
@@ -115,6 +119,6 @@ struct GoalSettingView: View {
     }
 }
 
-#Preview {
-    GoalSettingView()
-}
+//#Preview {
+//    GoalSettingView()
+//}

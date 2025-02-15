@@ -25,14 +25,14 @@ struct OnboardingView: View {
                 
                 Spacer().frame(height: 12)
                 
-                Text(store.questions[store.currentStep].description)
+                Text(store.questions[store.currentStep].description.splitCharacter())
                     .font(.pretendard(size: 16, weight: .medium), lineHeight: 24)
                     .foregroundStyle(Color.gray600)
                     .frame(alignment: .leading)
-                    .fixedSize()
+                //                    .fixedSize()
                     .multilineTextAlignment(.leading)
                 
-                Spacer().frame(height: 86)
+                Spacer().frame(height: 60)
                 
                 if !store.isLastPage {
                     VStack(spacing: 12) {
@@ -61,12 +61,12 @@ struct OnboardingView: View {
                     Spacer()
                         .frame(height: 12)
                 }
-                DDButton(title: store.isLastPage ? "알림받고 목표에 도달하기" : "다음", action: { store.send(.goToPage(store.currentStep + 1)) })
+                DDButton(title: store.isLastPage ? "알림받고 목표에 도달하기" : "다음", isDisable: !store.isSelected, action: { store.send(.goToPage(store.currentStep + 1)) })
             }
             .padding(.horizontal, 16)
             .id(store.currentStep)
             .animation(.default, value: store.currentStep)
-            .transition(store.isNextPage ? .backslide : .forwardSlide)     
+            .transition(store.isNextPage ? .backslide : .forwardSlide)
             .navigationBar(left: {
                 DDBackButton(action: { store.send(.goToPage(store.currentStep - 1)) })
                     .hidden(store.isFirstPage)
