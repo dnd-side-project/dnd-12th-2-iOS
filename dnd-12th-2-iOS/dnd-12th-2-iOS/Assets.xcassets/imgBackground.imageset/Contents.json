@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "imgBackground.png",
+      "filename" : "dodal logo.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "imgBackground@2x.png",
+      "filename" : "dodal logo@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "imgBackground@3x.png",
+      "filename" : "dodal logo@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

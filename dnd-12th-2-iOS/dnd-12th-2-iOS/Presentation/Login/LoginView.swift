@@ -32,15 +32,15 @@ struct LoginView: View {
                     Spacer()
                     
                     VStack {
-                        DDButton(title: "로그인없이 둘러보기",
-                                 font: .pretendard(size: 16, weight: .medium),
-                                 backgroundColor: .white,
-                                 textColor: .black,
-                                 width: 320,
-                                 height: 54,
-                                 cornerRadius: 8) {
-                            print("로그인없이 둘러보기")
-                        }
+//                        DDButton(title: "로그인없이 둘러보기",
+//                                 font: .pretendard(size: 16, weight: .medium),
+//                                 backgroundColor: .white,
+//                                 textColor: .black,
+//                                 width: 320,
+//                                 height: 54,
+//                                 cornerRadius: 8) {
+//                            print("로그인없이 둘러보기")
+//                        }
                         DDButton(image: Image("iconApple"),
                                  imageSize: 20,
                                  title: "애플 로그인",
