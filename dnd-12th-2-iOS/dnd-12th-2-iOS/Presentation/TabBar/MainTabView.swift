@@ -76,7 +76,7 @@ struct MainTabView: View {
     var body: some View {
         ZStack {
             TabView(selection: $selection) {
-                HomeView()
+                HomeView(store: store.scope(state: \.home, action: \.home))
                     .tag(Tab.home)
                 StatisticView()
                     .tag(Tab.statistics)

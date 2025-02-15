@@ -10,16 +10,21 @@ import ComposableArchitecture
 @Reducer
 struct TabFeature {
     struct State{
-        var profile: ProfileNavigation.State = .init()
+        var profile = ProfileNavigation.State()
+        var home = HomeNavigation.State()
     }
     
     enum Action {
         case profile(ProfileNavigation.Action)
+        case home(HomeNavigation.Action)
     }
     
     var body: some Reducer<State, Action> {
         Scope(state: \.profile, action: \.profile) {
             ProfileNavigation()
+        }
+        Scope(state: \.home, action: \.home) {
+            HomeNavigation()
         }
         Reduce { state, action in
             switch action {
