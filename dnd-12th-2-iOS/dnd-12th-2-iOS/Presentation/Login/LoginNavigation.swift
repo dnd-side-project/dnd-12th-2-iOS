@@ -6,18 +6,21 @@
 //
 
 import ComposableArchitecture
+import AuthenticationServices
 
 @Reducer
 struct LoginNavigation {
+    // Navigation
     @Reducer
     enum Path {
         case onboadingScreen(OnboardingFeature)
         case goalScreen(GoalFeature)
         case resultScreen(GoalFeature)
     }
-    
+        
     @ObservableState
     struct State {
+        // Navigation Path
         var path = StackState<Path.State>()
     }
     
@@ -26,11 +29,22 @@ struct LoginNavigation {
         case goToOnboading
         case goToGoalSetting
         case goToMain
+        case appleLoginButtonTapped(ASAuthorization)
     }
+    
+    @Dependency(\.appleLogin) var appleLogin
     
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
+            case let .appleLoginButtonTapped(authorization):
+                switch authorization.credential {
+                case let appleIDCredential as ASAuthorizationAppleIDCredential:
+                    let IdentityToken = String(data: appleIDCredential.identityToken!, encoding: .utf8)
+                                        
+                    default: break
+                }
+                return .none
             case .goToGoalSetting:
                 return .none
             case .goToOnboading:
@@ -45,7 +59,7 @@ struct LoginNavigation {
                     state.path.append(.resultScreen(.init()))
                     return .none
                 case .element(id: _, action: .resultScreen(.resultButtonTapped)):
-                    return .send(.goToMain)                    
+                    return .send(.goToMain)
                 default:
                     return .none
                 }
@@ -56,4 +70,4 @@ struct LoginNavigation {
         .forEach(\.path, action: \.path)
     }
 }
-    
+
