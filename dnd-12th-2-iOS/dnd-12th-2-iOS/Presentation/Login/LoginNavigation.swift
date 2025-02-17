@@ -51,7 +51,7 @@ struct LoginNavigation {
                 // 키체인 저장
                 KeyChainManager.addItem(key: .accessToken, value: response.jwtTokenDto.accessToken)
                 KeyChainManager.addItem(key: .refreshToken, value: response.jwtTokenDto.refreshToken)
-                return .none
+                return .send(.goToMain)
             case .goToGoalSetting:
                 return .none
             case .goToOnboading:

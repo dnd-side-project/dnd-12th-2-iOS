@@ -31,7 +31,7 @@ struct RootFeature {
             case .loggedOut(.goToMain):
                 state = .loggedIn(.init())
                 return .none
-            case .loggedIn(.profile(.logoutButtonTapped)):
+            case .loggedIn(.profile(.logoutComplete)):
                 state = .loggedOut(.init())
                 return .none
             case let .loginCheck(.loginCompleted(isLogin)):

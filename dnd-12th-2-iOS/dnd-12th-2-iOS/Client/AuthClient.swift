@@ -12,6 +12,7 @@ import Moya
 
 struct AuthClient {
     var signIn: (String) async throws -> AppleLoginResDto
+    var signOut: () async throws -> Void
     
     static let provider = MoyaProvider<AuthAPI>()
 }
@@ -22,6 +23,14 @@ extension AuthClient: DependencyKey {
             do {
                 let result: BaseResponse<AppleLoginResDto> = try await provider.async.request(.appleLogin(.init(code: idToken, deviceToken: "deviceToken")))
                 return result.data
+            } catch {
+                print(error.localizedDescription)
+                throw error
+            }
+        },
+        signOut: {
+            do {
+                try await provider.async.requestPlain(.logout)
             } catch {
                 print(error.localizedDescription)
                 throw error

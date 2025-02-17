@@ -10,6 +10,7 @@ import Moya
 
 enum AuthAPI {
     case appleLogin(AppleLoginReqDto)
+    case logout
 }
 
 extension AuthAPI: TargetType {
@@ -21,24 +22,36 @@ extension AuthAPI: TargetType {
         switch self {
         case .appleLogin:
             "/login/apple"
+        case .logout:
+            "/sign-out"
         }
     }
     
     var method: Moya.Method {
         switch self {
         case .appleLogin:
-            .post
+                .post
+        case .logout:
+                .post
         }
     }
     
     var task: Moya.Task {
         switch self {
-        case let .appleLogin(appleLoginReqDto):            
-           return Task.requestJSONEncodable(appleLoginReqDto)
+        case let .appleLogin(appleLoginReqDto):
+            return Task.requestJSONEncodable(appleLoginReqDto)
+        case .logout:
+            return .requestPlain
         }
     }
     
     var headers: [String : String]? {
-        return ["Content-type": "application/json"]
+        switch self {
+        case .logout:
+            return ["Content-type": "application/json",
+                    "Authorization": (KeyChainManager.readItem(key: .accessToken) ?? "")]
+        default:
+            return ["Content-type": "application/json"]
+        }
     }
 }
