@@ -12,10 +12,19 @@ struct ProfileView: View {
     let store: StoreOf<ProfileNavigation>
     
     var body: some View {
-        Button(action: {
-            store.send(.logoutButtonTapped)
-        }) {
-            Text("Logout")
+        VStack {
+            Text(store.text)
+            Button(action: {
+                store.send(.logoutButtonTapped)
+            }) {
+                Text("Logout")
+            }
+            
+            Button(action: {
+                store.send(.helloButtonTapped)
+            }) {
+                Text("Get hello")
+            }
         }
     }
 }

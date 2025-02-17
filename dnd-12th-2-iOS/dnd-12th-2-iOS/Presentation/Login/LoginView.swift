@@ -19,7 +19,7 @@ struct LoginView: View {
                     .padding(.top, 203)
                     .ignoresSafeArea()
                     .scaledToFill()
-                
+                   
                 VStack(alignment: .leading) {
                     Text("할 건 많은데...\n뭐부터 해야하지?\n도달에서 도와드릴게요")
                         .font(.pretendard(size: 24, weight: .heavy))

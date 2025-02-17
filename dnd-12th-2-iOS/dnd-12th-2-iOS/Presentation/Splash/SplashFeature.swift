@@ -20,7 +20,7 @@ struct SplashFeature {
         Reduce { state, action in
             switch action {
             case .loginCheck:
-                return .send(.loginCompleted(false))
+                return .send(.loginCompleted(true))
             default:
                 return .none
             }

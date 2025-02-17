@@ -24,7 +24,7 @@ struct ContentView: View {
                 }
             case .loggedOut:
                 CaseLet(/RootFeature.State.loggedOut, action: RootFeature.Action.loggedOut) {
-                    LoginView(store: $0)
+                    LoginView(store: $0)                       
                 }
             }
         }
