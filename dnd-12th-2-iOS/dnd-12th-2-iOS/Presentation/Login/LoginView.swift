@@ -41,20 +41,21 @@ struct LoginView: View {
                                      textColor: .white,
                                      height: 54,
                                      cornerRadius: 8) {}
-                                     .overlay {
-                                         SignInWithAppleButton(
-                                            onRequest: { request in
-                                                request.requestedScopes = [.fullName, .email]},
-                                            onCompletion: { result in
-                                                switch result {
-                                                case let .success(authorization):                        store.send(.appleLoginButtonTapped(authorization))
-                                                case .failure:
-                                                    break
-                                                }
+                                .overlay {
+                                    SignInWithAppleButton(
+                                        onRequest: { request in
+                                            request.requestedScopes = [.fullName, .email]},
+                                        onCompletion: { result in
+                                            switch result {
+                                            case let .success(authorization):
+                                                store.send(.appleLoginButtonTapped(authorization))
+                                            case .failure:
+                                                break
                                             }
-                                         )
-                                         .blendMode(.overlay)
-                                     }
+                                        }
+                                    )
+                                    .blendMode(.overlay)
+                                }
                             
                         }
                         .frame(maxWidth: .infinity)

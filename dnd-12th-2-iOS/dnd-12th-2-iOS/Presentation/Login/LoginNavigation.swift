@@ -30,20 +30,27 @@ struct LoginNavigation {
         case goToGoalSetting
         case goToMain
         case appleLoginButtonTapped(ASAuthorization)
+        case appleLoginComplete(AppleLoginResDto)
     }
     
-    @Dependency(\.appleLogin) var appleLogin
+    @Dependency(\.authClient) var authClient
     
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
             case let .appleLoginButtonTapped(authorization):
-                switch authorization.credential {
-                case let appleIDCredential as ASAuthorizationAppleIDCredential:
-                    let IdentityToken = String(data: appleIDCredential.identityToken!, encoding: .utf8)
-                                        
-                    default: break
+                guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential,
+                      let IdentityToken = String(data: appleIDCredential.identityToken!, encoding: .utf8) else {
+                    return .none
                 }
+                return .run { send in
+                    let result = try await authClient.signIn(IdentityToken)
+                    await send(.appleLoginComplete(result))
+                }
+            case let .appleLoginComplete(response):
+                // 키체인 저장
+                KeyChainManager.addItem(key: .accessToken, value: response.jwtTokenDto.accessToken)
+                KeyChainManager.addItem(key: .refreshToken, value: response.jwtTokenDto.refreshToken)
                 return .none
             case .goToGoalSetting:
                 return .none

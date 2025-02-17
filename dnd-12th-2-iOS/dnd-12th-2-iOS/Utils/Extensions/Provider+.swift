@@ -28,7 +28,7 @@ extension MoyaProvider {
                             return
                         }
                         continuation.resume(returning: res)
-                    case .failure(let error):
+                    case .failure(let error):          
                         continuation.resume(throwing: error)
                     }
                 }
@@ -49,3 +49,5 @@ extension JSONDecoder {
         return decoder
     }
 }
+
+
