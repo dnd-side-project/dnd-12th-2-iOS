@@ -11,6 +11,7 @@ import Moya
 
 struct UserClient {
     var getUserOnboarding: () async throws -> Bool
+    var getOnboarding: () async throws -> Void
     static let provider = MoyaProvider<UserAPI>(session: Session(interceptor: AuthIntercepter.shared))
 }
 
@@ -18,11 +19,14 @@ extension UserClient: DependencyKey {
     static let liveValue = Self (
         getUserOnboarding: {
             do {
-                try await provider.async.requestPlain(.getUserOnboarding)
+                try await provider.async.requestPlain(.meOnboarding)
                 return true
             } catch {
                 return false
             }
+        },
+        getOnboarding: {
+            
         }
     )
 }

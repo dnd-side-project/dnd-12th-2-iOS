@@ -9,7 +9,8 @@ import Foundation
 import Moya
 
 enum UserAPI {
-    case getUserOnboarding
+    case meOnboarding
+    case onboarding
 }
 
 extension UserAPI: TargetType {
@@ -19,21 +20,27 @@ extension UserAPI: TargetType {
     
     var path: String {
         switch self {
-        case .getUserOnboarding:
+        case .meOnboarding:
             "/user/onboarding"
+        case .onboarding:
+            "/onboarding"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .getUserOnboarding:
+        case .meOnboarding:
             .get
+        case .onboarding:
+                .get
         }
     }
     
     var task: Moya.Task {
         switch self {
-        case .getUserOnboarding:
+        case .meOnboarding:
+            .requestPlain
+        case .onboarding:
             .requestPlain
         }
     }
