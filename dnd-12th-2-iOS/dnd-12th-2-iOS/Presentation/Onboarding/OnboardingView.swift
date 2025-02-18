@@ -10,7 +10,8 @@ import ComposableArchitecture
 
 struct OnboardingView: View {
     let store: StoreOf<OnboardingFeature>
-    
+    @State private var offsetAnim = false
+    @State private var tranparentAnim = false
     var body: some View {
         WithPerceptionTracking {
             VStack(alignment: .leading, spacing: 0) {
@@ -45,10 +46,27 @@ struct OnboardingView: View {
                     }
                 } else {
                     Image(.questionResult1)
+                        .opacity(tranparentAnim ? 1 : 0)
+                        .offset(y: offsetAnim ? 0 : 20)
+                        .animation(.easeOut(duration: 0.8), value: offsetAnim)
+                        .animation(.easeOut(duration: 1.2), value: tranparentAnim)
+                        .onAppear {
+                            offsetAnim = true
+                            tranparentAnim = true
+                               }
+                        .onDisappear {
+                            offsetAnim = false
+                            tranparentAnim = false
+                        }
                     Spacer()
                         .frame(height: 8)
                     Image(.questionResult2)
+                        .opacity(tranparentAnim ? 1 : 0)
+                        .offset(y: offsetAnim ? 0 : 30)
+                        .animation(.easeOut(duration: 1.0), value: offsetAnim)
+                        .animation(.easeOut(duration: 1.5), value: tranparentAnim)
                 }
+                
                 
                 Spacer()
                 
