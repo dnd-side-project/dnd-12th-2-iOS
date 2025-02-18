@@ -38,7 +38,7 @@ struct OnboardingView: View {
                     VStack(spacing: 12) {
                         ForEach(Array(store.questions[store.currentStep].answers.enumerated()) , id: \.self.offset) { (index, answer) in
                             DDRow(title: answer.text, isSelected: answer.isSelected)
-                                .onTapGesture {
+                                .onTapGesture {                                    
                                     store.send(.answerTapped(index))
                                 }
                         }

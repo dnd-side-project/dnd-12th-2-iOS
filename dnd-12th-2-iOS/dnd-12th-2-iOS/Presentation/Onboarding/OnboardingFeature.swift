@@ -13,6 +13,7 @@ struct OnboardingFeature {
     struct State: Equatable {
         var currentStep = 0
         var prevStep = 0
+        var prevId = 0
         var isFirstPage: Bool {
             currentStep == 0
         }
@@ -27,7 +28,7 @@ struct OnboardingFeature {
         }
         var questions: [Question] = [Question(questionId: 0, section: 0, title: "", description: "", answers: []),
                                      Question(questionId: 1, section: 1, title: "", description: "", answers: [])]
-                
+        
     }
     
     enum Action {
@@ -79,9 +80,14 @@ struct OnboardingFeature {
                     state.currentStep = step
                     return .none
                 }
-                
             case let .answerTapped(answerId):
-                state.questions[state.currentStep].answers[answerId].isSelected.toggle()
+                if answerId == state.prevId {
+                    state.questions[state.currentStep].answers[state.prevId].isSelected.toggle()
+                } else {
+                    state.questions[state.currentStep].answers[state.prevId].isSelected = false
+                    state.questions[state.currentStep].answers[answerId].isSelected = true
+                }
+                state.prevId = answerId
                 return .none
             default:
                 return .none
