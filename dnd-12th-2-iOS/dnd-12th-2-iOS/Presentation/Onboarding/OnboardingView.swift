@@ -74,6 +74,9 @@ struct OnboardingView: View {
                 StepCircle(currentStep: store.currentStep + 1)
                     .hidden(store.isLastPage)
             })
+            .onAppear {
+                store.send(.fetchOnboardingRequest)
+            }
         }
     }
 }
