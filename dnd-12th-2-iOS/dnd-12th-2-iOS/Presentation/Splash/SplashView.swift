@@ -12,12 +12,9 @@ struct SplashView: View {
     let store: StoreOf<SplashFeature>
     var body: some View {
         VStack {
-            Spacer()
-                .frame(height: 298)
             Image("iconApp")
                 .resizable()
-                .frame(width: 152, height: 152)
-            Spacer()
+                .frame(width: 92, height: 92)
         }
         .frame(maxHeight: .infinity)
         .ignoresSafeArea(.all)

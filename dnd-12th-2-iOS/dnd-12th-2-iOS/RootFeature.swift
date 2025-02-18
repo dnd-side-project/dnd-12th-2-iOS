@@ -13,7 +13,7 @@ struct RootFeature {
         case loggedIn(TabFeature.State)
         case loggedOut(LoginNavigation.State)
         case loginCheck(SplashFeature.State)
-        
+        case onboarding(OnboardingFeature.State)
         init() {
             self = .loginCheck(.init())
         }
@@ -23,6 +23,7 @@ struct RootFeature {
         case loggedOut(LoginNavigation.Action)
         case loggedIn(TabFeature.Action)
         case loginCheck(SplashFeature.Action)
+        case onboarding(OnboardingFeature.Action)
     }
     
     var body: some Reducer<State, Action> {
@@ -34,17 +35,19 @@ struct RootFeature {
             case .loggedIn(.profile(.logoutComplete)):
                 state = .loggedOut(.init())
                 return .none
-            case let .loginCheck(.loginCompleted(isLogin)):
-                if isLogin {
-                    state = .loggedIn(.init())
-                } else {
-                    state = .loggedOut(.init())
-                }
+            case .loginCheck(.onboardingComplete):
+                state = .loggedIn(.init())
+                return .none
+            case .loginCheck(.loginComplete):
+                state = .onboarding(.init())
+                return .none
+            case .loginCheck(.loginNotComplete):
+                state = .loggedOut(.init())
                 return .none
             default:
                 return .none
             }
-        }
+        }        
         .ifCaseLet(/State.loggedOut, action: /Action.loggedOut) {
             LoginNavigation()
         }
@@ -53,6 +56,9 @@ struct RootFeature {
         }
         .ifCaseLet(/State.loginCheck, action: /Action.loginCheck) {
             SplashFeature()
+        }
+        .ifCaseLet(/State.onboarding, action: /Action.onboarding) {
+            OnboardingFeature()
         }
     }
 }

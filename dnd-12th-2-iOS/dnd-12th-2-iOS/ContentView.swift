@@ -26,6 +26,10 @@ struct ContentView: View {
                 CaseLet(/RootFeature.State.loggedOut, action: RootFeature.Action.loggedOut) {
                     LoginView(store: $0)                       
                 }
+            case .onboarding:
+                CaseLet(/RootFeature.State.onboarding, action: RootFeature.Action.onboarding) {
+                    OnboardingView(store: $0)
+                }
             }
         }
     }

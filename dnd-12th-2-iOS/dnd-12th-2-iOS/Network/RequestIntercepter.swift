@@ -25,7 +25,7 @@ final class AuthIntercepter: RequestInterceptor {
         guard urlRequest.url?.absoluteString.hasPrefix(SecretKey.baseUrl) == true else { return }
         var urlRequest = urlRequest
         let accessToken = KeyChainManager.readItem(key: .accessToken) ?? ""
-        
+        print("Bearer \(accessToken)")
         urlRequest.headers.add(.authorization("Bearer \(accessToken)"))
         completion(.success(urlRequest))
     }
@@ -48,7 +48,6 @@ final class AuthIntercepter: RequestInterceptor {
                         return
                     }
                     guard let result = result.data else { return }
-                    
                     // 토큰 업데이트
                     KeyChainManager.updateItem(key: .accessToken, value: result.jwtTokenDto.accessToken)
                     KeyChainManager.updateItem(key: .refreshToken, value: result.jwtTokenDto.refreshToken)
