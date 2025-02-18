@@ -64,6 +64,7 @@ struct OnboardingView: View {
                 DDButton(title: store.isLastPage ? "알림받고 목표에 도달하기" : "다음", isDisable: !store.isSelected, action: { store.send(.goToPage(store.currentStep + 1)) })
             }
             .padding(.horizontal, 16)
+            .background(Color.white)
             .id(store.currentStep)
             .animation(.default, value: store.currentStep)
             .transition(store.isNextPage ? .backslide : .forwardSlide)

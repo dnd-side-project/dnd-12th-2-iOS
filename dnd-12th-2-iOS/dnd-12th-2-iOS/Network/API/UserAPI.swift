@@ -11,6 +11,7 @@ import Moya
 enum UserAPI {
     case meOnboarding
     case onboarding
+    case createOnboarding(OnboardingReqDto)
 }
 
 extension UserAPI: TargetType {
@@ -24,24 +25,30 @@ extension UserAPI: TargetType {
             "/user/onboarding"
         case .onboarding:
             "/onboarding"
+        case .createOnboarding:
+            "/user/onboarding"
         }
     }
     
     var method: Moya.Method {
         switch self {
         case .meOnboarding:
-            .get
+                .get
         case .onboarding:
                 .get
+        case .createOnboarding:
+                .post
         }
     }
     
     var task: Moya.Task {
         switch self {
         case .meOnboarding:
-            .requestPlain
+                .requestPlain
         case .onboarding:
-            .requestPlain
+                .requestPlain
+        case  let .createOnboarding(onboardingReqDto):
+                .requestJSONEncodable(onboardingReqDto)
         }
     }
     
@@ -50,6 +57,6 @@ extension UserAPI: TargetType {
     }
     
     var validationType: ValidationType {
-         return .successCodes
-     }
+        return .successCodes
+    }
 }
