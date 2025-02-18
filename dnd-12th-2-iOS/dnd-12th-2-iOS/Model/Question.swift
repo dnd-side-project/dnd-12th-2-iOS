@@ -9,9 +9,11 @@ import Foundation
 struct Answer: Hashable {
     let text: String
     var isSelected: Bool = false
+    let answerId: Int
 }
 
 struct Question: Hashable {
+    let questionId: Int
     let section: Int
     let title: String
     let description: String

@@ -11,7 +11,7 @@ import Moya
 
 struct UserClient {
     var getUserOnboarding: () async throws -> Bool
-    var getOnboarding: () async throws -> Void
+    var getOnboarding: () async throws -> [Question]
     static let provider = MoyaProvider<UserAPI>(session: Session(interceptor: AuthIntercepter.shared))
 }
 
@@ -26,14 +26,18 @@ extension UserClient: DependencyKey {
             }
         },
         getOnboarding: {
-            
+            let result: BaseResponse<[OnboardingResDto]> = try await provider.async.request(.onboarding)
+            guard let data = result.data else {
+                throw APIError.parseError
+            }
+            return data.toEntity()
         }
     )
 }
 
 extension DependencyValues {
-  var userClient: UserClient {
-    get { self[UserClient.self] }
-    set { self[UserClient.self] = newValue }
-  }
+    var userClient: UserClient {
+        get { self[UserClient.self] }
+        set { self[UserClient.self] = newValue }
+    }
 }
