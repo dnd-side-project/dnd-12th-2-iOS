@@ -51,7 +51,9 @@ struct OnboardingFeature {
                     var questions = state.questions
                     questions.removeLast()
                     try await userClient.createOnboarding(questions)
+                    await send(.completeButtonTapped)
                 } catch: { error, send in
+                    print(error.localizedDescription)
                 }
             case .fetchOnboardingRequest:
                 return .run { send in
@@ -81,7 +83,7 @@ struct OnboardingFeature {
             case let .answerTapped(answerId):
                 state.questions[state.currentStep].answers[answerId].isSelected.toggle()
                 return .none
-            case .completeButtonTapped:
+            default:
                 return .none
             }
         }
