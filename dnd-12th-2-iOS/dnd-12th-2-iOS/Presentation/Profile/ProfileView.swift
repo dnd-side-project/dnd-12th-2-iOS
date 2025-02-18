@@ -13,18 +13,21 @@ struct ProfileView: View {
     
     var body: some View {
         VStack {
-            Text(store.text)
+            Text("\(store.result)")
+            Button(action: {
+                store.send(.tesButtonTapped)
+            }) {
+                Text("Network Test")
+            }
+            .buttonStyle(.borderedProminent)
+            
+            
             Button(action: {
                 store.send(.logoutButtonTapped)
             }) {
                 Text("Logout")
             }
-            
-            Button(action: {
-                store.send(.helloButtonTapped)
-            }) {
-                Text("Get hello")
-            }
+            .buttonStyle(.borderedProminent)
         }
     }
 }

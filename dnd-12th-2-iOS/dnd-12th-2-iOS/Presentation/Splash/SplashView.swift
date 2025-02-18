@@ -11,20 +11,23 @@ import ComposableArchitecture
 struct SplashView: View {
     let store: StoreOf<SplashFeature>
     var body: some View {
-        VStack {
-            Spacer()
-                .frame(height: 298)
-            Image("iconApp")
-                .resizable()
-                .frame(width: 152, height: 152)
-            Spacer()
-        }
-        .frame(maxHeight: .infinity)
+        LaunchView()
         .ignoresSafeArea(.all)
         .onAppear {
             store.send(.loginCheck)
         }
     }
+}
+
+struct LaunchView: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> UIViewController {
+        let storyboard = UIStoryboard(name: "Launch Screen", bundle: nil)
+        let viewController = storyboard.instantiateInitialViewController()!
+        
+        return viewController
+    }
+    
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
 }
 
 //#Preview {

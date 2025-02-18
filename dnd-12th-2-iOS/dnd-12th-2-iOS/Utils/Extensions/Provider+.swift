@@ -28,6 +28,20 @@ extension MoyaProvider {
                             return
                         }
                         continuation.resume(returning: res)
+                    case .failure(let error):          
+                        continuation.resume(throwing: error)
+                    }
+                }
+            }
+        }
+        
+        // 리턴값이 필요없는 경우에 사용
+        func requestPlain(_ target: Target) async throws {
+            return try await withCheckedThrowingContinuation { continuation in
+                provider.request(target) { result in
+                    switch result {
+                    case .success(let response):
+                        continuation.resume(returning: ())
                     case .failure(let error):
                         continuation.resume(throwing: error)
                     }
@@ -49,3 +63,5 @@ extension JSONDecoder {
         return decoder
     }
 }
+
+

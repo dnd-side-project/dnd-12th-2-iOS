@@ -1,39 +1,39 @@
 //
-//  TestAPI.swift
+//  UserAPI.swift
 //  dnd-12th-2-iOS
 //
-//  Created by 권석기 on 2/16/25.
+//  Created by 권석기 on 2/18/25.
 //
 
 import Foundation
 import Moya
 
-enum TestAPI {
-    case hello
+enum UserAPI {
+    case getUserOnboarding
 }
 
-extension TestAPI: TargetType {
+extension UserAPI: TargetType {
     var baseURL: URL {
-        return URL(string: "\(SecretKey.baseUrl)")!
+        return URL(string: "\(SecretKey.baseUrl)/api")!
     }
     
     var path: String {
         switch self {
-        case .hello:
-            "/hello"
+        case .getUserOnboarding:
+            "/user/onboarding"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .hello:
+        case .getUserOnboarding:
             .get
         }
     }
     
     var task: Moya.Task {
         switch self {
-        case .hello:
+        case .getUserOnboarding:
             .requestPlain
         }
     }

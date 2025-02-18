@@ -17,31 +17,44 @@ struct ProfileNavigation {
     @ObservableState
     struct State: Equatable {
         var path = StackState<Path.State>()
-        var text = ""
+        var result = ""
     }
     
     enum Action {
         case path(StackActionOf<Path>)
         case logoutButtonTapped
+        case logoutComplete
         // Network Test
-        case helloButtonTapped
-        case helloButtonComplete(String)
+        case tesButtonTapped
+        case testButtonComplete(String)
     }
     
-    @Dependency(\.testClient) var hello
+    @Dependency(\.authClient) var authClient
+    @Dependency(\.testClient) var tesetClient
     
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
-            case let .helloButtonComplete(response):
-                state.text = response
+            case let .testButtonComplete(response):
+                state.result = response
                 return .none
-            case .helloButtonTapped:
+            case .tesButtonTapped:
                 return .run { send in
-                    let result = try await hello.fetch()                    
-                    await send(.helloButtonComplete(result))
+                    let result = try await tesetClient.fetch()
+                    await send(.testButtonComplete(result))
                 }
             case .logoutButtonTapped:
+                return .run { send in
+                    do {
+                        try await authClient.signOut()
+                        await send(.logoutComplete)
+                    } catch {
+                        
+                    }
+                }
+            case .logoutComplete:
+                KeyChainManager.deleteItem(key: .accessToken)
+                KeyChainManager.deleteItem(key: .refreshToken)
                 return .none
             case let .path(action):
                 switch action {
