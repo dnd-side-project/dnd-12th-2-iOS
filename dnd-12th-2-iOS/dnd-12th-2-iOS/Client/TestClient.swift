@@ -11,13 +11,14 @@ import Moya
 
 struct TestClient {
     var fetch: () async throws -> String
+    static let provider = MoyaProvider<TestAPI>(session: Session(interceptor: AuthIntercepter.shared))
 }
 
 extension TestClient: DependencyKey {
     static let liveValue = Self {
-        let provider = MoyaProvider<TestAPI>()
+       
         let result: BaseResponse<String> = try await provider.async.request(.hello)
-        return result.data
+        return result.data ?? "nil"
     }
 }
 

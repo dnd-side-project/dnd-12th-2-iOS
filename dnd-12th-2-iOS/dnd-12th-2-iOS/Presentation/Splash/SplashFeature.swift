@@ -20,7 +20,12 @@ struct SplashFeature {
         Reduce { state, action in
             switch action {
             case .loginCheck:
-                return .send(.loginCompleted(false))
+                if KeyChainManager.readItem(key: .accessToken) != nil && KeyChainManager.readItem(key: .refreshToken) != nil {
+                    return .send(.loginCompleted(true))
+                } else {
+                    return .send(.loginCompleted(false))
+                }
+                
             default:
                 return .none
             }

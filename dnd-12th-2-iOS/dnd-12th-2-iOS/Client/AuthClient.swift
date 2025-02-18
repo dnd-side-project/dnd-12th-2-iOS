@@ -22,7 +22,10 @@ extension AuthClient: DependencyKey {
         signIn: { idToken in
             do {
                 let result: BaseResponse<AppleLoginResDto> = try await provider.async.request(.appleLogin(.init(code: idToken, deviceToken: "deviceToken")))
-                return result.data
+                guard let result = result.data else {
+                    throw APIError.parseError
+                }
+                return result
             } catch {
                 print(error.localizedDescription)
                 throw error

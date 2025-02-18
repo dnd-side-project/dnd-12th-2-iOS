@@ -12,7 +12,16 @@ struct ProfileView: View {
     let store: StoreOf<ProfileNavigation>
     
     var body: some View {
-        VStack {            
+        VStack {
+            Text("\(store.result)")
+            Button(action: {
+                store.send(.tesButtonTapped)
+            }) {
+                Text("Network Test")
+            }
+            .buttonStyle(.borderedProminent)
+            
+            
             Button(action: {
                 store.send(.logoutButtonTapped)
             }) {
