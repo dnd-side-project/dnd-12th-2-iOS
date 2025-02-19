@@ -10,7 +10,8 @@ import ComposableArchitecture
 
 struct OnboardingView: View {
     let store: StoreOf<OnboardingFeature>
-    
+    @State private var offsetAnim = false
+    @State private var tranparentAnim = false
     var body: some View {
         WithPerceptionTracking {
             VStack(alignment: .leading, spacing: 0) {
@@ -38,17 +39,34 @@ struct OnboardingView: View {
                     VStack(spacing: 12) {
                         ForEach(Array(store.questions[store.currentStep].answers.enumerated()) , id: \.self.offset) { (index, answer) in
                             DDRow(title: answer.text, isSelected: answer.isSelected)
-                                .onTapGesture {
+                                .onTapGesture {                                    
                                     store.send(.answerTapped(index))
                                 }
                         }
                     }
                 } else {
                     Image(.questionResult1)
+                        .opacity(tranparentAnim ? 1 : 0)
+                        .offset(y: offsetAnim ? 0 : 20)
+                        .animation(.easeOut(duration: 0.8), value: offsetAnim)
+                        .animation(.easeOut(duration: 1.2), value: tranparentAnim)
+                        .onAppear {
+                            offsetAnim = true
+                            tranparentAnim = true
+                               }
+                        .onDisappear {
+                            offsetAnim = false
+                            tranparentAnim = false
+                        }
                     Spacer()
                         .frame(height: 8)
                     Image(.questionResult2)
+                        .opacity(tranparentAnim ? 1 : 0)
+                        .offset(y: offsetAnim ? 0 : 30)
+                        .animation(.easeOut(duration: 1.0), value: offsetAnim)
+                        .animation(.easeOut(duration: 1.5), value: tranparentAnim)
                 }
+                
                 
                 Spacer()
                 
@@ -64,6 +82,7 @@ struct OnboardingView: View {
                 DDButton(title: store.isLastPage ? "알림받고 목표에 도달하기" : "다음", isDisable: !store.isSelected, action: { store.send(.goToPage(store.currentStep + 1)) })
             }
             .padding(.horizontal, 16)
+            .background(Color.white)
             .id(store.currentStep)
             .animation(.default, value: store.currentStep)
             .transition(store.isNextPage ? .backslide : .forwardSlide)
@@ -74,6 +93,9 @@ struct OnboardingView: View {
                 StepCircle(currentStep: store.currentStep + 1)
                     .hidden(store.isLastPage)
             })
+            .onAppear {
+                store.send(.fetchOnboardingRequest)
+            }
         }
     }
 }

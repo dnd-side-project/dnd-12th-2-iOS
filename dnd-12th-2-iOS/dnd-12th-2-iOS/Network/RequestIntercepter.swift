@@ -39,7 +39,7 @@ final class AuthIntercepter: RequestInterceptor {
         }
         
         // refreshToken 요청
-        if request.retryCount < self.retryLimit {
+        if request.retryCount < self.retryLimit && KeyChainManager.readItem(key: .refreshToken) != nil {
             provier.request(.refreshToken) { result in
                 switch result {
                 case let .success(response):
@@ -47,12 +47,17 @@ final class AuthIntercepter: RequestInterceptor {
                         completion(.doNotRetry)
                         return
                     }
-                    guard let result = result.data else { return }
+                    
+                    guard let result = result.data else {
+                        completion(.doNotRetry)
+                        return
+                    }
                     // 토큰 업데이트
                     KeyChainManager.updateItem(key: .accessToken, value: result.jwtTokenDto.accessToken)
                     KeyChainManager.updateItem(key: .refreshToken, value: result.jwtTokenDto.refreshToken)
                     completion(.retry)
                 case let .failure(error):
+                    
                     completion(.doNotRetryWithError(error))
                 }
             }            

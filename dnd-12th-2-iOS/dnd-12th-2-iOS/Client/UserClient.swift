@@ -10,26 +10,42 @@ import ComposableArchitecture
 import Moya
 
 struct UserClient {
-    var getUserOnboarding: () async throws -> Bool
+    var fetchUserOnboarding: () async throws -> Bool
+    var fetchOnboarding: () async throws -> [Question]
+    var createOnboarding: ([Question]) async throws -> Void
     static let provider = MoyaProvider<UserAPI>(session: Session(interceptor: AuthIntercepter.shared))
 }
 
 extension UserClient: DependencyKey {
     static let liveValue = Self (
-        getUserOnboarding: {
+        fetchUserOnboarding: {            
             do {
-                try await provider.async.requestPlain(.getUserOnboarding)
+                try await provider.async.requestPlain(.meOnboarding)
                 return true
-            } catch {
+            } catch {                
                 return false
+            }
+        },
+        fetchOnboarding: {
+            let result: BaseResponse<[OnboardingResDto]> = try await provider.async.request(.onboarding)
+            guard let data = result.data else {
+                throw APIError.parseError
+            }
+            return data.toEntity()
+        },
+        createOnboarding: { questions in
+            do {
+                try await provider.async.requestPlain(.createOnboarding(questions.toDto()))
+            } catch {
+                throw error
             }
         }
     )
 }
 
 extension DependencyValues {
-  var userClient: UserClient {
-    get { self[UserClient.self] }
-    set { self[UserClient.self] = newValue }
-  }
+    var userClient: UserClient {
+        get { self[UserClient.self] }
+        set { self[UserClient.self] = newValue }
+    }
 }

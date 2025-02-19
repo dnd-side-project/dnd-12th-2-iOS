@@ -9,9 +9,16 @@ import Foundation
 struct Answer: Hashable {
     let text: String
     var isSelected: Bool = false
+    let answerId: Int
+    
+    mutating func toggle() -> Answer {
+        self.isSelected = false
+        return self
+    }
 }
 
 struct Question: Hashable {
+    let questionId: Int
     let section: Int
     let title: String
     let description: String
