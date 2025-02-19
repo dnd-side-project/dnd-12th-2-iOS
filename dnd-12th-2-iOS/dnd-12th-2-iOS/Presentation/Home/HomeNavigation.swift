@@ -22,6 +22,7 @@ struct HomeNavigation {
         var goal = GoalListFeature.State()
         var plan = PlanListFeature.State()
         var isShowSheet = false
+        var hasAppeared = false
     }
     
     enum Action: BindableAction {
@@ -50,7 +51,12 @@ struct HomeNavigation {
                 state.isShowSheet = false
                 return .none
             case .viewAppear:
-                return .send(.goal(.fetchGoals))
+                if state.hasAppeared {
+                    return .none
+                } else {
+                    state.hasAppeared = true
+                    return .send(.goal(.fetchGoals))
+                }                
             case let .goal(.goalSelected(goalId)):
                 return .send(.plan(.fetchPlans(goalId: goalId, date: "2024-04-01")))
             case let .plan(.planCellTapped(planId)):
@@ -59,6 +65,7 @@ struct HomeNavigation {
             case .plan(.createButtonTapped):
                 state.path.append(.goalScreen(.init()))
                 return .none
+                // Navigation
             case let .path(action):
                 switch action {
                 case .element(id: _, action: .selecteScreen(.goToComplete)):

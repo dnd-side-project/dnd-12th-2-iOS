@@ -7,50 +7,12 @@
 
 import SwiftUI
 
-enum ResultType {
-    case success
-    case fail
-    case ready
-    
-    var image: Image {
-        switch self {
-        case .success: return Image("iconSuccess")
-        case .fail: return Image("iconFail")
-        case .ready: return Image("iconReady")
-        }
-    }
-    
-    var backgroundColor: Color {
-        switch self {
-        case .success: return .gray50
-        case .fail: return .gray50
-        case .ready: return .purple50
-        }
-    }
-    
-    var title: String {
-        switch self {
-        case .success: return "12:28 ~ 16:28"
-        case .fail: return "12:28 ~ 16:28"
-        case .ready: return "12:28 ~ 16:28 실행하셨나요?"
-        }
-    }
-    
-    var titleColor: Color {
-        switch self {
-        case .success: return .gray500
-        case .fail: return .gray500
-        case .ready: return .purple500
-        }
-    }
-}
-
 struct DDResultRow: View {
-    let result: ResultType
+    let result: Plan.ResultType
     let title: String
     let action: () -> Void
     
-    init(result: ResultType,
+    init(result: Plan.ResultType,
          title: String,
          action: @escaping () -> Void) {
         self.result = result

@@ -7,52 +7,12 @@
 
 import SwiftUI
 
-enum FeedbackType {
-    case success
-    case fail
-    
-    var arrow: Image {
-        switch self {
-        case .success: return Image("iconArrow")
-        case .fail: return Image("iconArrowRed")
-        }
-    }
-    
-    var image: Image {
-        switch self {
-        case .success: return Image("iconRocket")
-        case .fail: return Image("iconMagic")
-        }
-    }
-    
-    var backgroundColor: Color {
-        switch self {
-        case .success: return .white
-        case .fail: return .purple50
-        }
-    }
-    
-    var title: String {
-        switch self {
-        case .success: return "성공"
-        case .fail: return "실패"
-        }
-    }
-    
-    var titleColor: Color {
-        switch self {
-        case .success: return .purple500
-        case .fail: return .purple700
-        }
-    }
-}
-
 struct DDFeedbackRow: View {
-    let result: FeedbackType
+    let result: Plan.FeedbackType
     let title: String
     let width: CGFloat
     
-    init(result: FeedbackType,
+    init(result: Plan.FeedbackType,
          title: String,
          width: CGFloat = 343) {
         self.result = result
