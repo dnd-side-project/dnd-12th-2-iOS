@@ -30,8 +30,7 @@ struct SplashFeature {
             case .loginCheck:      
                 // 온보딩 완료여부 체크
                 return .run { send in
-                    // 메인으로 이동을 원하시면 해당 주석을 풀어주세요
-//                    let isOnboarding = true
+                    
                     let isOnboarding = try await userClient.fetchUserOnboarding()
                     let isLogin = KeyChainManager.readItem(key: .accessToken) != nil && KeyChainManager.readItem(key: .refreshToken) != nil
                     
