@@ -18,11 +18,11 @@ struct UserClient {
 
 extension UserClient: DependencyKey {
     static let liveValue = Self (
-        fetchUserOnboarding: {
+        fetchUserOnboarding: {            
             do {
                 try await provider.async.requestPlain(.meOnboarding)
                 return true
-            } catch {
+            } catch {                
                 return false
             }
         },
