@@ -50,6 +50,9 @@ struct HomeView: View {
                         .offset(x: -16, y: -25)
                 })
             }
+            .onAppear {
+                store.send(.viewAppear)
+            }
             .bottomSheet(isPresented: $isShowSheet, height: UIScreen.screenHeight * 0.7, content: {
                 GoalListView(store: store.scope(state: \.goal, action: \.goal))                    
             })
@@ -89,7 +92,7 @@ struct HomeView: View {
                 .padding(.vertical, 30)
             })
             .navigationBar(left: {
-                DDGoal(title: "오픽 AL받기", action: {
+                DDGoal(title: store.goal.selectedGoal.title, action: {
                     isShowSheet = true
                 })
             }, right: {

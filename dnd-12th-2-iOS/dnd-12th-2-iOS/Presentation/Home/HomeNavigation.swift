@@ -23,9 +23,10 @@ struct HomeNavigation {
     }
     
     enum Action {
-        case path(StackActionOf<Path>)
         case completeButtonTapped
         case goToGoalScreen
+        case viewAppear
+        case path(StackActionOf<Path>)
         case goal(GoalListFeature.Action)
     }
     
@@ -36,10 +37,12 @@ struct HomeNavigation {
         
         Reduce { state, action in
             switch action {
+            case .viewAppear:
+                return .send(.goal(.fetchGoals))
             case .completeButtonTapped:
                 state.path.append(.selecteScreen(.init()))
                 return .none
-            case .goToGoalScreen:          
+            case .goToGoalScreen:
                 state.path.append(.goalScreen(.init()))
                 return .none
             case let .path(action):

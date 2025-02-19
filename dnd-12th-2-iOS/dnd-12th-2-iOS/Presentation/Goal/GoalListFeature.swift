@@ -12,6 +12,7 @@ struct GoalListFeature {
     @ObservableState
     struct State: Equatable {
         var goalList: [Goal] = []
+        var selectedGoal: Goal = Goal(goalId: 0, title: "", successCount: 0, failureCount: 0, totalCount: 0)
     }
     
     enum Action {
@@ -31,6 +32,7 @@ struct GoalListFeature {
                 }
             case let .fetchGoalResponse(response):
                 state.goalList = response
+                state.selectedGoal = response.first ?? state.selectedGoal                
                 return .none
             default:
                 return .none

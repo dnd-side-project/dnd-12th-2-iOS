@@ -30,10 +30,7 @@ struct GoalListView: View {
                     }
                     .padding(16)
                 }
-            }
-            .onAppear {
-                store.send(.fetchGoals)
-            }
+            }          
         }
     }
 }
