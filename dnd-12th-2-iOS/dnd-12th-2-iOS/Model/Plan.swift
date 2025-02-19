@@ -10,7 +10,7 @@ struct Plan {
     let title: String
     let status: String
     let guide: String
-    let startDate: String
-    let endDate: String
-    let completedDate: String
+    let startDate: [Int]
+    let endDate: [Int]
+    let completedDate: [Int]
 }

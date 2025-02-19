@@ -19,6 +19,7 @@ struct GoalListFeature {
         case fetchGoals
         case fetchGoalResponse([Goal])
         case cardTapped(goalId: Int)
+        case goalSelected(goalId: Int)
     }
     
     @Dependency(\.goalClient) var goalClient
@@ -34,10 +35,10 @@ struct GoalListFeature {
             case let .fetchGoalResponse(response):
                 state.goalList = response
                 state.selectedGoal = response.first ?? state.selectedGoal                
-                return .none
+                return .send(.goalSelected(goalId: state.selectedGoal.goalId))
             case let .cardTapped(goalId):
                 state.selectedGoal = state.goalList.first(where: {$0.goalId == goalId}) ?? state.selectedGoal
-                return .none
+                return .send(.goalSelected(goalId: goalId))
             default:
                 return .none
             }

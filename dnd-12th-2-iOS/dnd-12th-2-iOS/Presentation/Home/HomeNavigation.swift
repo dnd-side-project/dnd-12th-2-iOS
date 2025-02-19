@@ -51,12 +51,14 @@ struct HomeNavigation {
                 return .none
             case .viewAppear:
                 return .send(.goal(.fetchGoals))
-//            case .completeButtonTapped:
-//                state.path.append(.selecteScreen(.init()))
-//                return .none
-//            case .goToGoalScreen:
-//                state.path.append(.goalScreen(.init()))
-//                return .none
+            case let .goal(.goalSelected(goalId)):
+                return .send(.plan(.fetchPlans(goalId: goalId, date: "2024-04-01")))
+            case let .plan(.planCellTapped(planId)):
+                state.path.append(.selecteScreen(.init()))
+                return .none
+            case .plan(.createButtonTapped):
+                state.path.append(.goalScreen(.init()))
+                return .none
             case let .path(action):
                 switch action {
                 case .element(id: _, action: .selecteScreen(.goToComplete)):

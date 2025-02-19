@@ -34,8 +34,9 @@ extension GoalClient: DependencyKey {
                 guard let data = result.data else {
                     throw APIError.parseError
                 }
+                
                 return data.toEntity()
-            } catch {
+            } catch {                
                 throw error
             }
         }

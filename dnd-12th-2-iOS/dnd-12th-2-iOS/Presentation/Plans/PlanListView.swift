@@ -18,8 +18,10 @@ struct PlanListView: View {
                     ForEach(store.plans, id: \.self.planId) { item in
                         VStack(spacing: 16) {
                             let resultType: ResultType = [.fail, .ready, .success].randomElement()!
-                            DDResultRow(result: resultType, title: "오픽 신청하기", action: {})
-                            DDFeedbackRow(result: resultType == .fail ? .fail : .success, title: "다음에는 계획을 더 구체적으로 세워봐요!")                            
+                            DDResultRow(result: resultType, title: item.title, action: {
+                                store.send(.planCellTapped(planId: item.planId))
+                            })
+                            DDFeedbackRow(result: resultType == .fail ? .fail : .success, title: "다음에는 계획을 더 구체적으로 세워봐요!")
                         }
                     }
                     Spacer()
@@ -29,7 +31,7 @@ struct PlanListView: View {
             }
             .overlay(alignment: .bottomTrailing, content: {
                 DDFloatingButton {
-                    
+                    store.send(.createButtonTapped)
                 }
                 .offset(x: -16, y: -25)
             })

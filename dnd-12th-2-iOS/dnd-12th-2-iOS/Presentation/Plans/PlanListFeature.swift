@@ -17,6 +17,9 @@ struct PlanListFeature {
     enum Action {
         case fetchPlans(goalId: Int, date: String)
         case fetchPlansResponse([Plan])
+        
+        case planCellTapped(planId: Int)
+        case createButtonTapped
     }
     
     @Dependency(\.goalClient) var goalClient
@@ -31,6 +34,8 @@ struct PlanListFeature {
                 }
             case let .fetchPlansResponse(response):
                 state.plans = response
+                return .none
+            default:
                 return .none
             }
         }

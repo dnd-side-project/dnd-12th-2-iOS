@@ -23,7 +23,7 @@ extension GoalAPI: TargetType {
         case .fetchGoals:
             ""
         case let .fetchPlans(goalId, _):
-            "/(\(goalId)/plans"
+            "/\(goalId)/plans"
         }
     }
     
