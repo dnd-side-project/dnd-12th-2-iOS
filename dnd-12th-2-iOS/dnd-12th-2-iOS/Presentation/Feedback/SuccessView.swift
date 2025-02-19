@@ -19,7 +19,7 @@ struct SuccessView: View {
                 .padding(.top, safeAreaInsets.top + 50)
             Spacer()
             
-            DDProgessCard(title: "헬스장에서 근력 운동 30분 하기")
+            DDProgessCard(title: "헬스장에서 근력 운동 30분 하기", value:1, action: {})
             
             HStack(spacing: 8) {
                 DDButton(title: "새로운 목표 설정하기", backgroundColor: Color.purple100, textColor: Color.purple500, action: {})

@@ -51,7 +51,7 @@ struct HomeView: View {
                 })
             }
             .bottomSheet(isPresented: $isShowSheet, height: UIScreen.screenHeight * 0.7, content: {
-                GoalListView()
+                GoalListView(store: store.scope(state: \.goal, action: \.goal))                    
             })
             .bottomSheet(isPresented: $isShowMenu, height: 210, content: {
                 VStack(spacing: 34) {

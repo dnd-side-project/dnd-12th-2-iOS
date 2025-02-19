@@ -19,15 +19,21 @@ struct HomeNavigation {
     @ObservableState
     struct State {
         var path = StackState<Path.State>()
+        var goal = GoalListFeature.State()
     }
     
     enum Action {
         case path(StackActionOf<Path>)
         case completeButtonTapped
         case goToGoalScreen
+        case goal(GoalListFeature.Action)
     }
     
     var body: some Reducer<State, Action> {
+        Scope(state: \.goal, action: \.goal) {
+            GoalListFeature()
+        }
+        
         Reduce { state, action in
             switch action {
             case .completeButtonTapped:
@@ -53,6 +59,9 @@ struct HomeNavigation {
                 default:
                     return .none
                 }
+                
+            default:
+                return .none
             }
         }
         .forEach(\.path, action: \.path)

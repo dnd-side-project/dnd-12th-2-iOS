@@ -9,6 +9,8 @@ import SwiftUI
 
 struct DDProgessCard: View {
     let title: String
+    let value: Double
+    let action: () -> Void
     
     var body: some View {
         VStack {
@@ -31,10 +33,10 @@ struct DDProgessCard: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                         
                         HStack(spacing: 12) {
-                            LinearProgressView(shape: .capsule, value: 0.8)
+                            LinearProgressView(shape: .capsule, value: value)
                                 .frame(height: 12)
                             
-                            Text("75%")
+                            Text("\(Int(value * 100))%")
                                 .font(.pretendard(size: 12, weight: .bold), lineHeight: 14)
                                 .foregroundStyle(Color.purple500)
                         }
@@ -69,6 +71,6 @@ struct LinearProgressView<Shape: SwiftUI.Shape>: View {
     }
 }
 
-#Preview {
-    DDProgessCard(title: "")
-}
+//#Preview {
+//    DDProgessCard(title: "")
+//}

@@ -9,7 +9,7 @@ import Foundation
 import Moya
 
 enum GoalAPI {
-    case fetchGoal
+    case fetchGoals
 }
 
 extension GoalAPI: TargetType {
@@ -19,21 +19,21 @@ extension GoalAPI: TargetType {
     
     var path: String {
         switch self {
-        case .fetchGoal:
+        case .fetchGoals:
             ""
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .fetchGoal:
+        case .fetchGoals:
             .get
         }
     }
     
     var task: Moya.Task {
         switch self {
-        case .fetchGoal:
+        case .fetchGoals:
             .requestPlain
         }
     }
