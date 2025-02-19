@@ -18,8 +18,8 @@ struct dnd_12th_2_iOSApp: App {
                 RootFeature()
             })
             .onAppear {
-//                KeyChainManager.deleteItem(key: .accessToken)
-//                KeyChainManager.deleteItem(key: .refreshToken)
+                KeyChainManager.addItem(key: .accessToken, value: SecretKey.apiKey)
+                KeyChainManager.addItem(key: .refreshToken, value: SecretKey.apiKey)
             }
         }
     }
