@@ -24,7 +24,27 @@ struct HomeView: View {
                     .background(Color.gray200)
                 Spacer()
                     .frame(height: 16)
+                
                 PlanListView(store: store.scope(state: \.plan, action: \.plan))
+                    .overlay(alignment: .bottomTrailing, content: {
+                        if store.plan.plans.count > 2 {
+                            DDFloatingButton {
+                                store.send(.createButtonTapped)
+                            }
+                            .offset(x: -16, y: -25)
+                        }
+                    })
+                    .layoutPriority(0)
+                if store.plan.plans.count < 3 {
+                    PlaceholderView(action: {
+                        store.send(.createButtonTapped)
+                    })
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 16)
+                    .layoutPriority(1)
+                }
+                Spacer()
+                    .frame(height: 16)
             }
             .onAppear {
                 store.send(.viewAppear)

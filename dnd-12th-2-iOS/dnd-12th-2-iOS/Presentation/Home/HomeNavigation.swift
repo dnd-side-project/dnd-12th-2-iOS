@@ -29,6 +29,7 @@ struct HomeNavigation {
         case binding(BindingAction<State>)
         case presentSheet
         case viewAppear
+        case createButtonTapped
         case path(StackActionOf<Path>)
         case goal(GoalListFeature.Action)
         case plan(PlanListFeature.Action)
@@ -56,13 +57,13 @@ struct HomeNavigation {
                 } else {
                     state.hasAppeared = true
                     return .send(.goal(.fetchGoals))
-                }                
+                }
             case let .goal(.goalSelected(goalId)):
                 return .send(.plan(.fetchPlans(goalId: goalId, date: "2024-04-01")))
             case let .plan(.planCellTapped(planId)):
                 state.path.append(.selecteScreen(.init()))
                 return .none
-            case .plan(.createButtonTapped):
+            case .createButtonTapped:
                 state.path.append(.goalScreen(.init()))
                 return .none
                 // Navigation

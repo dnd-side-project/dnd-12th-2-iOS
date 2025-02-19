@@ -28,13 +28,7 @@ struct PlanListView: View {
                 }
                 .padding(.horizontal, 16)
             }
-            .ignoresSafeArea(.all)
-            .overlay(alignment: .bottomTrailing, content: {
-                DDFloatingButton {
-                    store.send(.createButtonTapped)
-                }
-                .offset(x: -16, y: -25)
-            })
+          
         }
     }
 }
