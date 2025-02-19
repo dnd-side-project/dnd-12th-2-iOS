@@ -20,9 +20,12 @@ struct HomeNavigation {
     struct State {
         var path = StackState<Path.State>()
         var goal = GoalListFeature.State()
+        var isShowSheet = false
     }
     
-    enum Action {
+    enum Action: BindableAction {
+        case binding(BindingAction<State>)
+        case presentSheet
         case completeButtonTapped
         case goToGoalScreen
         case viewAppear
@@ -34,9 +37,15 @@ struct HomeNavigation {
         Scope(state: \.goal, action: \.goal) {
             GoalListFeature()
         }
-        
+        BindingReducer()
         Reduce { state, action in
             switch action {
+            case .presentSheet:
+                state.isShowSheet = true
+                return .none
+            case let .goal(.cardTapped(goalId)):
+                state.isShowSheet = false
+                return .none
             case .viewAppear:
                 return .send(.goal(.fetchGoals))
             case .completeButtonTapped:

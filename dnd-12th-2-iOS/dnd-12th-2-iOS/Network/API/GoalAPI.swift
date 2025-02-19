@@ -10,6 +10,7 @@ import Moya
 
 enum GoalAPI {
     case fetchGoals
+    case fetchPlans(Int, String)
 }
 
 extension GoalAPI: TargetType {
@@ -21,12 +22,16 @@ extension GoalAPI: TargetType {
         switch self {
         case .fetchGoals:
             ""
+        case let .fetchPlans(goalId, _):
+            "/(\(goalId)/plans"
         }
     }
     
     var method: Moya.Method {
         switch self {
         case .fetchGoals:
+            .get
+        case .fetchPlans:
             .get
         }
     }
@@ -35,6 +40,8 @@ extension GoalAPI: TargetType {
         switch self {
         case .fetchGoals:
             .requestPlain
+        case let .fetchPlans(_, date):
+            .requestParameters(parameters: ["date": date], encoding: URLEncoding.queryString)
         }
     }
     

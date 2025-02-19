@@ -47,14 +47,14 @@ struct HomeView: View {
                     DDFloatingButton {
                         store.send(.goToGoalScreen)
                     }
-                        .offset(x: -16, y: -25)
+                    .offset(x: -16, y: -25)
                 })
             }
             .onAppear {
                 store.send(.viewAppear)
             }
-            .bottomSheet(isPresented: $isShowSheet, height: UIScreen.screenHeight * 0.7, content: {
-                GoalListView(store: store.scope(state: \.goal, action: \.goal))                    
+            .bottomSheet(isPresented: $store.isShowSheet, height: UIScreen.screenHeight * 0.7, content: {
+                GoalListView(store: store.scope(state: \.goal, action: \.goal))
             })
             .bottomSheet(isPresented: $isShowMenu, height: 210, content: {
                 VStack(spacing: 34) {
@@ -93,7 +93,7 @@ struct HomeView: View {
             })
             .navigationBar(left: {
                 DDGoal(title: store.goal.selectedGoal.title, action: {
-                    isShowSheet = true
+                    store.send(.presentSheet)
                 })
             }, right: {
                 Button(action: {

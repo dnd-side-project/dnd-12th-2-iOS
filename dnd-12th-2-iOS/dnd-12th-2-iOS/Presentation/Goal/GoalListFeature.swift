@@ -18,6 +18,7 @@ struct GoalListFeature {
     enum Action {
         case fetchGoals
         case fetchGoalResponse([Goal])
+        case cardTapped(goalId: Int)
     }
     
     @Dependency(\.goalClient) var goalClient
@@ -33,6 +34,9 @@ struct GoalListFeature {
             case let .fetchGoalResponse(response):
                 state.goalList = response
                 state.selectedGoal = response.first ?? state.selectedGoal                
+                return .none
+            case let .cardTapped(goalId):
+                state.selectedGoal = state.goalList.first(where: {$0.goalId == goalId}) ?? state.selectedGoal
                 return .none
             default:
                 return .none

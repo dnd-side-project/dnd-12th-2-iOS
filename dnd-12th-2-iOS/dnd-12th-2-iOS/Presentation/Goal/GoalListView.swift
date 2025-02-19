@@ -25,7 +25,11 @@ struct GoalListView: View {
                     LazyVStack(spacing: 16) {
                         ForEach(store.goalList, id: \.self.goalId) { item in
                             let successPercent = item.totalCount == 0 ? 0 : Double(item.successCount) / Double(item.totalCount)
-                            DDProgessCard(title: item.title, value: successPercent, action: {})
+                            Button(action: {
+                                store.send(.cardTapped(goalId: item.goalId))
+                            }, label: {
+                                DDProgessCard(title: item.title, value: successPercent, action: {})
+                            })
                         }
                     }
                     .padding(16)
