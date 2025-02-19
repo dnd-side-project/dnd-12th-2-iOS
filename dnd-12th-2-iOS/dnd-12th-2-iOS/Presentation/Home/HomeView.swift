@@ -24,31 +24,7 @@ struct HomeView: View {
                     .background(Color.gray200)
                 Spacer()
                     .frame(height: 16)
-                
-                ScrollView(showsIndicators: false) {
-                    LazyVStack(spacing: 16) {
-                        ForEach(0...10, id: \.self) { offset in
-                            VStack(spacing: 16) {
-                                let resultType: ResultType = [.fail, .ready, .success].randomElement()!
-                                DDResultRow(result: resultType, title: "오픽 신청하기", action: {
-                                    store.send(.completeButtonTapped)
-                                })
-                                if offset != 10 {
-                                    DDFeedbackRow(result: resultType == .fail ? .fail : .success, title: "다음에는 계획을 더 구체적으로 세워봐요!")
-                                }
-                            }
-                        }
-                        Spacer()
-                            .frame(height: 16)
-                    }
-                    .padding(.horizontal, 16)
-                }
-                .overlay(alignment: .bottomTrailing, content: {
-                    DDFloatingButton {
-                        store.send(.goToGoalScreen)
-                    }
-                    .offset(x: -16, y: -25)
-                })
+                PlanListView(store: store.scope(state: \.plan, action: \.plan))
             }
             .onAppear {
                 store.send(.viewAppear)

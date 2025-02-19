@@ -20,22 +20,25 @@ struct HomeNavigation {
     struct State {
         var path = StackState<Path.State>()
         var goal = GoalListFeature.State()
+        var plan = PlanListFeature.State()
         var isShowSheet = false
     }
     
     enum Action: BindableAction {
         case binding(BindingAction<State>)
         case presentSheet
-        case completeButtonTapped
-        case goToGoalScreen
         case viewAppear
         case path(StackActionOf<Path>)
         case goal(GoalListFeature.Action)
+        case plan(PlanListFeature.Action)
     }
     
     var body: some Reducer<State, Action> {
         Scope(state: \.goal, action: \.goal) {
             GoalListFeature()
+        }
+        Scope(state: \.plan, action: \.plan) {
+            PlanListFeature()
         }
         BindingReducer()
         Reduce { state, action in
@@ -48,12 +51,12 @@ struct HomeNavigation {
                 return .none
             case .viewAppear:
                 return .send(.goal(.fetchGoals))
-            case .completeButtonTapped:
-                state.path.append(.selecteScreen(.init()))
-                return .none
-            case .goToGoalScreen:
-                state.path.append(.goalScreen(.init()))
-                return .none
+//            case .completeButtonTapped:
+//                state.path.append(.selecteScreen(.init()))
+//                return .none
+//            case .goToGoalScreen:
+//                state.path.append(.goalScreen(.init()))
+//                return .none
             case let .path(action):
                 switch action {
                 case .element(id: _, action: .selecteScreen(.goToComplete)):

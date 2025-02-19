@@ -11,6 +11,7 @@ import Moya
 
 struct GoalClient {
     var fetchGoals: () async throws -> [Goal]
+    var fetchPlans: (Int, String) async throws -> [Plan]
     static let provider = MoyaProvider<GoalAPI>(session: Session(interceptor: AuthIntercepter.shared))
 }
 
@@ -19,6 +20,17 @@ extension GoalClient: DependencyKey {
         fetchGoals: {            
             do {
                 let result: BaseResponse<[GoalResonseDto]> = try await provider.async.request(.fetchGoals)
+                guard let data = result.data else {
+                    throw APIError.parseError
+                }
+                return data.toEntity()
+            } catch {
+                throw error
+            }
+        },
+        fetchPlans: { goalId, date in
+            do {
+                let result: BaseResponse<[PlanResponseDto]> = try await provider.async.request(.fetchPlans(goalId, date))
                 guard let data = result.data else {
                     throw APIError.parseError
                 }
