@@ -15,14 +15,21 @@ struct PlanListView: View {
         WithPerceptionTracking {
             ScrollView(showsIndicators: false) {
                 LazyVStack(spacing: 16) {
-                    ForEach(store.plans, id: \.self.planId) { item in
-                        VStack(spacing: 16) {
-                            DDResultRow(result: item.resultType, title: item.title, action: {
-                                store.send(.planCellTapped(planId: item.planId))
-                            })
-                            DDFeedbackRow(result: item.feedbackType, title: "다음에는 계획을 더 구체적으로 세워봐요!")
+                    ForEach(store.plans, id: \.self) { item in
+                        Text(item.startDate.toShortDateFormat())
+                            .font(.pretendard(size: 14, weight: .medium), lineHeight: 21)
+                            .foregroundStyle(Color.gray900)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        ForEach(item.plans, id: \.self.planId) { item in
+                            VStack(spacing: 16) {
+                                DDResultRow(result: item.resultType, title: item.title, action: {
+                                    store.send(.planCellTapped(planId: item.planId))
+                                })
+                                DDFeedbackRow(result: item.feedbackType, title: "다음에는 계획을 더 구체적으로 세워봐요!")
+                            }
                         }
                     }
+                    
                     Spacer()
                         .frame(height: 16)
                 }

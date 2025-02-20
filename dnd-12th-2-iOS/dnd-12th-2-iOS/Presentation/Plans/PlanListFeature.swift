@@ -5,13 +5,14 @@
 //  Created by 권석기 on 2/19/25.
 //
 
+import Foundation
 import ComposableArchitecture
 
 @Reducer
 struct PlanListFeature {
     @ObservableState
     struct State {
-        var plans: [Plan] = []
+        var plans: [PlanGroup] = []
     }
     
     enum Action {
@@ -33,11 +34,28 @@ struct PlanListFeature {
                     await send(.fetchPlansResponse(result))
                 }
             case let .fetchPlansResponse(response):
-                state.plans = response
+                state.plans = groupPlansByStartDate(response)
                 return .none
             default:
                 return .none
             }
         }
+    }
+    
+    func groupPlansByStartDate(_ plans: [Plan]) -> [PlanGroup] {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        
+        var groupedPlans: [Date: [Plan]] = [:]
+        
+        for plan in plans {
+            guard let date = dateFormatter.date(from: plan.startDate) else { continue }
+            groupedPlans[date, default: []].append(plan)
+        }
+        
+        return groupedPlans
+            .sorted { $0.key < $1.key } // startDate 기준 정렬
+            .map { PlanGroup(startDate: $0.key, plans: $0.value) }
     }
 }

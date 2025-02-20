@@ -7,7 +7,12 @@
 
 import SwiftUI
 
-struct Plan {
+struct PlanGroup: Hashable {
+    let startDate: Date
+    let plans: [Plan]
+}
+
+struct Plan: Hashable {
     let planId: Int
     let title: String
     let status: String
