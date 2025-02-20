@@ -26,6 +26,7 @@ struct HomeView: View {
                 
                 PlanListView(store: store.scope(state: \.plan, action: \.plan))
                     .overlay(alignment: .bottomTrailing, content: {
+                        // 계획이 2개 이상인 경우에
                         if store.plan.plans.count > 2 {
                             DDFloatingButton {
                                 store.send(.createButtonTapped)
@@ -34,8 +35,13 @@ struct HomeView: View {
                         }
                     })
                     .layoutPriority(0)
+                
+                // 계획이 3개 이하인 경우에 placeHolder 처리
                 if store.plan.plans.count < 3 {
-                    PlaceholderView(action: {
+                    Spacer()
+                        .frame(height: 16)
+                    
+                    PlaceholderView(imageName: store.plan.plans.count == 2 ? "placeholderImageSmall" : "placeholderImage" ,action: {
                         store.send(.createButtonTapped)
                     })
                     .padding(.horizontal, 16)

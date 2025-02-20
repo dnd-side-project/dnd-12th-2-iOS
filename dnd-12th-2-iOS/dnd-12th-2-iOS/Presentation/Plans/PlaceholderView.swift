@@ -8,12 +8,15 @@
 import SwiftUI
 
 struct PlaceholderView: View {
+    let imageName: String
     let action: () -> Void
+   
+    
     var body: some View {
         VStack {            
            Spacer()
             VStack(spacing: 0) {
-                Image("placeholderImage")
+                Image(imageName)
                 
                 Text("이만큼이나 넓은 가능성이 열려 있어요")
                     .font(.pretendard(size: 14, weight: .medium), lineHeight: 21)
