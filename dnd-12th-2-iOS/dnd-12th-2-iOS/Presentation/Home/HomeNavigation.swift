@@ -71,6 +71,9 @@ struct HomeNavigation {
                     state.hasAppeared = true
                     return .send(.goal(.fetchGoals))
                 }
+            // 캘린더 날짜변경시 계획리스트 받아오기
+            case let .calendar(.dayChanged(goalId, date)):
+                return .send(.plan(.fetchPlans(goalId: goalId, date: date)))
             // 날짜에 따른 계획리스트 조회
             // 캘린더의 첫번째 날짜를 받아와서 보내줘야함
             case let .goal(.goalSelected(goalId)):

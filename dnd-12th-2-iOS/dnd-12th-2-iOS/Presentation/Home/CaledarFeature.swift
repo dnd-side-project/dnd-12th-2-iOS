@@ -29,6 +29,7 @@ struct CalendarFeature {
         case fetchStatistics(goalId: Int)
         case fetchStatisticsResponse([[Day]])
         case addDays(Int, [Day])
+        case dayChanged(goalId: Int, date: String)
     }
     
     @Dependency(\.goalClient) var goalClient
@@ -62,6 +63,7 @@ struct CalendarFeature {
                 if state.index == 0 {
                     let previousWeek = currentWeek.addingWeeks(-1)
                     let previousWeekStr = previousWeek.toShortDateFormat()
+                    
                     return .run { [state] send in
                         let previousDays = try await goalClient.fetchStatistics(state.goalId, previousWeekStr)
                         await send(.addDays(1, previousDays))
@@ -75,7 +77,7 @@ struct CalendarFeature {
                     }
                 } else {
                     state.yeanAndMonth = getYearMonthString(from: [currentWeek, lastWeek])
-                    return .none
+                    return .send(.dayChanged(goalId: state.goalId, date: currentWeek.toShortDateFormat()))
                 }
             case let .addDays(add, response):
                 if add == 0 {
@@ -87,7 +89,7 @@ struct CalendarFeature {
                 let currentWeek = state.days[state.index].first?.date ?? Date()
                 let lastWeek = state.days[state.index].last?.date ?? Date()
                 state.yeanAndMonth = getYearMonthString(from: [currentWeek, lastWeek])
-                return .none
+                return .send(.dayChanged(goalId: state.goalId, date: currentWeek.toShortDateFormat()))
             case .viewAppear:
                 let currentStartWeek = state.startDate.startOfWeek() ?? Date()
                 let previousStartWeek = currentStartWeek.addingWeeks(-1)
@@ -105,7 +107,7 @@ struct CalendarFeature {
                 return .none
             }
         }
-//        ._printChanges()
+        ._printChanges()
     }
     
     func makeWeek(startDate: Date) -> [Day] {
