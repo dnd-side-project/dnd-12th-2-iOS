@@ -5,7 +5,10 @@
 //  Created by 권석기 on 2/20/25.
 //
 
+import Foundation
+
 struct Day: Hashable {
+    var date: Date = Date()
     let day: String
     let dayNumber: String
     let successCount: Int

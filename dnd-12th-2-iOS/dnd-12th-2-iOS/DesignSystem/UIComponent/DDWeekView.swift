@@ -8,16 +8,14 @@
 import SwiftUI
 
 struct DDWeekView: View {
+    let days: [Day]
     @State var selectedIndex = 0
     
     var body: some View {
         VStack(spacing: 8) {            
             HStack(spacing: 13) {
-                ForEach(1...7, id: \.self) { number in
-                    DDWeekCell(weekDay: "월", weekNumber: number, isSelected: number == selectedIndex)
-                        .onTapGesture { _ in
-                            selectedIndex = number
-                        }
+                ForEach(days, id: \.self) { day in
+                    DDWeekCell(weekDay: day.day, weekNumber: Int(day.dayNumber) ?? 0, isSelected: false)                        
                 }
             }
             .padding(.vertical, 8)
@@ -62,6 +60,6 @@ struct DDWeekCell: View {
     }
 }
 
-#Preview {
-    DDWeekView()
-}
+//#Preview {
+//    DDWeekView()
+//}
