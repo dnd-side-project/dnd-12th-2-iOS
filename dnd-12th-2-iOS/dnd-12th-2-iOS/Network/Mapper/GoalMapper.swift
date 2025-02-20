@@ -13,6 +13,6 @@ extension Array where Element == GoalResonseDto {
 
 extension Array where Element == StatisticsResponseDto {
     func toEntity() -> [Day] {
-        self.map { Day(day: $0.date.toDate().toDayString(), dayNumber: $0.date.toDate().toDayNumber(), successCount: $0.successCount, totalCount: $0.totalCount)}
+        self.map { Day(date: $0.date.toDate(), day: $0.date.toDate().toDayString(), dayNumber: $0.date.toDate().toDayNumber(), successCount: $0.successCount, totalCount: $0.totalCount)}
     }
 }

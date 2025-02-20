@@ -74,7 +74,7 @@ struct HomeNavigation {
             // 날짜에 따른 계획리스트 조회
             // 캘린더의 첫번째 날짜를 받아와서 보내줘야함
             case let .goal(.goalSelected(goalId)):
-                let startWeek = Date().startOfWeek()?.toShortDateFormat() ?? ""                
+                let startWeek = Date().startOfWeek()?.toShortDateFormat() ?? ""
                 return .merge([
                     .send(.calendar(.fetchStatistics(goalId: goalId))),
                     .send(.plan(.fetchPlans(goalId: goalId, date: startWeek)))
@@ -109,6 +109,6 @@ struct HomeNavigation {
             }
         }
         .forEach(\.path, action: \.path)
-        ._printChanges()
+//        ._printChanges()
     }
 }
