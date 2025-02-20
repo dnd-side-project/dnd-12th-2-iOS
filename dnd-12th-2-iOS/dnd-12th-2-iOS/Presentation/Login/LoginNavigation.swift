@@ -14,7 +14,7 @@ struct LoginNavigation {
     @Reducer
     enum Path {
         case onboadingScreen(OnboardingFeature)
-        case goalScreen(GoalFeature)
+        case goalScreen(InitialGoalFeature)
         case resultScreen(GoalFeature)
     }
         
