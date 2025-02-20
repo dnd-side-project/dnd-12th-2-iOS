@@ -21,6 +21,7 @@ struct HomeNavigation {
         var path = StackState<Path.State>()
         var goal = GoalListFeature.State()
         var plan = PlanListFeature.State()
+        var calendar = CalendarFeature.State()
         var isShowSheet = false
         var hasAppeared = false
     }
@@ -33,6 +34,7 @@ struct HomeNavigation {
         case path(StackActionOf<Path>)
         case goal(GoalListFeature.Action)
         case plan(PlanListFeature.Action)
+        case calendar(CalendarFeature.Action)
     }
     
     var body: some Reducer<State, Action> {
@@ -41,6 +43,9 @@ struct HomeNavigation {
         }
         Scope(state: \.plan, action: \.plan) {
             PlanListFeature()
+        }
+        Scope(state: \.calendar, action: \.calendar) {
+            CalendarFeature()
         }
         BindingReducer()
         Reduce { state, action in

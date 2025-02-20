@@ -11,12 +11,7 @@ struct DDWeekView: View {
     @State var selectedIndex = 0
     
     var body: some View {
-        VStack(spacing: 8) {
-            Text("2025년 1월")
-                .font(.pretendard(size: 16, weight: .medium))
-                .foregroundStyle(Color.gray600)
-                .frame(maxWidth: .infinity, alignment: .leading)
-            
+        VStack(spacing: 8) {            
             HStack(spacing: 13) {
                 ForEach(1...7, id: \.self) { number in
                     DDWeekCell(weekDay: "월", weekNumber: number, isSelected: number == selectedIndex)

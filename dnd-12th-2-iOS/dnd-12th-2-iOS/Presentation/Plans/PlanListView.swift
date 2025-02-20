@@ -25,7 +25,7 @@ struct PlanListView: View {
                                 DDResultRow(result: item.resultType, title: item.title, action: {
                                     store.send(.planCellTapped(planId: item.planId))
                                 })
-                                DDFeedbackRow(result: item.feedbackType, title: "다음에는 계획을 더 구체적으로 세워봐요!")
+                                DDFeedbackRow(result: item.feedbackType, title: item.guide)
                             }
                         }
                     }

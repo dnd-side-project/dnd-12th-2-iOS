@@ -18,8 +18,7 @@ struct HomeView: View {
             WithPerceptionTracking {
                 Spacer()
                     .frame(height: 14)
-                DDWeekView()
-                    .padding(.horizontal, 16)
+                CalendarView(store: store.scope(state: \.calendar, action: \.calendar))
                 Divider()
                     .background(Color.gray200)
                 Spacer()
