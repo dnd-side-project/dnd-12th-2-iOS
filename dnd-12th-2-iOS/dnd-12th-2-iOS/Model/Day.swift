@@ -13,4 +13,8 @@ struct Day: Hashable {
     let dayNumber: String
     let successCount: Int
     let totalCount: Int
+    
+    var succesPercent: Double {
+        self.totalCount == 0 ? 0 : Double(self.successCount) / Double(self.totalCount)
+    }
 }

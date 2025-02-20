@@ -4,7 +4,7 @@
 //
 //  Created by 권석기 on 2/15/25.
 //
-
+import Foundation
 import ComposableArchitecture
 
 @Reducer
@@ -27,11 +27,18 @@ struct HomeNavigation {
     }
     
     enum Action: BindableAction {
+        // binding
         case binding(BindingAction<State>)
+        
+        // action
         case presentSheet
         case viewAppear
         case createButtonTapped
+        
+        // navigation
         case path(StackActionOf<Path>)
+        
+        // features
         case goal(GoalListFeature.Action)
         case plan(PlanListFeature.Action)
         case calendar(CalendarFeature.Action)
@@ -48,6 +55,7 @@ struct HomeNavigation {
             CalendarFeature()
         }
         BindingReducer()
+        
         Reduce { state, action in
             switch action {
             case .presentSheet:
@@ -63,8 +71,14 @@ struct HomeNavigation {
                     state.hasAppeared = true
                     return .send(.goal(.fetchGoals))
                 }
+            // 날짜에 따른 계획리스트 조회
+            // 캘린더의 첫번째 날짜를 받아와서 보내줘야함
             case let .goal(.goalSelected(goalId)):
-                return .send(.plan(.fetchPlans(goalId: goalId, date: "2024-04-01")))
+                let startWeek = Date().startOfWeek()?.toShortDateFormat() ?? ""                
+                return .merge([
+                    .send(.calendar(.fetchStatistics(goalId: goalId))),
+                    .send(.plan(.fetchPlans(goalId: goalId, date: startWeek)))
+                ])
             case let .plan(.planCellTapped(planId)):
                 state.path.append(.selecteScreen(.init()))
                 return .none

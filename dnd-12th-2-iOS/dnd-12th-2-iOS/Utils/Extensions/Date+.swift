@@ -27,4 +27,16 @@ extension Date {
         formatter.dateFormat = format
         return formatter.string(from: self)
     }
+    
+    func toDayString() -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.dateFormat = "E"
+        
+        return formatter.string(from: self)
+    }
+    
+    func toDayNumber() -> String {
+        String(Calendar.current.component(.day, from: self))
+    }
 }

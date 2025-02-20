@@ -26,12 +26,30 @@ struct CalendarFeature {
     enum Action: BindableAction {
         case binding(BindingAction<State>)
         case viewAppear
+        case fetchStatistics(goalId: Int)
+        case fetchStatisticsResponse([[Day]])
     }
+    
+    @Dependency(\.goalClient) var goalClient
     
     var body: some Reducer<State, Action> {
         BindingReducer()
         Reduce { state, action in
             switch action {
+            case let .fetchStatisticsResponse(response):                
+                state.days = response
+                return .none
+            case let .fetchStatistics(goalId):
+                let currentWeek = state.days[state.index].first?.date ?? Date()
+                let currentWeekStr = currentWeek.toShortDateFormat()
+                let previousWeekStr = currentWeek.addingWeeks(-1).toShortDateFormat()
+                let nextWeekStr = currentWeek.addingWeeks(1).toShortDateFormat()
+                return .run { send in
+                   let previousDays = try await goalClient.fetchStatistics(goalId, previousWeekStr)
+                   let currentDays = try await goalClient.fetchStatistics(goalId, currentWeekStr)
+                   let nextDays = try await goalClient.fetchStatistics(goalId, nextWeekStr)
+                   await send(.fetchStatisticsResponse([previousDays, currentDays, nextDays]))
+                }
             case .binding(\.index):
                 let lastIndex = state.days.count - 1
                 let currentWeek = state.days[state.index].first?.date ?? Date()
@@ -59,6 +77,9 @@ struct CalendarFeature {
                     makeWeek(startDate: currentStartWeek),
                     makeWeek(startDate: nextStartWeek)
                 ]
+                let currentWeek = state.days[state.index].first?.date ?? Date()
+                let lastWeek = state.days[state.index].last?.date ?? Date()
+                state.yeanAndMonth = getYearMonthString(from: [currentWeek, lastWeek])
                 return .none
             default:
                 return .none
@@ -68,16 +89,12 @@ struct CalendarFeature {
     }
     
     func makeWeek(startDate: Date) -> [Day] {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.dateFormat = "E"
-        
         return (0..<7).compactMap { offset in
             guard let date = Calendar.current.date(byAdding: .day, value: offset, to: startDate) else { return nil }
             return Day(
                 date: date,
-                day: formatter.string(from: date),
-                dayNumber: String(Calendar.current.component(.day, from: date)),
+                day: date.toDayString(),
+                dayNumber: date.toDayNumber(),
                 successCount: 0,
                 totalCount: 0
             )
