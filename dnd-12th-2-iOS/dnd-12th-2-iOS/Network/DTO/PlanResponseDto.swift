@@ -10,7 +10,7 @@ struct PlanResponseDto: Decodable {
     let title: String
     let status: String
     let guide: String
-    let startDate: [Int]
-    let endDate: [Int]
-    let completedDate: [Int]
+    let startDate: String
+    let endDate: String
+    let completedDate: String?
 }
