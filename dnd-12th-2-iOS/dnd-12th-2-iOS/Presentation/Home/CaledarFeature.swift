@@ -16,10 +16,12 @@ struct CalendarFeature {
         var yeanAndMonth = ""
         var days: [[Day]] = []
         var index = 0
+        var cellIndex = 0
         var startDate = Date()
         var goalId = 0
         init() {
             self.index = 1
+            self.cellIndex = self.startDate.getWeekdayIndex()
         }
     }
     
@@ -30,6 +32,8 @@ struct CalendarFeature {
         case fetchStatisticsResponse([[Day]])
         case addDays(Int, [Day])
         case dayChanged(goalId: Int, date: String)
+        case dayCellTapped(goalId: Int, date: String)
+        case setIndex(Int)
     }
     
     @Dependency(\.goalClient) var goalClient
@@ -38,6 +42,10 @@ struct CalendarFeature {
         BindingReducer()
         Reduce { state, action in
             switch action {
+            case let .setIndex(index):
+                state.cellIndex = index
+                let selectedDate = state.days[state.index][state.cellIndex].date.toShortDateFormat()
+                return .send(.dayChanged(goalId: state.goalId, date: selectedDate))
             case let .fetchStatisticsResponse(response):
                 state.days = response
                 return .none
@@ -55,6 +63,7 @@ struct CalendarFeature {
                    await send(.fetchStatisticsResponse([previousDays, currentDays, nextDays]))
                 }
             case .binding(\.index):
+                state.cellIndex = -1 // 스크롤시 선택 비활성화
                 let lastIndex = state.days.count - 1
                 let currentWeek = state.days[state.index].first?.date ?? Date() // 현재 날짜의 인덱스
                 let lastWeek = state.days[state.index].last?.date ?? Date()

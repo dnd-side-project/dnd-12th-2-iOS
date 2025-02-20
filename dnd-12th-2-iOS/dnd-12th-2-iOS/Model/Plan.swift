@@ -90,7 +90,7 @@ struct Plan: Hashable {
             switch self {
             case .success: return Image("iconArrow")
             case .failure: return Image("iconArrowRed")
-            case .none: return Image("iconArrowGray")
+            case .none: return Image("IconArrowGray")
             }
         }
         

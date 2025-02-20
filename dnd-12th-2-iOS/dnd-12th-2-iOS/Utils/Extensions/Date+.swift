@@ -39,4 +39,11 @@ extension Date {
     func toDayNumber() -> String {
         String(Calendar.current.component(.day, from: self))
     }
+    
+    func getWeekdayIndex() -> Int {
+        let calendar = Calendar.current
+        let weekday = calendar.component(.weekday, from: self)
+                
+        return weekday - 1
+    }
 }

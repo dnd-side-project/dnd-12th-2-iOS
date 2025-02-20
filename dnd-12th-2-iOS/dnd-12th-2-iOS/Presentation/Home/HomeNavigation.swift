@@ -71,6 +71,9 @@ struct HomeNavigation {
                     state.hasAppeared = true
                     return .send(.goal(.fetchGoals))
                 }
+            // 날짜 선택시 게획리스트 받아오기
+            case let .calendar(.dayCellTapped(goalId, date)):
+                return .send(.plan(.fetchPlans(goalId: goalId, date: date)))
             // 캘린더 날짜변경시 계획리스트 받아오기
             case let .calendar(.dayChanged(goalId, date)):
                 return .send(.plan(.fetchPlans(goalId: goalId, date: date)))
@@ -112,6 +115,6 @@ struct HomeNavigation {
             }
         }
         .forEach(\.path, action: \.path)
-//        ._printChanges()
+        ._printChanges()
     }
 }

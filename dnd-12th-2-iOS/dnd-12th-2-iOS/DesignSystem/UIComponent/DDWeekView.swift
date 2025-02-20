@@ -7,27 +7,9 @@
 
 import SwiftUI
 
-struct DDWeekView: View {
-    let days: [Day]
-    @State var selectedIndex = 0
-    
-    var body: some View {
-        VStack(spacing: 8) {            
-            HStack(spacing: 13) {
-                ForEach(days, id: \.self) { day in
-                    DDWeekCell(day: day)
-                }
-            }
-            .padding(.vertical, 8)
-        }
-    }
-}
-
 struct DDWeekCell: View {
-//    let weekDay: String
-//    let weekNumber: Int
-//    let isSelected: Bool
     let day: Day
+    let isSelected: Bool
     
     var body: some View {
         VStack(spacing: 0) {
@@ -51,8 +33,7 @@ struct DDWeekCell: View {
             }
             .padding(4)
         }
-//        .background(isSelected ? Color.gray50: Color.clear)
-        .background(Color.clear)
+        .background(isSelected ? Color.gray50: Color.clear)
         .cornerRadius(8)
         .overlay(alignment: .topTrailing){
             if day.totalCount != 0 {
