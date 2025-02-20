@@ -34,7 +34,6 @@ struct InitialGoalFeature: Reducer {
         case toggleEndTime
         case getTips
         case tipsReceived(Guide)
-        case createInitialGoal
         case goalCreated
         case completeButtonTapped
         case failure(Error)
@@ -87,10 +86,13 @@ struct InitialGoalFeature: Reducer {
                 state.newPlanGuide = guide.newPlanGuide
                 return .none
                 
-            case .createInitialGoal:
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-                dateFormatter.timeZone = TimeZone(identifier: "UTC")
+            case .goalCreated:
+                // 목표 생성 성공 후 처리
+                return .none
+                
+            case .completeButtonTapped:
+                let dateFormatter = ISO8601DateFormatter()
+                dateFormatter.formatOptions = [.withFullDate, .withTime, .withColonSeparatorInTime]
                 
                 let initialGoal = InitialGoal(
                     goalTitle: state.goalTitle,
@@ -106,13 +108,6 @@ struct InitialGoalFeature: Reducer {
                         await send(.failure(error))
                     }
                 }
-                
-            case .goalCreated:
-                // 목표 생성 성공 후 처리
-                return .none
-                
-            case .completeButtonTapped:
-                return .send(.createInitialGoal)
                 
             case .failure(let error):
                 print("Error: \(error.localizedDescription)")

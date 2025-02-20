@@ -46,7 +46,7 @@ struct GoalView: View {
                             .foregroundStyle(Color.gray900)
                             .frame(maxWidth: .infinity, alignment: .leading)
                         Spacer().frame(height: 12)
-                        Text("\(store.startDate.formatted()) ~ \(store.endDate.formatted())")
+                        Text(formatDateRange(start: store.startDate, end: store.endDate))
                             .font(.pretendard(size: 14, weight: .medium), lineHeight: 21)
                             .foregroundStyle(Color.gray500)
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -69,9 +69,12 @@ struct GoalView: View {
                             })
                         }
                         if store.isStartTimeToggle {
-                            DatePicker("", selection: $store.startDate, displayedComponents: [.date, .hourAndMinute])
-                                .datePickerStyle(WheelDatePickerStyle())
-                                .labelsHidden()
+                            DDatePicker(date: Binding(
+                                get: { store.startDate },
+                                set: { store.send(.setStartDate($0)) }
+                            ), onDateChange: { newDate in
+                                store.send(.setStartDate(newDate))
+                            })
                         }
                         Spacer().frame(height: 8)
                         HStack {
@@ -90,9 +93,12 @@ struct GoalView: View {
                             })
                         }
                         if store.isEndTimeToggle {
-                            DatePicker("", selection: $store.endDate, displayedComponents: [.date, .hourAndMinute])
-                                .datePickerStyle(WheelDatePickerStyle())
-                                .labelsHidden()
+                            DDatePicker(date: Binding(
+                                get: { store.endDate },
+                                set: { store.send(.setEndDate($0)) }
+                            ), onDateChange: { newDate in
+                                store.send(.setEndDate(newDate))
+                            })
                         }
                     }
                 }
@@ -116,6 +122,24 @@ struct GoalView: View {
         })
         .onAppear {
             store.send(.getTips)
+        }
+    }
+    
+    private func formatDateRange(start: Date, end: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        let startString = formatter.string(from: start)
+        let endString = formatter.string(from: end)
+        
+        let dayFormatter = DateFormatter()
+        dayFormatter.dateFormat = "M월 d일"
+        
+        if Calendar.current.isDateInToday(start) {
+            return "오늘 \(startString) ~ \(endString)"
+        } else if Calendar.current.isDateInTomorrow(start) {
+            return "내일 \(startString) ~ \(endString)"
+        } else {
+            return "\(dayFormatter.string(from: start)) \(startString) ~ \(endString)"
         }
     }
 }
