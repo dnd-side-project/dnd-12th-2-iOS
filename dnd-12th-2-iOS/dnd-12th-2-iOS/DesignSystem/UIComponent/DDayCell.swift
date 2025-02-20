@@ -1,13 +1,13 @@
 //
-//  DDWeekView.swift
+//  DDayCell.swift
 //  dnd-12th-2-iOS
 //
-//  Created by 권석기 on 2/7/25.
+//  Created by 권석기 on 2/21/25.
 //
 
 import SwiftUI
 
-struct DDWeekCell: View {
+struct DDayCell: View {
     let day: Day
     let isSelected: Bool
     
@@ -48,5 +48,5 @@ struct DDWeekCell: View {
 }
 
 //#Preview {
-//    DDWeekView()
+//    DDayCell()
 //}

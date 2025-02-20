@@ -31,7 +31,7 @@ struct CalendarView: View {
                             Day(day: "", dayNumber: "", successCount: 0, totalCount: 0),
                             Day(day: "", dayNumber: "", successCount: 0, totalCount: 0)
                         ], id: \.self) { day in
-                            DDWeekCell(day: day, isSelected: true)
+                            DDayCell(day: day, isSelected: true)
                         }
                     }
                     .padding(.vertical, 8)
@@ -43,7 +43,7 @@ struct CalendarView: View {
                             VStack(spacing: 8) {
                                 HStack(spacing: 13) {
                                     ForEach(Array(days.enumerated()), id: \.offset) { index, day in
-                                        DDWeekCell(day: day, isSelected: store.cellIndex == index)
+                                        DDayCell(day: day, isSelected: store.cellIndex == index)
                                             .onTapGesture { _ in
                                                 store.send(.dayCellTapped(goalId: store.goalId, date: day.date.toShortDateFormat()))
                                                 store.send(.setIndex(index))
