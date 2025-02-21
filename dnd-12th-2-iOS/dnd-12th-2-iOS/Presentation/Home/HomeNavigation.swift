@@ -74,11 +74,7 @@ struct HomeNavigation {
             // 날짜 선택시 게획리스트 받아오기
             case let .calendar(.dayCellTapped(goalId, date)):
                 return .send(.plan(.fetchPlans(goalId: goalId, date: date)))
-            // 캘린더 날짜변경시 계획리스트 받아오기
-//            case let .calendar(.dayChanged(goalId, date)):
-//                return .send(.plan(.fetchPlans(goalId: goalId, date: date)))
-            // 날짜에 따른 계획리스트 조회
-            // 캘린더의 첫번째 날짜를 받아와서 보내줘야함
+            // 날짜에 따른 계획리스트 조회            
             case let .goal(.goalSelected(goalId)):
                 let startWeek = Date().startOfWeek()?.toShortDateFormat() ?? ""
                 return .merge([

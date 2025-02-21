@@ -27,13 +27,15 @@ struct CalendarFeature {
     
     enum Action: BindableAction {
         case binding(BindingAction<State>)
+        
         case viewAppear
+        case setIndex(Int)
+        case dayCellTapped(goalId: Int, date: String)
+        
         case fetchStatistics(goalId: Int)
         case fetchStatisticsResponse([[Day]])
+        
         case addDays(Int, [Day])
-        case dayChanged(goalId: Int, date: String)
-        case dayCellTapped(goalId: Int, date: String)
-        case setIndex(Int)
     }
     
     @Dependency(\.goalClient) var goalClient
@@ -45,11 +47,11 @@ struct CalendarFeature {
             case let .setIndex(index):
                 state.cellIndex = index
                 let selectedDate = state.days[state.index][state.cellIndex].date.toShortDateFormat()
-                return .send(.dayChanged(goalId: state.goalId, date: selectedDate))
+                return .send(.dayCellTapped(goalId: state.goalId, date: selectedDate))
             case let .fetchStatisticsResponse(response):
                 state.days = response
                 return .none
-            // 목표 변경시
+                // 목표 변경시
             case let .fetchStatistics(goalId):
                 state.goalId = goalId
                 let currentWeek = state.days[state.index].first?.date ?? Date()
@@ -57,18 +59,20 @@ struct CalendarFeature {
                 let previousWeekStr = currentWeek.addingWeeks(-1).toShortDateFormat()
                 let nextWeekStr = currentWeek.addingWeeks(1).toShortDateFormat()
                 return .run { send in
-                   let previousDays = try await goalClient.fetchStatistics(goalId, previousWeekStr)
-                   let currentDays = try await goalClient.fetchStatistics(goalId, currentWeekStr)
-                   let nextDays = try await goalClient.fetchStatistics(goalId, nextWeekStr)
-                   await send(.fetchStatisticsResponse([previousDays, currentDays, nextDays]))
+                    let previousDays = try await goalClient.fetchStatistics(goalId, previousWeekStr)
+                    let currentDays = try await goalClient.fetchStatistics(goalId, currentWeekStr)
+                    let nextDays = try await goalClient.fetchStatistics(goalId, nextWeekStr)
+                    await send(.fetchStatisticsResponse([previousDays, currentDays, nextDays]))
                 }
+                // 캘린더 스크롤시
             case .binding(\.index):
                 state.cellIndex = -1 // 스크롤시 선택 비활성화
                 let lastIndex = state.days.count - 1
                 let currentWeek = state.days[state.index].first?.date ?? Date() // 현재 날짜의 인덱스
                 let lastWeek = state.days[state.index].last?.date ?? Date()
                 
-                // 첫번째거나 마지막 인덱스인경우 데이터 추가
+                // 첫번째 인덱스거나 마지막 인덱스인 경우
+                // 둘다 아닌경우 년도월만 변경
                 if state.index == 0 {
                     let previousWeek = currentWeek.addingWeeks(-1)
                     let previousWeekStr = previousWeek.toShortDateFormat()
@@ -86,8 +90,9 @@ struct CalendarFeature {
                     }
                 } else {
                     state.yeanAndMonth = getYearMonthString(from: [currentWeek, lastWeek])
-                    return .send(.dayChanged(goalId: state.goalId, date: currentWeek.toShortDateFormat()))
+                    return .none
                 }
+                // 캘린더에 날짜 추가
             case let .addDays(add, response):
                 if add == 0 {
                     state.days.append(response)
@@ -98,7 +103,8 @@ struct CalendarFeature {
                 let currentWeek = state.days[state.index].first?.date ?? Date()
                 let lastWeek = state.days[state.index].last?.date ?? Date()
                 state.yeanAndMonth = getYearMonthString(from: [currentWeek, lastWeek])
-                return .send(.dayChanged(goalId: state.goalId, date: currentWeek.toShortDateFormat()))
+                return .none
+                // 처음 뷰가 나타났을때 더미데이터 생성
             case .viewAppear:
                 let currentStartWeek = state.startDate.startOfWeek() ?? Date()
                 let previousStartWeek = currentStartWeek.addingWeeks(-1)
@@ -108,6 +114,7 @@ struct CalendarFeature {
                     makeWeek(startDate: currentStartWeek),
                     makeWeek(startDate: nextStartWeek)
                 ]
+                state.index = 1 // index를 초기 인덱스로 설정
                 let currentWeek = state.days[state.index].first?.date ?? Date()
                 let lastWeek = state.days[state.index].last?.date ?? Date()
                 state.yeanAndMonth = getYearMonthString(from: [currentWeek, lastWeek])
@@ -134,14 +141,14 @@ struct CalendarFeature {
     
     func getYearMonthString(from dates: [Date]) -> String {
         guard let firstDate = dates.min(), let lastDate = dates.max() else { return "" }
-
+        
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "ko_KR")
         formatter.dateFormat = "yyyy년 M월"
-
+        
         let firstString = formatter.string(from: firstDate)
         let lastString = formatter.string(from: lastDate)
-      
+        
         if firstString == lastString {
             return firstString
         } else {
