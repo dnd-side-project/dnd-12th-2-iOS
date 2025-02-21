@@ -21,7 +21,7 @@ struct GoalListView: View {
                     .padding(.top, 38)
                     .padding(.horizontal, 16)
                 
-                ScrollView {
+                ScrollView(showsIndicators: false) {
                     LazyVStack(spacing: 16) {
                         ForEach(store.goalList, id: \.self.goalId) { item in
                             let successPercent = item.totalCount == 0 ? 0 : Double(item.successCount) / Double(item.totalCount)
