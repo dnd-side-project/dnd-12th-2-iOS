@@ -31,10 +31,9 @@ extension Array where Element == PlanGroupResponseDto {
                     endDate: planDto.endDate,
                     completedDate: planDto.completedDate
                 )
-                
-                
+                                                
                 let start = plan.startDate.toDate()
-                      let end = plan.endDate.toDate()
+                let end = plan.endDate.toDate()
                 
                 var currentDate = start
                 // startDate부터 endDate까지의 날짜를 모두 그룹에 추가

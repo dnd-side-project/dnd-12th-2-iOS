@@ -8,5 +8,6 @@
 struct StatisticsResponseDto: Decodable {
     let date: String
     let successCount: Int
+    let failureCount: Int
     let totalCount: Int
 }

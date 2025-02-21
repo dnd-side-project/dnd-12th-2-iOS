@@ -23,13 +23,13 @@ struct CalendarView: View {
                 VStack(spacing: 8) {
                     HStack(spacing: 13) {
                         ForEach([
-                            Day(day: "", dayNumber: "", successCount: 0, totalCount: 0),
-                            Day(day: "", dayNumber: "", successCount: 0, totalCount: 0),
-                            Day(day: "", dayNumber: "", successCount: 0, totalCount: 0),
-                            Day(day: "", dayNumber: "", successCount: 0, totalCount: 0),
-                            Day(day: "", dayNumber: "", successCount: 0, totalCount: 0),
-                            Day(day: "", dayNumber: "", successCount: 0, totalCount: 0),
-                            Day(day: "", dayNumber: "", successCount: 0, totalCount: 0)
+                            Day(day: "", dayNumber: "", successCount: 0, failureCount: 0, totalCount: 0),
+                            Day(day: "", dayNumber: "", successCount: 0, failureCount: 0, totalCount: 0),
+                            Day(day: "", dayNumber: "", successCount: 0, failureCount: 0, totalCount: 0),
+                            Day(day: "", dayNumber: "", successCount: 0, failureCount: 0, totalCount: 0),
+                            Day(day: "", dayNumber: "", successCount: 0, failureCount: 0, totalCount: 0),
+                            Day(day: "", dayNumber: "", successCount: 0, failureCount: 0, totalCount: 0),
+                            Day(day: "", dayNumber: "", successCount: 0, failureCount: 0, totalCount: 0)
                         ], id: \.self) { day in
                             DDayCell(day: day, isSelected: true)
                         }

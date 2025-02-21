@@ -73,13 +73,16 @@ struct HomeNavigation {
                 }
             // 날짜 선택시 게획리스트 받아오기
             case let .calendar(.dayCellTapped(goalId, date)):
-                return .send(.plan(.fetchPlans(goalId: goalId, date: date)))
+                return .concatenate([
+                    .send(.plan(.fetchPlans(goalId: goalId, date: date, range: 1))),
+                    .send(.plan(.calendarCellTapped(groupId: date)))
+                ])
             // 날짜에 따른 계획리스트 조회            
             case let .goal(.goalSelected(goalId)):
                 let startWeek = Date().startOfWeek()?.toShortDateFormat() ?? ""
                 return .merge([
                     .send(.calendar(.fetchStatistics(goalId: goalId))),
-                    .send(.plan(.fetchPlans(goalId: goalId, date: startWeek)))
+                    .send(.plan(.fetchPlans(goalId: goalId, date: startWeek, range: 1)))
                 ])
             case let .plan(.planCellTapped(planId)):
                 state.path.append(.selecteScreen(.init()))

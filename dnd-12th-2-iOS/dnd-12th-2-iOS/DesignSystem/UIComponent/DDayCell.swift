@@ -28,7 +28,7 @@ struct DDayCell: View {
                 Spacer()
                     .frame(height: 2)
                 
-                LinearProgressView(shape: Capsule(), value: day.succesPercent)
+                LinearProgressView(shape: Capsule(), fillColor: Color.gray100, value: day.succesPercent)
                     .frame(height: 4)
             }
             .padding(4)
@@ -36,7 +36,7 @@ struct DDayCell: View {
         .background(isSelected ? Color.gray50: Color.clear)
         .cornerRadius(8)
         .overlay(alignment: .topTrailing){
-            if day.totalCount != day.successCount {
+            if !day.isCompleted {
                 Circle()
                     .frame(width: 8, height: 8)
                     .foregroundStyle(Color.red)

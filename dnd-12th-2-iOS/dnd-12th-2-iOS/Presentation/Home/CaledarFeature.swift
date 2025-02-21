@@ -135,6 +135,7 @@ struct CalendarFeature {
                 day: date.toDayString(),
                 dayNumber: date.toDayNumber(),
                 successCount: 0,
+                failureCount: 0,
                 totalCount: 0
             )
         }

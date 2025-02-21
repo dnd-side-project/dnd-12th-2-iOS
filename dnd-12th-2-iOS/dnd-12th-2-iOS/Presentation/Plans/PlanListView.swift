@@ -15,13 +15,47 @@ struct PlanListView: View {
     var body: some View {
         WithPerceptionTracking {
             if isScroll {
-                ScrollView(showsIndicators: false) {
-                    content
+                ScrollViewReader { proxy in
+                    ScrollView(showsIndicators: false) {
+                        LazyVStack(spacing: 16) {
+                            ForEach(store.plans, id: \.self.dateGroup) { groupItem in
+                                Text(groupItem.dateGroup)
+                                    .font(.pretendard(size: 14, weight: .medium), lineHeight: 21)
+                                    .foregroundStyle(Color.gray900)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .id(groupItem.dateGroup)
+                                
+                                ForEach(Array(groupItem.plans.sorted(by: { $0.startDate.toDate() < $1.startDate.toDate() }).enumerated()), id: \.element.planId) { offset, item in
+                                    VStack(spacing: 16) {
+                                        DDResultRow(plan: item, action: {
+                                            store.send(.planCellTapped(planId: item.planId))
+                                        })
+                                        if offset < groupItem.plans.count - 1 {
+                                            DDFeedbackRow(result: item.feedbackType, title: item.guide)
+                                        }
+                                    }
+                                    .id("\(item.planId)-\(groupItem.dateGroup)")
+                                }
+                            }
+                            if store.historyCount > 0 {
+                                Spacer()
+                                    .frame(height: 16)
+                            }
+                        }
+                        .padding(.horizontal, 16)
+                    }
+                    .onChange(of: store.scrollId) { scrollId in
+                      
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            withAnimation {
+                                proxy.scrollTo(scrollId, anchor: .top)
+                            }
+                        }
+                    }
                 }
             } else {
                 content
             }
-            
         }
     }
     

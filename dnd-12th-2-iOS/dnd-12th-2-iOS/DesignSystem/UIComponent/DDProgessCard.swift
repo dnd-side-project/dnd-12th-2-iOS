@@ -53,13 +53,14 @@ struct DDProgessCard: View {
     }
 }
 
-struct LinearProgressView<Shape: SwiftUI.Shape>: View {
+struct LinearProgressView<Shape: SwiftUI.Shape>: View {    
     var shape: Shape
+    var fillColor = Color.gray50
     let value: Double
     
     var body: some View {
         VStack {
-            shape.fill(.gray50)
+            shape.fill(fillColor)
                 .overlay(alignment: .leading) {
                     GeometryReader { proxy in
                         shape.fill(Color.purple500)

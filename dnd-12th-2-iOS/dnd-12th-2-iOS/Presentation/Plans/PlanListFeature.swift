@@ -13,17 +13,20 @@ struct PlanListFeature {
     @ObservableState
     struct State {
         var plans: [PlanGroup] = []
+        var scrollId = ""
         var historyCount: Int {
             plans.flatMap{ $0.plans }.count
         }
     }
     
     enum Action {
-        case fetchPlans(goalId: Int, date: String)
+        case fetchPlans(goalId: Int, date: String, range: Int)
         case fetchPlansResponse([PlanGroup])
         
         case planCellTapped(planId: Int)
         case createButtonTapped
+        
+        case calendarCellTapped(groupId: String)
     }
     
     @Dependency(\.goalClient) var goalClient
@@ -31,12 +34,15 @@ struct PlanListFeature {
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
-            case let .fetchPlans(goalId, date):                
+            case let .calendarCellTapped(groupId):
+                state.scrollId = groupId
+                return .none
+            case let .fetchPlans(goalId, date, range):
                 return .run { send in
-                    let result = try await goalClient.fetchPlans(goalId, date)
+                    let result = try await goalClient.fetchPlans(goalId, date, range)
                     await send(.fetchPlansResponse(result))
                 }
-            case let .fetchPlansResponse(response):
+            case let .fetchPlansResponse(response):                
                 state.plans = response
                 return .none
             default:
