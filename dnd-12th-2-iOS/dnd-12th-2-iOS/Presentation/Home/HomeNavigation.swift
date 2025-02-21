@@ -14,7 +14,7 @@ struct HomeNavigation {
         case selecteScreen(FeedbackFeature)
         case completeScreen(FeedbackFeature)
         case resultScreen(FeedbackFeature)
-        case goalScreen(GoalFeature)
+        case goalScreen(InitialGoalFeature)
     }
     @ObservableState
     struct State {
