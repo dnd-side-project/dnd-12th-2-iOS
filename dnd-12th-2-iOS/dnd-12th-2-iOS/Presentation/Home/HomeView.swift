@@ -9,7 +9,6 @@ import SwiftUI
 import ComposableArchitecture
 
 struct HomeView: View {
-    @State var isShowSheet = false
     @State var isShowMenu = false
     @Perception.Bindable var store: StoreOf<HomeNavigation>
     
@@ -24,25 +23,26 @@ struct HomeView: View {
                 Spacer()
                     .frame(height: 16)
                 
-                PlanListView(store: store.scope(state: \.plan, action: \.plan))
-                    .overlay(alignment: .bottomTrailing, content: {                        
-                        DDFloatingButton {
-                            store.send(.createButtonTapped)
+                PlanListView(store: store.scope(state: \.plan, action: \.plan), isScroll: store.plan.historyCount > 2)
+                    .overlay(alignment: .bottomTrailing, content: {
+                        if store.plan.historyCount > 2 {
+                            DDFloatingButton {
+                                store.send(.createButtonTapped)
+                            }
+                            .offset(x: -16, y: -25)
                         }
-                        .offset(x: -16, y: -25)
-                    })
+                })
+                .layoutPriority(store.plan.historyCount > 0 ? 1 : 0)
                 
-                // 계획이 3개 이하인 경우에 placeHolder 처리
-//                if store.plan.plans.count < 3 {
-//                    Spacer()
-//                        .frame(height: 16)
-//                    
-//                    PlaceholderView(imageName: store.plan.plans.count == 2 ? "placeholderImageSmall" : "placeholderImage" ,action: {
-//                        store.send(.createButtonTapped)
-//                    })
-//                    .padding(.horizontal, 16)
-//                    .padding(.bottom, 16)
-//                }
+                 // 계획이 3개 이하인 경우에 placeHolder 처리
+                if store.plan.historyCount < 3 {
+                    PlaceholderView(imageName: store.plan.historyCount == 2 ? "placeholderImageSmall" : "placeholderImage" ,action: {
+                        store.send(.createButtonTapped)
+                    })
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 16)
+                    .layoutPriority(store.plan.historyCount > 0 ? 0 : 1)
+                }
                 Spacer()
                     .frame(height: 16)
             }

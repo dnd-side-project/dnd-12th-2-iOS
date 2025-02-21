@@ -13,6 +13,9 @@ struct PlanListFeature {
     @ObservableState
     struct State {
         var plans: [PlanGroup] = []
+        var historyCount: Int {
+            plans.flatMap{ $0.plans }.count
+        }
     }
     
     enum Action {
