@@ -27,7 +27,7 @@ struct DDProgessCard: View {
                 
                 VStack {
                     VStack(spacing: 8) {
-                        Text("성공률")
+                        Text("계획 완료율")
                             .font(.pretendard(size: 14, weight: .medium))
                             .foregroundStyle(Color.gray600)
                             .frame(maxWidth: .infinity, alignment: .leading)

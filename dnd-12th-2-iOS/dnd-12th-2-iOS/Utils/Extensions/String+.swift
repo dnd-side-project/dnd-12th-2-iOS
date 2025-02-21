@@ -17,4 +17,16 @@ extension String {
             formatter.dateFormat = "yyyy-MM-dd"        
             return formatter.date(from: self) ?? Date()
         }
+    
+    func toTimeFormat(inputFormat: String = "yyyy-MM-dd HH:mm:ss", outputFormat: String = "HH:mm") -> String {
+           let dateFormatter = DateFormatter()
+           dateFormatter.locale = Locale(identifier: "ko_KR")
+           dateFormatter.timeZone = TimeZone.current
+           dateFormatter.dateFormat = inputFormat
+           
+           guard let date = dateFormatter.date(from: self) else { return "00:00" }
+           
+           dateFormatter.dateFormat = outputFormat
+           return dateFormatter.string(from: date)
+       }
 }

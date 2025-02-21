@@ -34,7 +34,7 @@ struct PlanListView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 ForEach(Array(groupItem.plans.enumerated()), id: \.element.planId) { offset, item in
                     VStack(spacing: 16) {
-                        DDResultRow(result: item.resultType, title: item.title, action: {
+                        DDResultRow(plan: item, action: {
                             store.send(.planCellTapped(planId: item.planId))
                         })
                         if offset != groupItem.plans.count - 1  {

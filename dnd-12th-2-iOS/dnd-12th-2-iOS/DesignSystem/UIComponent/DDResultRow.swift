@@ -8,22 +8,17 @@
 import SwiftUI
 
 struct DDResultRow: View {
-    let result: Plan.ResultType
-    let title: String
+    let plan: Plan
     let action: () -> Void
     
-    init(result: Plan.ResultType,
-         title: String,
-         action: @escaping () -> Void) {
-        self.result = result
-        self.title = title
-        self.action = action
+    var timeFormat: String {
+        "\(plan.startDate.toTimeFormat()) ~ \(plan.endDate.toTimeFormat())"
     }
     
     var body: some View {
         VStack {
             HStack(spacing: 0) {
-                result.image
+                plan.resultType.image
                     .resizable()
                     .scaledToFit()
                     .frame(width: 40, height: 40)
@@ -32,11 +27,11 @@ struct DDResultRow: View {
                         action()
                     }
                 VStack(alignment: .leading, spacing: 0) {
-                    Text(result.title)
+                    Text(plan.resultType == .ready ? "\(timeFormat) 실행하셨나요?" :  timeFormat )
                         .font(.pretendard(size: 12, weight: .medium), lineHeight: 14)
-                        .foregroundStyle(result.titleColor)
+                        .foregroundStyle(plan.resultType.titleColor)
                         .padding(.bottom, 1)
-                    Text(title)
+                    Text(plan.title)
                         .font(.pretendard(size: 14, weight: .semibold), lineHeight: 24)
                         .foregroundStyle(.gray900)
                 }
@@ -49,7 +44,7 @@ struct DDResultRow: View {
             .padding(.vertical, 14)
             .padding(.horizontal, 12)
         }
-        .background(result.backgroundColor)
+        .background(plan.resultType.backgroundColor)
         .cornerRadius(12)
     }
 }
