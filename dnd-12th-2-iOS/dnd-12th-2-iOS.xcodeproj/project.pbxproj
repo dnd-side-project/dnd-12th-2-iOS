@@ -11,14 +11,10 @@
 		47F57E8B2D6205AB0043983D /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 47F57E8A2D6205AB0043983D /* Moya */; };
 		47F57E8D2D6205AB0043983D /* ReactiveMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 47F57E8C2D6205AB0043983D /* ReactiveMoya */; };
 		47F57E8F2D6205AB0043983D /* RxMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 47F57E8E2D6205AB0043983D /* RxMoya */; };
-		FB75C91C2D673C0800CCC4E8 /* Secrets-dev.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = FB75C91A2D673C0800CCC4E8 /* Secrets-dev.xcconfig */; };
-		FB75C91D2D673C0800CCC4E8 /* Secrets-prod.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = FB75C91B2D673C0800CCC4E8 /* Secrets-prod.xcconfig */; };
 		FB8E733C2D40CCCB005F935D /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = FB8E733B2D40CCCB005F935D /* ComposableArchitecture */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		FB75C91A2D673C0800CCC4E8 /* Secrets-dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Secrets-dev.xcconfig"; sourceTree = "<group>"; };
-		FB75C91B2D673C0800CCC4E8 /* Secrets-prod.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Secrets-prod.xcconfig"; sourceTree = "<group>"; };
 		FB8E73282D40CB60005F935D /* dnd-12th-2-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "dnd-12th-2-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -64,8 +60,6 @@
 		FB8E731F2D40CB60005F935D = {
 			isa = PBXGroup;
 			children = (
-				FB75C91A2D673C0800CCC4E8 /* Secrets-dev.xcconfig */,
-				FB75C91B2D673C0800CCC4E8 /* Secrets-prod.xcconfig */,
 				FB8E732A2D40CB60005F935D /* dnd-12th-2-iOS */,
 				FB8E73292D40CB60005F935D /* Products */,
 			);
@@ -152,8 +146,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB75C91C2D673C0800CCC4E8 /* Secrets-dev.xcconfig in Resources */,
-				FB75C91D2D673C0800CCC4E8 /* Secrets-prod.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,7 +164,8 @@
 /* Begin XCBuildConfiguration section */
 		FB8E73342D40CB63005F935D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FB75C91A2D673C0800CCC4E8 /* Secrets-dev.xcconfig */;
+			baseConfigurationReferenceAnchor = FB8E732A2D40CB60005F935D /* dnd-12th-2-iOS */;
+			baseConfigurationReferenceRelativePath = "Secrets-dev.xcconfig";
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -236,7 +229,8 @@
 		};
 		FB8E73352D40CB63005F935D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FB75C91B2D673C0800CCC4E8 /* Secrets-prod.xcconfig */;
+			baseConfigurationReferenceAnchor = FB8E732A2D40CB60005F935D /* dnd-12th-2-iOS */;
+			baseConfigurationReferenceRelativePath = "Secrets-prod.xcconfig";
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -293,7 +287,8 @@
 		};
 		FB8E73372D40CB63005F935D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FB75C91A2D673C0800CCC4E8 /* Secrets-dev.xcconfig */;
+			baseConfigurationReferenceAnchor = FB8E732A2D40CB60005F935D /* dnd-12th-2-iOS */;
+			baseConfigurationReferenceRelativePath = "Secrets-dev.xcconfig";
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -339,7 +334,8 @@
 		};
 		FB8E73382D40CB63005F935D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FB75C91B2D673C0800CCC4E8 /* Secrets-prod.xcconfig */;
+			baseConfigurationReferenceAnchor = FB8E732A2D40CB60005F935D /* dnd-12th-2-iOS */;
+			baseConfigurationReferenceRelativePath = "Secrets-prod.xcconfig";
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
