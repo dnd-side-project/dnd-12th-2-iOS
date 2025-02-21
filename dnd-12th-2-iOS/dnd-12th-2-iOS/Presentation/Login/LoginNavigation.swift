@@ -16,8 +16,9 @@ struct LoginNavigation {
         case onboadingScreen(OnboardingFeature)
         case goalScreen(InitialGoalFeature)
         case resultScreen(GoalFeature)
+        case initialGoalScreen(InitialGoalFeature)
     }
-        
+    
     @ObservableState
     struct State {
         // Navigation Path
@@ -60,12 +61,14 @@ struct LoginNavigation {
             case let .path(action):
                 switch action {
                 case .element(id: _, action: .onboadingScreen(.completeButtonTapped)):
-                    state.path.append(.goalScreen(.init()))
+                    state.path.append(.initialGoalScreen(.init()))
                     return .none
                 case .element(id: _, action: .goalScreen(.completeButtonTapped)):
                     state.path.append(.resultScreen(.init()))
                     return .none
                 case .element(id: _, action: .resultScreen(.resultButtonTapped)):
+                    return .send(.goToGoalSetting)
+                case .element(id: _, action: .initialGoalScreen(.completeButtonTapped)):
                     return .send(.goToMain)
                 default:
                     return .none
@@ -75,6 +78,7 @@ struct LoginNavigation {
             }
         }
         .forEach(\.path, action: \.path)
+        ._printChanges()
     }
 }
 
