@@ -9,10 +9,7 @@ import SwiftUI
 import ComposableArchitecture
 
 struct GoalView: View {
-    let store: StoreOf<GoalFeature>
-    @State var text = ""
-    @State var isStartTimeToggle = false
-    @State var isEndTimeToggle = false
+    @Perception.Bindable var store: StoreOf<InitialGoalFeature>
     
     var body: some View {
         WithPerceptionTracking {
@@ -23,8 +20,8 @@ struct GoalView: View {
                             .font(.pretendard(size: 18, weight: .semibold))
                             .foregroundStyle(Color.gray900)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                        DDRoundTextFiled(text: $text)
-                        Text("Tip 목표가 부담스럽다면 3개월 안에 실천할 수 있는 목표를 \n생각해보세요!".splitCharacter())
+                        DDRoundTextFiled(text: $store.goalTitle)
+                        Text(store.newGoalGuide)
                             .font(.pretendard(size: 14, weight: .medium))
                             .foregroundStyle(Color.purple500)
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -36,8 +33,8 @@ struct GoalView: View {
                             .font(.pretendard(size: 18, weight: .semibold))
                             .foregroundStyle(Color.gray900)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                        DDRoundTextFiled(text: $text)
-                        Text("TIp! 할 일이 많다면, 가장 쉬운 것부터 시작해보세요!")
+                        DDRoundTextFiled(text: $store.planTitle)
+                        Text(store.newPlanGuide)
                             .font(.pretendard(size: 14, weight: .medium))
                             .foregroundStyle(Color.purple500)
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -49,7 +46,7 @@ struct GoalView: View {
                             .foregroundStyle(Color.gray900)
                             .frame(maxWidth: .infinity, alignment: .leading)
                         Spacer().frame(height: 12)
-                        Text("오늘 22:28 ~ 23:42")
+                        Text(formatDateRange(start: store.startDate, end: store.endDate))
                             .font(.pretendard(size: 14, weight: .medium), lineHeight: 21)
                             .foregroundStyle(Color.gray500)
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -62,18 +59,22 @@ struct GoalView: View {
                                 .foregroundStyle(Color.gray600)
                             Spacer()
                             Button(action: {
-                                isEndTimeToggle = false
-                                isStartTimeToggle.toggle()
+                                store.send(.toggleStartTime)
                             }, label: {
-                                Text("오늘 22:28")
+                                Text(store.startDate.formatted(date: .omitted, time: .shortened))
                                     .font(.pretendard(size: 14, weight: .medium), lineHeight: 21)
                                     .foregroundStyle(Color.purple800)
                                 Image(.iconUp)
-                                    .rotationEffect(.degrees(isStartTimeToggle ? 0 : 180))
+                                    .rotationEffect(.degrees(store.isStartTimeToggle ? 0 : 180))
                             })
                         }
-                        if isStartTimeToggle {
-                            DDatePicker()
+                        if store.isStartTimeToggle {
+                            DDatePicker(date: Binding(
+                                get: { store.startDate },
+                                set: { store.send(.setStartDate($0)) }
+                            ), onDateChange: { newDate in
+                                store.send(.setStartDate(newDate))
+                            })
                         }
                         Spacer().frame(height: 8)
                         HStack {
@@ -82,24 +83,28 @@ struct GoalView: View {
                                 .foregroundStyle(Color.gray600)
                             Spacer()
                             Button(action: {
-                                isStartTimeToggle = false
-                                isEndTimeToggle.toggle()
+                                store.send(.toggleEndTime)
                             }, label: {
-                                Text("오늘 22:28")
+                                Text(store.endDate.formatted(date: .omitted, time: .shortened))
                                     .font(.pretendard(size: 14, weight: .medium), lineHeight: 21)
                                     .foregroundStyle(Color.purple800)
                                 Image(.iconUp)
-                                    .rotationEffect(.degrees(isEndTimeToggle ? 0 : 180))
+                                    .rotationEffect(.degrees(store.isEndTimeToggle ? 0 : 180))
                             })
                         }
-                        if isEndTimeToggle {
-                            DDatePicker()
+                        if store.isEndTimeToggle {
+                            DDatePicker(date: Binding(
+                                get: { store.endDate },
+                                set: { store.send(.setEndDate($0)) }
+                            ), onDateChange: { newDate in
+                                store.send(.setEndDate(newDate))
+                            })
                         }
                     }
                 }
                 .padding(16)
-                .offset(y: isStartTimeToggle ? -16.0 : 0.0)
-                .animation(.easeInOut(duration: 0.3), value: isStartTimeToggle)
+                .offset(y: store.isStartTimeToggle ? -16.0 : 0.0)
+                .animation(.easeInOut(duration: 0.3), value: store.isStartTimeToggle)
                 .onTapGesture {
                     UIApplication.shared.hideKeyboard()
                 }
@@ -109,15 +114,36 @@ struct GoalView: View {
             DDButton(action: {
                 store.send(.completeButtonTapped)
             })
-                .padding(.horizontal, 16)
-                .padding(.bottom, 8)
+            .padding(.horizontal, 16)
+            .padding(.bottom, 8)
         }
-        
         .navigationBar(left: {
             DDBackButton(action: {})
         })
+        .onAppear {
+            store.send(.getTips)
+        }
+    }
+    
+    private func formatDateRange(start: Date, end: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        let startString = formatter.string(from: start)
+        let endString = formatter.string(from: end)
+        
+        let dayFormatter = DateFormatter()
+        dayFormatter.dateFormat = "M월 d일"
+        
+        if Calendar.current.isDateInToday(start) {
+            return "오늘 \(startString) ~ \(endString)"
+        } else if Calendar.current.isDateInTomorrow(start) {
+            return "내일 \(startString) ~ \(endString)"
+        } else {
+            return "\(dayFormatter.string(from: start)) \(startString) ~ \(endString)"
+        }
     }
 }
+
 
 //#Preview {
 //    GoalSettingView()

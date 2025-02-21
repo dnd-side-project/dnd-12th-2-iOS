@@ -39,14 +39,14 @@ struct RootFeature {
                 state = .loggedIn(.init())
                 return .none
             case .loginCheck(.loginComplete):
-                state = .onboarding(.init())
+                state = .loggedOut((.init(isOnboarding: true)))
                 return .none
             case .loginCheck(.loginNotComplete):
                 state = .loggedOut(.init())
                 return .none
-            case .onboarding(.completeButtonTapped):
-                state = .loggedIn(.init())
-                return .none
+//            case .onboarding(.completeButtonTapped):
+//                state = .loggedIn(.init())
+//                return .none
             default:
                 return .none
             }
