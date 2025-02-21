@@ -4,7 +4,7 @@
 //
 //  Created by 권석기 on 2/15/25.
 //
-
+import Foundation
 import ComposableArchitecture
 
 @Reducer
@@ -19,23 +19,78 @@ struct HomeNavigation {
     @ObservableState
     struct State {
         var path = StackState<Path.State>()
+        var goal = GoalListFeature.State()
+        var plan = PlanListFeature.State()
+        var calendar = CalendarFeature.State()
+        var isShowSheet = false
+        var hasAppeared = false
     }
     
-    enum Action {
+    enum Action: BindableAction {
+        // binding
+        case binding(BindingAction<State>)
+        
+        // action
+        case presentSheet
+        case viewAppear
+        case createButtonTapped
+        
+        // navigation
         case path(StackActionOf<Path>)
-        case completeButtonTapped
-        case goToGoalScreen
+        
+        // features
+        case goal(GoalListFeature.Action)
+        case plan(PlanListFeature.Action)
+        case calendar(CalendarFeature.Action)
     }
     
     var body: some Reducer<State, Action> {
+        Scope(state: \.goal, action: \.goal) {
+            GoalListFeature()
+        }
+        Scope(state: \.plan, action: \.plan) {
+            PlanListFeature()
+        }
+        Scope(state: \.calendar, action: \.calendar) {
+            CalendarFeature()
+        }
+        BindingReducer()
+        
         Reduce { state, action in
             switch action {
-            case .completeButtonTapped:
+            case .presentSheet:
+                state.isShowSheet = true
+                return .none
+            case let .goal(.cardTapped(goalId)):
+                state.isShowSheet = false
+                return .none
+            case .viewAppear:
+                if state.hasAppeared {
+                    return .none
+                } else {
+                    state.hasAppeared = true
+                    return .send(.goal(.fetchGoals))
+                }
+            // 날짜 선택시 게획리스트 받아오기
+            case let .calendar(.dayCellTapped(goalId, date)):
+                return .concatenate([
+                    .send(.plan(.fetchPlans(goalId: goalId, date: date, range: 7))),
+                    .send(.plan(.calendarCellTapped(groupId: date)))
+                ])
+            // 날짜에 따른 계획리스트 조회            
+            case let .goal(.goalSelected(goalId)):
+                let startWeek = Date().startOfWeek()?.toShortDateFormat() ?? ""
+                return .merge([
+                    .send(.calendar(.fetchStatistics(goalId: goalId))),
+                    .send(.plan(.fetchPlans(goalId: goalId, date: startWeek, range: 7)))
+                ])
+            case let .plan(.planCellTapped(planId)):
                 state.path.append(.selecteScreen(.init()))
                 return .none
-            case .goToGoalScreen:          
+            case .createButtonTapped:
                 state.path.append(.goalScreen(.init()))
                 return .none
+                // Navigation
             case let .path(action):
                 switch action {
                 case .element(id: _, action: .selecteScreen(.goToComplete)):
@@ -53,9 +108,12 @@ struct HomeNavigation {
                 default:
                     return .none
                 }
+                
+            default:
+                return .none
             }
         }
         .forEach(\.path, action: \.path)
-        ._printChanges()
+//        ._printChanges()
     }
 }

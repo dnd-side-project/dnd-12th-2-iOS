@@ -41,6 +41,8 @@ struct SplashFeature {
                     } else {
                         await send(.loginNotComplete)
                     }
+                } catch: { error, send in
+                    await send(.loginNotComplete)
                 }
             default:
                 return .none

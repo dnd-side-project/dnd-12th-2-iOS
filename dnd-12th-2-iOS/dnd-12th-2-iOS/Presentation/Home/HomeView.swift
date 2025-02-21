@@ -9,7 +9,6 @@ import SwiftUI
 import ComposableArchitecture
 
 struct HomeView: View {
-    @State var isShowSheet = false
     @State var isShowMenu = false
     @Perception.Bindable var store: StoreOf<HomeNavigation>
     
@@ -18,40 +17,40 @@ struct HomeView: View {
             WithPerceptionTracking {
                 Spacer()
                     .frame(height: 14)
-                DDWeekView()
-                    .padding(.horizontal, 16)
+                CalendarView(store: store.scope(state: \.calendar, action: \.calendar))
                 Divider()
                     .background(Color.gray200)
                 Spacer()
                     .frame(height: 16)
                 
-                ScrollView(showsIndicators: false) {
-                    LazyVStack(spacing: 16) {
-                        ForEach(0...10, id: \.self) { offset in
-                            VStack(spacing: 16) {
-                                let resultType: ResultType = [.fail, .ready, .success].randomElement()!
-                                DDResultRow(result: resultType, title: "오픽 신청하기", action: {
-                                    store.send(.completeButtonTapped)
-                                })
-                                if offset != 10 {
-                                    DDFeedbackRow(result: resultType == .fail ? .fail : .success, title: "다음에는 계획을 더 구체적으로 세워봐요!")
-                                }
+                PlanListView(store: store.scope(state: \.plan, action: \.plan), isScroll: store.plan.historyCount > 2)
+                    .overlay(alignment: .bottomTrailing, content: {
+                        if store.plan.historyCount > 2 {
+                            DDFloatingButton {
+                                store.send(.createButtonTapped)
                             }
+                            .offset(x: -16, y: -25)
                         }
-                        Spacer()
-                            .frame(height: 16)
-                    }
-                    .padding(.horizontal, 16)
-                }
-                .overlay(alignment: .bottomTrailing, content: {
-                    DDFloatingButton {
-                        store.send(.goToGoalScreen)
-                    }
-                        .offset(x: -16, y: -25)
                 })
+                .layoutPriority(store.plan.historyCount > 0 ? 1 : 0)
+                
+                 // 계획이 3개 이하인 경우에 placeHolder 처리
+                if store.plan.historyCount < 3 {
+                    PlaceholderView(imageName: store.plan.historyCount == 2 ? "placeholderImageSmall" : "placeholderImage" ,action: {
+                        store.send(.createButtonTapped)
+                    })
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 16)
+                    .layoutPriority(store.plan.historyCount > 0 ? 0 : 1)
+                }
+                Spacer()
+                    .frame(height: 16)
             }
-            .bottomSheet(isPresented: $isShowSheet, height: UIScreen.screenHeight * 0.7, content: {
-                GoalListView()
+            .onAppear {
+                store.send(.viewAppear)
+            }
+            .bottomSheet(isPresented: $store.isShowSheet, height: UIScreen.screenHeight * 0.7, content: {
+                GoalListView(store: store.scope(state: \.goal, action: \.goal))
             })
             .bottomSheet(isPresented: $isShowMenu, height: 210, content: {
                 VStack(spacing: 34) {
@@ -89,8 +88,8 @@ struct HomeView: View {
                 .padding(.vertical, 30)
             })
             .navigationBar(left: {
-                DDGoal(title: "오픽 AL받기", action: {
-                    isShowSheet = true
+                DDGoal(title: store.goal.selectedGoal.title, action: {
+                    store.send(.presentSheet)
                 })
             }, right: {
                 Button(action: {

@@ -17,10 +17,10 @@ struct dnd_12th_2_iOSApp: App {
             ContentView(store:  Store(initialState: RootFeature.State()) {
                 RootFeature()
             })
-            .onAppear {
-//                KeyChainManager.deleteItem(key: .accessToken)
-//                KeyChainManager.deleteItem(key: .refreshToken)
-            }
+//            .onAppear {
+//                KeyChainManager.addItem(key: .accessToken, value: SecretKey.apiKey)
+//                KeyChainManager.addItem(key: .refreshToken, value: SecretKey.apiKey)
+//            }
         }
     }
 }
