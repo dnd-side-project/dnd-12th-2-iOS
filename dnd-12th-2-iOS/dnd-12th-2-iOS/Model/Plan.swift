@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PlanGroup: Hashable {
-    let startDate: Date
+    let dateGroup: String
     let plans: [Plan]
 }
 

@@ -5,6 +5,11 @@
 //  Created by 권석기 on 2/19/25.
 //
 
+struct PlanGroupResponseDto: Decodable {
+    let historyId: Int
+    let plans: [PlanResponseDto]
+}
+
 struct PlanResponseDto: Decodable {
     let planId: Int
     let title: String

@@ -36,7 +36,7 @@ struct DDayCell: View {
         .background(isSelected ? Color.gray50: Color.clear)
         .cornerRadius(8)
         .overlay(alignment: .topTrailing){
-            if day.totalCount != 0 {
+            if day.totalCount != day.successCount {
                 Circle()
                     .frame(width: 8, height: 8)
                     .foregroundStyle(Color.red)

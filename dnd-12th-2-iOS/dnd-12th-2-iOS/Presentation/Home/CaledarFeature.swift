@@ -124,7 +124,7 @@ struct CalendarFeature {
                 return .none
             }
         }
-        ._printChanges()
+//        ._printChanges()
     }
     
     func makeWeek(startDate: Date) -> [Day] {

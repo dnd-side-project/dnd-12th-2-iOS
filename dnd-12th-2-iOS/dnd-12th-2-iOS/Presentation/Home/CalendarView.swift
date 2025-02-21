@@ -42,7 +42,7 @@ struct CalendarView: View {
                         ForEach(Array(store.days.enumerated()), id: \.offset) { offset, days in
                             VStack(spacing: 8) {
                                 HStack(spacing: 13) {
-                                    ForEach(Array(days.enumerated()), id: \.offset) { index, day in
+                                    ForEach(Array(days.enumerated()), id: \.element.date) { index, day in
                                         DDayCell(day: day, isSelected: store.cellIndex == index)
                                             .onTapGesture { _ in
                                                 store.send(.dayCellTapped(goalId: store.goalId, date: day.date.toShortDateFormat()))

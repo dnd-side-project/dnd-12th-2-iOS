@@ -111,6 +111,6 @@ struct HomeNavigation {
             }
         }
         .forEach(\.path, action: \.path)
-        ._printChanges()
+//        ._printChanges()
     }
 }

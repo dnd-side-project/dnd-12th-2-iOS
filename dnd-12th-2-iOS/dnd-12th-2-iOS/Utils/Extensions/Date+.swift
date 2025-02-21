@@ -6,7 +6,7 @@
 //
 import Foundation
 extension Date {
-    func toShortDateFormat() -> String {
+    func toShortDateFormat(timeFormat: String = "yyyy-MM-dd") -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         formatter.locale = Locale(identifier: "ko_KR")

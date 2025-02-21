@@ -11,10 +11,10 @@ extension String {
         return self.split(separator: "").joined(separator: "\u{200B}")
     }
     
-    func toDate() -> Date {
+    func toDate(timeFormat: String = "yyyy-MM-dd HH:mm:ss") -> Date {
             let formatter = DateFormatter()
             formatter.locale = Locale(identifier: "ko_KR")
-            formatter.dateFormat = "yyyy-MM-dd"        
+            formatter.dateFormat = timeFormat
             return formatter.date(from: self) ?? Date()
         }
     
