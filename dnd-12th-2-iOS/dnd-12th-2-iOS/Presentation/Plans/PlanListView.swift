@@ -21,6 +21,7 @@ struct PlanListView: View {
             } else {
                 content
             }
+            
         }
     }
     
@@ -43,10 +44,13 @@ struct PlanListView: View {
                 }
             }
             
-            Spacer()
-                .frame(height: 16)
+            if store.historyCount > 0 {
+                Spacer()
+                    .frame(height: 16)
+            }
         }
         .padding(.horizontal, 16)
+        //        .animation(.default, value: store.plans.count)
     }
 }
 
