@@ -23,6 +23,12 @@ struct LoginNavigation {
     struct State {
         // Navigation Path
         var path = StackState<Path.State>()
+        
+        init(isOnboarding: Bool = false) {
+            if isOnboarding {
+                self.path.append(.onboadingScreen(.init()))
+            }
+        }
     }
     
     enum Action {
