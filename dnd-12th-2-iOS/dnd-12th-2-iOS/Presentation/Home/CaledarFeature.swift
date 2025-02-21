@@ -19,6 +19,7 @@ struct CalendarFeature {
         var cellIndex = 0
         var startDate = Date()
         var goalId = 0
+        var hasAppeard = false
         init() {
             self.index = 1
             self.cellIndex = self.startDate.getWeekdayIndex()
@@ -114,10 +115,10 @@ struct CalendarFeature {
                     makeWeek(startDate: currentStartWeek),
                     makeWeek(startDate: nextStartWeek)
                 ]
-                state.index = 1 // index를 초기 인덱스로 설정
                 let currentWeek = state.days[state.index].first?.date ?? Date()
                 let lastWeek = state.days[state.index].last?.date ?? Date()
                 state.yeanAndMonth = getYearMonthString(from: [currentWeek, lastWeek])
+                state.hasAppeard = true
                 return .none
             default:
                 return .none

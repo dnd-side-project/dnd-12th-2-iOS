@@ -60,7 +60,11 @@ struct CalendarView: View {
                 .frame(maxWidth: .infinity)
             }
             .padding(.horizontal, 16)
-            .onAppear { store.send(.viewAppear) }
+            .onAppear {
+                if !store.hasAppeard {
+                    store.send(.viewAppear)
+                }
+            }
         }
     }
 }
