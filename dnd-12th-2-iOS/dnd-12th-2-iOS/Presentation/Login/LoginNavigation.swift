@@ -28,6 +28,7 @@ struct LoginNavigation {
     
     enum Action {
         case path(StackActionOf<Path>)
+        case loginButtonTapped
     }
     
     var body: some Reducer<State, Action> {
@@ -41,6 +42,10 @@ struct LoginNavigation {
                 default:
                     return .none
                 }
+            case .loginButtonTapped:
+                // TODO: 로그인한 유저 온보딩 완료여부 확인 처리
+                state.path.append(.goal(.init(goalType: .firstGoal)))
+                return .none
             }
         }.forEach(\.path, action: \.path)
     }

@@ -1,5 +1,5 @@
 //
-//  GoalView.swift
+//  MyPageView.swift
 //  dnd-12th-2-iOS
 //
 //  Created by 권석기 on 2/28/25.
@@ -8,20 +8,20 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct GoalView: View {
-    let store: StoreOf<MakeGoal>
+struct MyPageView: View {
+    let store: StoreOf<MyPage>
     var body: some View {
         VStack {
-            Text("목표설정")
+            Text("마이페이지")
             Button(action: {
-                store.send(.completeButtonTapped)
+                store.send(.logoutButtonTapped)
             }, label: {
-                Text("goToComplete")
+                Text("logout")
             })
         }
     }
 }
 
 //#Preview {
-//    GoalView()
+//    MyPageView()
 //}

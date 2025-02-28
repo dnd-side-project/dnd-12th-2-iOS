@@ -10,18 +10,30 @@ import ComposableArchitecture
 @Reducer
 struct HomeNavigation {
     @Reducer
-    enum Path {}
+    enum Path {
+        case myPage(MyPage)
+    }
     
-    struct State {}
-        
-    enum Action {}
+    @ObservableState
+    struct State {
+        var path = StackState<Path.State>()
+    }
+    
+    enum Action {
+        case path(StackActionOf<Path>)
+        case goToMyPage
+    }
     
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
+            case .goToMyPage:
+                state.path.append(.myPage(.init()))
+                return .none
             default:
                 return .none
             }
         }
+        .forEach(\.path, action: \.path)
     }
 }

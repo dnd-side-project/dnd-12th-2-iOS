@@ -12,7 +12,14 @@ struct LoginView: View {
     @Perception.Bindable var store: StoreOf<LoginNavigation>
     var body: some View {
         NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
-            Text("로그인뷰")
+            VStack {
+                Text("로그인뷰")
+                Button(action: {
+                    store.send(.loginButtonTapped)
+                }, label: {
+                    Text("Login")
+                })
+            }
         } destination: { store in
             switch store.case {
             case let .onboarding(store):

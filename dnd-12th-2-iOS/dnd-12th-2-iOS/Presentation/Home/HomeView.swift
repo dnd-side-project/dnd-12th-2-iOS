@@ -6,13 +6,31 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 struct HomeView: View {
+    @Perception.Bindable var store: StoreOf<HomeNavigation>
+    
     var body: some View {
-        Text("Hello, World!")
+        NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
+            VStack {
+                Text("홈뷰")
+                Button(action: {
+                    store.send(.goToMyPage)
+                }) {
+                    Text("goToMypage")
+                }
+            }
+        } destination: { store in
+            switch store.case {
+            case let .myPage(store):
+                MyPageView(store: store)
+            }
+        }
+
     }
 }
 
-#Preview {
-    HomeView()
-}
+//#Preview {
+//    HomeView()
+//}

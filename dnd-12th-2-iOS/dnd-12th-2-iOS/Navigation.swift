@@ -32,7 +32,7 @@ struct Navigation {
             case .loginCheck(.onboardingComplete):
                 state = .loggedIn(.init())
                 return .none
-                // 로그인완료 - 온보딩으로 이동
+                // 로그인완료
             case .loginCheck(.loginComplete):
                 state = .loggedOut(.init(isOnboarding: true))
                 return .none
@@ -43,6 +43,10 @@ struct Navigation {
                 // 첫목표 설정 완료시
             case .loggedOut(.path(.element(id: _, action: .goal(.goToMainView)))):
                 state = .loggedIn(.init())
+                return .none
+                // 마이페이지 로그아웃시
+            case .loggedIn(.path(.element(id: _, action: .myPage(.logoutButtonTapped)))):
+                state = .loggedOut(.init())
                 return .none
             default:
                 return .none

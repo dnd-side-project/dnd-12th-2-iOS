@@ -15,8 +15,8 @@ struct ContentView: View {
         SwitchStore(self.store) { state in
             switch state {
             case .loggedIn:
-                CaseLet(/Navigation.State.loggedIn, action: Navigation.Action.loggedIn) { _ in
-                    HomeView()
+                CaseLet(/Navigation.State.loggedIn, action: Navigation.Action.loggedIn) {
+                    HomeView(store: $0)
                 }
             case .loggedOut:
                 CaseLet(/Navigation.State.loggedOut, action: Navigation.Action.loggedOut) {
