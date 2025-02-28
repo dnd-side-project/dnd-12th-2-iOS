@@ -6,16 +6,22 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 struct OnboardingView: View {
+    let store: StoreOf<Onboarding>
     var body: some View {
         VStack {
-            Text("온보딩뷰")
+            Button(action: {
+                store.send(.goToGoalView)
+            }, label: {
+                Text("goToGoalView")
+            })
         }
         .navigationBarHidden(true)
     }
 }
 
-#Preview {
-    OnboardingView()
-}
+//#Preview {
+//    OnboardingView()
+//}

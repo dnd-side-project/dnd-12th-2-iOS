@@ -11,7 +11,8 @@ import ComposableArchitecture
 struct LoginNavigation {
     @Reducer
     enum Path {
-        case onboarding
+        case onboarding(Onboarding)
+        case goal(MakeGoal)
     }
     
     @ObservableState
@@ -20,7 +21,7 @@ struct LoginNavigation {
         
         init(isOnboarding: Bool = false) {
             if isOnboarding {
-                self.path.append(.onboarding)
+                self.path.append(.onboarding(.init()))
             }
         }
     }
@@ -32,8 +33,14 @@ struct LoginNavigation {
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
-            default:
-                return .none
+            case let .path(action):
+                switch action {
+                case .element(id: _, action: .onboarding(.goToGoalView)):
+                    state.path.append(.goal(.init(goalType: .firstGoal)))
+                    return .none                
+                default:
+                    return .none
+                }
             }
         }.forEach(\.path, action: \.path)
     }

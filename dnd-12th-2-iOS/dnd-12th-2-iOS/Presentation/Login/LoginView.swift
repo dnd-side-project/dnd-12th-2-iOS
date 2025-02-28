@@ -15,8 +15,10 @@ struct LoginView: View {
             Text("로그인뷰")
         } destination: { store in
             switch store.case {
-            case .onboarding:
-                OnboardingView()
+            case let .onboarding(store):
+                OnboardingView(store: store)
+            case let .goal(store):
+                GoalView(store: store)
             }
         }
 
