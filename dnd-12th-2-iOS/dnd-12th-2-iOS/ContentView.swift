@@ -9,26 +9,22 @@ import SwiftUI
 import ComposableArchitecture
 
 struct ContentView: View {
-    let store: StoreOf<RootFeature>
+    let store: StoreOf<Navigation>
     
     var body: some View {
         SwitchStore(self.store) { state in
             switch state {
-            case .loginCheck:
-                CaseLet(/RootFeature.State.loginCheck, action: RootFeature.Action.loginCheck) {
-                    SplashView(store: $0)
-                }
             case .loggedIn:
-                CaseLet(/RootFeature.State.loggedIn, action: RootFeature.Action.loggedIn) {
-                    MainTabView(store: $0)
+                CaseLet(/Navigation.State.loggedIn, action: Navigation.Action.loggedIn) {
+                    HomeView(store: $0)
                 }
             case .loggedOut:
-                CaseLet(/RootFeature.State.loggedOut, action: RootFeature.Action.loggedOut) {
-                    LoginView(store: $0)                       
+                CaseLet(/Navigation.State.loggedOut, action: Navigation.Action.loggedOut) {
+                    LoginView(store: $0)
                 }
-            case .onboarding:
-                CaseLet(/RootFeature.State.onboarding, action: RootFeature.Action.onboarding) {
-                    OnboardingView(store: $0)
+            case .loginCheck:
+                CaseLet(/Navigation.State.loginCheck, action: Navigation.Action.loginCheck) {
+                    SplashView(store: $0)
                 }
             }
         }

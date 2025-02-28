@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		478670702D719112005216CF /* Secrets-prod.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 4786706F2D719112005216CF /* Secrets-prod.xcconfig */; };
+		478670722D71911D005216CF /* Secrets-dev.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 478670712D71911D005216CF /* Secrets-dev.xcconfig */; };
 		47F57E892D6205AB0043983D /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 47F57E882D6205AB0043983D /* CombineMoya */; };
 		47F57E8B2D6205AB0043983D /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 47F57E8A2D6205AB0043983D /* Moya */; };
 		47F57E8D2D6205AB0043983D /* ReactiveMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 47F57E8C2D6205AB0043983D /* ReactiveMoya */; };
@@ -15,6 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4786706F2D719112005216CF /* Secrets-prod.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Secrets-prod.xcconfig"; sourceTree = "<group>"; };
+		478670712D71911D005216CF /* Secrets-dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Secrets-dev.xcconfig"; sourceTree = "<group>"; };
 		FB8E73282D40CB60005F935D /* dnd-12th-2-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "dnd-12th-2-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -22,9 +26,9 @@
 		478783ED2D489B0B00D529E0 /* Exceptions for "dnd-12th-2-iOS" folder in "dnd-12th-2-iOS" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Client/.gitkeep,
 				Info.plist,
-				"Secrets-dev.xcconfig",
-				"Secrets-prod.xcconfig",
+				Model/.gitkeep,
 			);
 			target = FB8E73272D40CB60005F935D /* dnd-12th-2-iOS */;
 		};
@@ -60,6 +64,8 @@
 		FB8E731F2D40CB60005F935D = {
 			isa = PBXGroup;
 			children = (
+				478670712D71911D005216CF /* Secrets-dev.xcconfig */,
+				4786706F2D719112005216CF /* Secrets-prod.xcconfig */,
 				FB8E732A2D40CB60005F935D /* dnd-12th-2-iOS */,
 				FB8E73292D40CB60005F935D /* Products */,
 			);
@@ -146,6 +152,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				478670722D71911D005216CF /* Secrets-dev.xcconfig in Resources */,
+				478670702D719112005216CF /* Secrets-prod.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,8 +172,6 @@
 /* Begin XCBuildConfiguration section */
 		FB8E73342D40CB63005F935D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = FB8E732A2D40CB60005F935D /* dnd-12th-2-iOS */;
-			baseConfigurationReferenceRelativePath = "Secrets-dev.xcconfig";
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -229,8 +235,6 @@
 		};
 		FB8E73352D40CB63005F935D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = FB8E732A2D40CB60005F935D /* dnd-12th-2-iOS */;
-			baseConfigurationReferenceRelativePath = "Secrets-prod.xcconfig";
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -287,8 +291,6 @@
 		};
 		FB8E73372D40CB63005F935D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = FB8E732A2D40CB60005F935D /* dnd-12th-2-iOS */;
-			baseConfigurationReferenceRelativePath = "Secrets-dev.xcconfig";
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -334,8 +336,6 @@
 		};
 		FB8E73382D40CB63005F935D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = FB8E732A2D40CB60005F935D /* dnd-12th-2-iOS */;
-			baseConfigurationReferenceRelativePath = "Secrets-prod.xcconfig";
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

@@ -2,14 +2,14 @@
 //  SplashView.swift
 //  dnd-12th-2-iOS
 //
-//  Created by Allie on 2/9/25.
+//  Created by 권석기 on 2/28/25.
 //
 
 import SwiftUI
 import ComposableArchitecture
 
 struct SplashView: View {
-    let store: StoreOf<SplashFeature>
+    let store: StoreOf<LoginCheck>
     var body: some View {
         LaunchView()
         .ignoresSafeArea(.all)
