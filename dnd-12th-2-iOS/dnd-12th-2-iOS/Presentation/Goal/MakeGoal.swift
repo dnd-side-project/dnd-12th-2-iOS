@@ -30,6 +30,7 @@ struct MakeGoal {
     enum Action {
         case completeButtonTapped
         case goToMainView
+        case goToCompleteView
         case backButtonTapped
     }
     
@@ -39,7 +40,7 @@ struct MakeGoal {
             case .completeButtonTapped:
                 switch state.goalType {
                 case .firstGoal:
-                    return .send(.goToMainView)
+                    return .send(.goToCompleteView)
                 case .makeGoal:
                     return .send(.backButtonTapped)
                 case .makePlan:

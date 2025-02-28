@@ -12,6 +12,8 @@ struct OnboardingView: View {
     let store: StoreOf<Onboarding>
     var body: some View {
         VStack {
+            Text("온보딩뷰")
+                .font(.title)
             Button(action: {
                 store.send(.goToGoalView)
             }, label: {

@@ -15,6 +15,7 @@ struct HomeView: View {
         NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
             VStack {
                 Text("홈뷰")
+                    .font(.title)
                 Button(action: {
                     store.send(.goToMyPage)
                 }) {

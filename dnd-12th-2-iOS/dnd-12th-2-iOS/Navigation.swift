@@ -41,7 +41,7 @@ struct Navigation {
                 state = .loggedOut(.init())
                 return .none
                 // 첫목표 설정 완료시
-            case .loggedOut(.path(.element(id: _, action: .goal(.goToMainView)))):
+            case .loggedOut(.path(.element(id: _, action: .goalComplete(.goToMainView)))):
                 state = .loggedIn(.init())
                 return .none
                 // 마이페이지 로그아웃시

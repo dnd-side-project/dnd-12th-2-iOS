@@ -33,7 +33,7 @@ struct LoginCheck {
                     
 //                    let isOnboarding = try await userClient.fetchUserOnboarding()
 //                    let isLogin = KeyChainManager.readItem(key: .accessToken) != nil && KeyChainManager.readItem(key: .refreshToken) != nil
-                    let isOnboarding = false
+                    let isOnboarding = true
                     let isLogin = true
                     
                     if isOnboarding && isLogin {

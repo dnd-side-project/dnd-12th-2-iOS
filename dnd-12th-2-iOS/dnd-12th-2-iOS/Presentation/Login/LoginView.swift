@@ -14,6 +14,7 @@ struct LoginView: View {
         NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
             VStack {
                 Text("로그인뷰")
+                    .font(.title)
                 Button(action: {
                     store.send(.loginButtonTapped)
                 }, label: {
@@ -26,6 +27,8 @@ struct LoginView: View {
                 OnboardingView(store: store)
             case let .goal(store):
                 GoalView(store: store)
+            case let .goalComplete(store):
+                GoalCompleteView(store: store)
             }
         }
 
