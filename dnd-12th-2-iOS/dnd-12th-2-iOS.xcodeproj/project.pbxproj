@@ -23,8 +23,6 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
-				"Secrets-dev.xcconfig",
-				"Secrets-prod.xcconfig",
 			);
 			target = FB8E73272D40CB60005F935D /* dnd-12th-2-iOS */;
 		};
