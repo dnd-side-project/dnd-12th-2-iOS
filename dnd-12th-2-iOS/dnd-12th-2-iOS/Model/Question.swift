@@ -10,12 +10,6 @@ struct Answer: Hashable {
     let answerId: Int
     let content: String
     var isSelected: Bool = false
-    
-    
-    mutating func toggle() -> Answer {
-        self.isSelected = false
-        return self
-    }
 }
 
 struct Question: Hashable {

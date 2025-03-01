@@ -12,6 +12,7 @@ struct LoginNavigation {
     @Reducer
     enum Path {
         case onboarding(Onboarding)
+        case complete(Onboarding)
         case goal(MakeGoal)
         case goalComplete(MakeGoal)
     }
@@ -37,6 +38,9 @@ struct LoginNavigation {
             switch action {
             case let .path(action):
                 switch action {
+                case let .element(id: _, action: .onboarding(.goToResultView(onboarding))):
+                    state.path.append(.complete(onboarding))
+                    return .none
                 case .element(id: _, action: .onboarding(.goToGoalView)):
                     state.path.append(.goal(.init(goalType: .firstGoal)))
                     return .none
@@ -47,7 +51,7 @@ struct LoginNavigation {
                     return .none
                 }
             case .loginButtonTapped:
-                // TODO: 로그인한 유저 온보딩 완료여부 확인 처리                
+                // TODO: 로그인한 유저 온보딩 완료여부 확인 처리
                 state.path.append(.onboarding(.init()))
                 return .none
             }

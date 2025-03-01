@@ -12,15 +12,18 @@ struct DDRow: View {
     let width: CGFloat
     let height: CGFloat
     let isSelected: Bool
+    let action: () -> Void
 
     init(title: String,
          width: CGFloat = .infinity,
          height: CGFloat = 60,
-         isSelected: Bool = false) {
+         isSelected: Bool = false,
+         action: @escaping () -> Void) {
         self.title = title
         self.width = width
         self.height = height
         self.isSelected = isSelected
+        self.action = action
     }
     
     var body: some View {
@@ -45,5 +48,8 @@ struct DDRow: View {
         )
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .animation(.easeInOut, value: isSelected)
+        .onTapGesture {
+            action()
+        }
     }
 }
