@@ -2,89 +2,55 @@
 //  LoginNavigation.swift
 //  dnd-12th-2-iOS
 //
-//  Created by 권석기 on 2/15/25.
+//  Created by 권석기 on 2/28/25.
 //
 
 import ComposableArchitecture
-import AuthenticationServices
 
 @Reducer
 struct LoginNavigation {
-    // Navigation
     @Reducer
     enum Path {
-        case onboadingScreen(OnboardingFeature)
-        case goalScreen(InitialGoalFeature)
-        case resultScreen(GoalFeature)
-        case initialGoalScreen(InitialGoalFeature)
+        case onboarding(Onboarding)
+        case goal(MakeGoal)
+        case goalComplete(MakeGoal)
     }
     
     @ObservableState
     struct State {
-        // Navigation Path
         var path = StackState<Path.State>()
         
         init(isOnboarding: Bool = false) {
             if isOnboarding {
-                self.path.append(.onboadingScreen(.init()))
+                self.path.append(.onboarding(.init()))
             }
         }
     }
     
     enum Action {
         case path(StackActionOf<Path>)
-        case goToOnboading
-        case goToGoalSetting
-        case goToMain
-        case appleLoginButtonTapped(ASAuthorization)
-        case appleLoginComplete(AppleLoginResDto)
+        case loginButtonTapped
     }
-    
-    @Dependency(\.authClient) var authClient
     
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
-            case let .appleLoginButtonTapped(authorization):
-                guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential,
-                      let IdentityToken = String(data: appleIDCredential.identityToken!, encoding: .utf8) else {
-                    return .none
-                }
-                return .run { send in
-                    let result = try await authClient.signIn(IdentityToken)
-                    await send(.appleLoginComplete(result))
-                }
-            case let .appleLoginComplete(response):
-                // 키체인 저장
-                KeyChainManager.addItem(key: .accessToken, value: response.jwtTokenDto.accessToken)
-                KeyChainManager.addItem(key: .refreshToken, value: response.jwtTokenDto.refreshToken)
-                return .send(.goToMain)
-            case .goToGoalSetting:
-                return .none
-            case .goToOnboading:
-                state.path.append(.onboadingScreen(.init()))
-                return .none
             case let .path(action):
                 switch action {
-                case .element(id: _, action: .onboadingScreen(.completeButtonTapped)):
-                    state.path.append(.initialGoalScreen(.init()))
+                case .element(id: _, action: .onboarding(.goToGoalView)):
+                    state.path.append(.goal(.init(goalType: .firstGoal)))
                     return .none
-                case .element(id: _, action: .goalScreen(.completeButtonTapped)):
-                    state.path.append(.resultScreen(.init()))
+                case .element(id: _, action: .goal(.goToCompleteView)):
+                    state.path.append(.goalComplete(.init()))
                     return .none
-                case .element(id: _, action: .resultScreen(.resultButtonTapped)):
-                    return .send(.goToGoalSetting)
-                case .element(id: _, action: .initialGoalScreen(.completeButtonTapped)):
-                    return .send(.goToMain)
                 default:
                     return .none
                 }
-            default:
+            case .loginButtonTapped:
+                // TODO: 로그인한 유저 온보딩 완료여부 확인 처리                
+                state.path.append(.onboarding(.init()))
                 return .none
             }
-        }
-        .forEach(\.path, action: \.path)
-        ._printChanges()
+        }.forEach(\.path, action: \.path)
     }
 }
-
