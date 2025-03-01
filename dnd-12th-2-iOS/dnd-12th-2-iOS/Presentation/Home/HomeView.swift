@@ -12,20 +12,22 @@ struct HomeView: View {
     @Perception.Bindable var store: StoreOf<HomeNavigation>
     
     var body: some View {
-        NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
-            VStack {
-                Text("홈뷰")
-                    .font(.title)
-                Button(action: {
-                    store.send(.goToMyPage)
-                }) {
-                    Text("goToMypage")
+        WithPerceptionTracking {
+            NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
+                VStack {
+                    Text("홈뷰")
+                        .font(.title)
+                    Button(action: {
+                        store.send(.goToMyPage)
+                    }) {
+                        Text("goToMypage")
+                    }
                 }
-            }
-        } destination: { store in
-            switch store.case {
-            case let .myPage(store):
-                MyPageView(store: store)
+            } destination: { store in
+                switch store.case {
+                case let .myPage(store):
+                    MyPageView(store: store)
+                }
             }
         }
 

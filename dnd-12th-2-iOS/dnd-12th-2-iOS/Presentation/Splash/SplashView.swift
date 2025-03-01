@@ -11,10 +11,12 @@ import ComposableArchitecture
 struct SplashView: View {
     let store: StoreOf<LoginCheck>
     var body: some View {
-        LaunchView()
-        .ignoresSafeArea(.all)
-        .onAppear {
-            store.send(.loginCheck)
+        WithPerceptionTracking {
+            LaunchView()
+            .ignoresSafeArea(.all)
+            .onAppear {
+                store.send(.loginCheck)
+            }
         }
     }
 }

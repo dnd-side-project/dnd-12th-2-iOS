@@ -9,19 +9,89 @@ import ComposableArchitecture
 
 @Reducer
 struct Onboarding {
-    struct State {}
-    
-    enum Action {
-        case goToGoalView
+    @ObservableState
+    struct State {
+        var questionnaire = Questionnaire.State()
+        
+        var isLastPage: Bool {
+            questionnaire.currentStep >= questionnaire.questions.count - 1
+        }
+        
+        var isFirstPage: Bool {
+            questionnaire.currentStep == 0
+        }
     }
     
+    enum Action {
+        // 첫목표설정으로 이동
+        case goToGoalView
+        
+        // 온보딩 완료시 결과화면이동
+        case goToResultView(Onboarding.State)
+        
+        // 이전화면 이동
+        case backButtonTapped
+        
+        case viewAppear
+        
+        // 다음질문지로 이동
+        case goToNextPage
+        
+        // 이전질문지로 이동
+        case goToPrevPage
+        
+        // 답변선택
+        case answerTapped(answerId: Int)
+        
+        // 질문지 받아오기
+        case fetchQuestion
+        
+        // 질문지 받아오기 응답
+        case fetchQuestionResponse([Question])
+        
+        // 온보딩 데이터 생성
+        case createOnboardingRequest
+        case questionnaire(Questionnaire.Action)
+    }
+    
+    @Dependency(\.userClient) var userClient
+    
     var body: some Reducer<State, Action> {
+        Scope(state: \.questionnaire, action: \.questionnaire) {
+            Questionnaire()
+        }
         Reduce { state, action in
             switch action {
+            case .createOnboardingRequest:
+                return .run { [state] send in
+                    try await userClient.createOnboarding(state.questionnaire.questions)
+                    await send(.goToGoalView)
+                } catch: { error, send in
+                    print(error.localizedDescription)
+                }
+            case .fetchQuestion:
+                return .run { send in
+                    let response = try await userClient.fetchQuestion()
+                    await send(.fetchQuestionResponse(response))
+                }
+            case let .fetchQuestionResponse(questions):
+                state.questionnaire = .init(question: questions)
+                return .none
+            case .viewAppear:
+                return .send(.fetchQuestion)
+            case .goToNextPage:
+                if state.isLastPage {
+                    return .send(.goToResultView(state))
+                } else {
+                    return .send(.questionnaire(.incrementStep))
+                }
+            case .goToPrevPage:
+                return .send(.questionnaire(.decrementStep))
+            case let .answerTapped(answerId):
+                return .send(.questionnaire(.answerTapped(answerId: answerId)))
             default:
                 return .none
             }
         }
     }
-
 }
