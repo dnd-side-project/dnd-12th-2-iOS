@@ -27,19 +27,24 @@ struct QuestionForm: View {
                     .padding(.top, 12)
                 
                 VStack(spacing: 12) {
-                    ForEach(store.questions[store.currentStep].answers, id: \.self) { answer in
+                    ForEach(Array(store.questions[store.currentStep].answers.enumerated()), id: \.offset) { (index, answer) in
                         DDRow(title: answer.content, isSelected: answer.isSelected, action: {
-                            store.send(.answerTapped(answerId: answer.answerId))
+                            store.send(.answerTapped(answerId: index))
                         })
                     }
                 }
                 .padding(.top, 50)
                 
-                Spacer()                              
+                Spacer()
             }
             .background(Color.white)
             .id(store.currentStep)
             .animation(.default, value: store.currentStep)
+            .transition(store.currentStep >= store.prevStep ?   AnyTransition.asymmetric(
+                insertion: .move(edge: .trailing),
+                removal: .move(edge: .leading)) :   AnyTransition.asymmetric(
+                    insertion: .move(edge: .leading),
+                    removal: .move(edge: .trailing)))
         }
     }
 }

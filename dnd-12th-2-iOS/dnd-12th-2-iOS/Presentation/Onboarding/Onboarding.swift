@@ -13,10 +13,6 @@ struct Onboarding {
     struct State {
         var questionnaire = Questionnaire.State()
         
-        // 페이지 애니메이션
-        var isNextPage: Bool {
-            questionnaire.currentStep >= questionnaire.prevStep
-        }
         var isLastPage: Bool {
             questionnaire.currentStep >= questionnaire.questions.count - 1
         }
@@ -29,19 +25,33 @@ struct Onboarding {
     enum Action {
         // 첫목표설정으로 이동
         case goToGoalView
+        
         // 온보딩 완료시 결과화면이동
         case goToResultView(Onboarding.State)
+        
         // 이전화면 이동
         case backButtonTapped
+        
         case viewAppear
+        
         // 다음질문지로 이동
         case goToNextPage
+        
         // 이전질문지로 이동
         case goToPrevPage
+        
         // 답변선택
         case answerTapped(answerId: Int)
+        
+        // 질문지 받아오기
+        case fetchQuestion
+        
+        // 질문지 받아오기 응답
+        case fetchQuestionResponse([Question])
         case questionnaire(Questionnaire.Action)
     }
+    
+    @Dependency(\.userClient) var userClient
     
     var body: some Reducer<State, Action> {
         Scope(state: \.questionnaire, action: \.questionnaire) {
@@ -49,8 +59,16 @@ struct Onboarding {
         }
         Reduce { state, action in
             switch action {
+            case .fetchQuestion:
+                return .run { send in
+                    let response = try await userClient.fetchQuestion()
+                    await send(.fetchQuestionResponse(response))
+                }
+            case let .fetchQuestionResponse(questions):
+                state.questionnaire = .init(question: questions)
+                return .none
             case .viewAppear:
-                return .send(.questionnaire(.fetchQuestion))
+                return .send(.fetchQuestion)
             case .goToNextPage:
                 if state.isLastPage {
                     return .send(.goToResultView(state))
