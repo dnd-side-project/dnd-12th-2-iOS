@@ -172,6 +172,7 @@
 /* Begin XCBuildConfiguration section */
 		FB8E73342D40CB63005F935D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 478670712D71911D005216CF /* Secrets-dev.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -235,6 +236,7 @@
 		};
 		FB8E73352D40CB63005F935D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4786706F2D719112005216CF /* Secrets-prod.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -291,6 +293,7 @@
 		};
 		FB8E73372D40CB63005F935D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 478670712D71911D005216CF /* Secrets-dev.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -336,6 +339,7 @@
 		};
 		FB8E73382D40CB63005F935D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4786706F2D719112005216CF /* Secrets-prod.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

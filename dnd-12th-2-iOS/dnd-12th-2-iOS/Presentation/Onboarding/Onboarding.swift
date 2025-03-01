@@ -9,15 +9,25 @@ import ComposableArchitecture
 
 @Reducer
 struct Onboarding {
-    struct State {}
+    @ObservableState
+    struct State {
+        var questionnaire = Questionnaire.State()
+    }
     
     enum Action {
         case goToGoalView
+        case viewAppear
+        case questionnaire(Questionnaire.Action)
     }
     
     var body: some Reducer<State, Action> {
+        Scope(state: \.questionnaire, action: \.questionnaire) {
+            Questionnaire()
+        }
         Reduce { state, action in
             switch action {
+            case .viewAppear:
+                return .send(.questionnaire(.fetchQuestion))
             default:
                 return .none
             }

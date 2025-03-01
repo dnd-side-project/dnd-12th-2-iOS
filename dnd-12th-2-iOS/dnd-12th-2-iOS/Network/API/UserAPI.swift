@@ -44,11 +44,11 @@ extension UserAPI: TargetType {
     var task: Moya.Task {
         switch self {
         case .meOnboarding:
-            .requestPlain
+                .requestPlain
         case .onboarding:
-            .requestPlain
+                .requestPlain
         case let .createOnboarding(onboardingReqDto):
-            .requestJSONEncodable(onboardingReqDto)
+                .requestJSONEncodable(onboardingReqDto)
         }
     }
     

@@ -27,8 +27,7 @@ struct DDNavigationModifier<C, L, R>: ViewModifier where C: View, L: View, R: Vi
                     left?()
                     Spacer()
                     right?()
-                }
-                .padding(.horizontal, 16)
+                }                
                 .frame(maxWidth: .infinity)
                 
                 HStack {
@@ -47,6 +46,7 @@ struct DDNavigationModifier<C, L, R>: ViewModifier where C: View, L: View, R: Vi
         }
         .background(.white)
         .navigationBarHidden(true)
+        .padding(.horizontal, 16)
     }
 }
 
