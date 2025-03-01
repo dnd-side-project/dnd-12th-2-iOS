@@ -12,6 +12,7 @@ import Moya
 struct UserClient {
     var fetchUserOnboarding: () async throws -> Bool
     var fetchQuestion: () async throws -> [Question]
+    var createOnboarding: ([Question]) async throws -> Void
     static let provider = MoyaProvider<UserAPI>(session: Session(interceptor: AuthIntercepter.shared), plugins: [MoyaLoggingPlugin()])
 }
 
@@ -31,6 +32,13 @@ extension UserClient: DependencyKey {
                 throw APIError.parseError
             }
             return data.toDomain()
+        },
+        createOnboarding: { questions in
+            do {
+                try await provider.async.requestPlain(.createOnboarding(questions.toDto()))
+            } catch {
+                throw error
+            }
         }
     )
 }

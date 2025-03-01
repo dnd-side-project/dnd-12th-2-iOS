@@ -48,6 +48,9 @@ struct Onboarding {
         
         // 질문지 받아오기 응답
         case fetchQuestionResponse([Question])
+        
+        // 온보딩 데이터 생성
+        case createOnboardingRequest
         case questionnaire(Questionnaire.Action)
     }
     
@@ -59,6 +62,13 @@ struct Onboarding {
         }
         Reduce { state, action in
             switch action {
+            case .createOnboardingRequest:
+                return .run { [state] send in
+                    try await userClient.createOnboarding(state.questionnaire.questions)
+                    await send(.goToGoalView)
+                } catch: { error, send in
+                    print(error.localizedDescription)
+                }
             case .fetchQuestion:
                 return .run { send in
                     let response = try await userClient.fetchQuestion()

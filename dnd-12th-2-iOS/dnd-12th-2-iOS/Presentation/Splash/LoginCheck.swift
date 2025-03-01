@@ -29,12 +29,10 @@ struct LoginCheck {
             switch action {
             case .loginCheck:
                 // 온보딩 완료여부 체크
-                return .run { send in
+                return .run { send in                    
+                    let isOnboarding = try await userClient.fetchUserOnboarding()
+                    let isLogin = KeyChainManager.readItem(key: .accessToken) != nil && KeyChainManager.readItem(key: .refreshToken) != nil
                     
-//                    let isOnboarding = try await userClient.fetchUserOnboarding()
-//                    let isLogin = KeyChainManager.readItem(key: .accessToken) != nil && KeyChainManager.readItem(key: .refreshToken) != nil
-                    let isOnboarding = false
-                    let isLogin = true
                     if isOnboarding && isLogin {
                         await send(.onboardingComplete)
                     } else if isLogin {

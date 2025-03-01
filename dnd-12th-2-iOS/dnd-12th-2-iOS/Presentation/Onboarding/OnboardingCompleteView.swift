@@ -51,7 +51,7 @@ struct OnboardingCompleteView: View {
                     .padding(.bottom, 12)
                 
                 DDButton(title: "알림받고 목표에 도달하기", action: {
-                    store.send(.goToGoalView)
+                    store.send(.createOnboardingRequest)
                 })
             }
             .onAppear {

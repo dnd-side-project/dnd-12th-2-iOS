@@ -34,3 +34,9 @@ extension Array where Element == AnswerDto {
                      content: $0.content)}
     }
 }
+
+extension Array where Element == Question {
+    func toDto() -> OnboardingReqDto {
+        OnboardingReqDto(data: self.map { OnboardingDto(question_id: $0.questionId, answer_id: $0.answers.first(where: {$0.isSelected})?.answerId ?? 1)})
+    }
+}
