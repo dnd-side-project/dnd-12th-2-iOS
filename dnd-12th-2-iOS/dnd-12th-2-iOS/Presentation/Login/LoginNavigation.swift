@@ -41,11 +41,14 @@ struct LoginNavigation {
                 case let .element(id: _, action: .onboarding(.goToResultView(onboarding))):
                     state.path.append(.complete(onboarding))
                     return .none
-                case .element(id: _, action: .onboarding(.goToGoalView)):
+                case .element(id: _, action: .complete(.goToGoalView)):
                     state.path.append(.goal(.init(goalType: .firstGoal)))
                     return .none
                 case .element(id: _, action: .goal(.goToCompleteView)):
                     state.path.append(.goalComplete(.init()))
+                    return .none
+                case let .element(id: id, action: .complete(.backButtonTapped)):
+                    state.path.pop(from: id)
                     return .none
                 default:
                     return .none

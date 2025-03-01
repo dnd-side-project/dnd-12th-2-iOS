@@ -25,6 +25,7 @@ struct OnboardingView: View {
             DDBackButton(action: {
                 store.send(.goToPrevPage)
             })
+            .hidden(store.isFirstPage)
         }, right: {
             StepCircle(currentStep: store.questionnaire.currentStep + 1)
         })

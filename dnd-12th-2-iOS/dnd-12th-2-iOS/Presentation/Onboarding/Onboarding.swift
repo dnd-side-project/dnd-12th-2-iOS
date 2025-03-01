@@ -12,13 +12,17 @@ struct Onboarding {
     @ObservableState
     struct State {
         var questionnaire = Questionnaire.State()
-                
+        
         // 페이지 애니메이션
         var isNextPage: Bool {
             questionnaire.currentStep >= questionnaire.prevStep
         }
         var isLastPage: Bool {
             questionnaire.currentStep >= questionnaire.questions.count - 1
+        }
+        
+        var isFirstPage: Bool {
+            questionnaire.currentStep == 0
         }
     }
     
@@ -27,6 +31,8 @@ struct Onboarding {
         case goToGoalView
         // 온보딩 완료시 결과화면이동
         case goToResultView(Onboarding.State)
+        // 이전화면 이동
+        case backButtonTapped
         case viewAppear
         // 다음질문지로 이동
         case goToNextPage

@@ -11,13 +11,19 @@ import ComposableArchitecture
 struct GoalView: View {
     let store: StoreOf<MakeGoal>
     var body: some View {
-        VStack {
-            Text("목표생성")
-                .font(.title)
-            Button(action: {
-                store.send(.completeButtonTapped)
-            }, label: {
-                Text("goToComplete")
+        WithPerceptionTracking {
+            VStack {
+                Text("목표생성")
+                    .font(.title)
+                Button(action: {
+                    store.send(.completeButtonTapped)
+                }, label: {
+                    Text("goToComplete")
+                })
+            }
+            .navigationBar(left: {
+                DDBackButton(action: {})
+                    .hidden(store.isShowBackButton)
             })
         }
     }

@@ -12,7 +12,9 @@ struct MakeGoal {
     @ObservableState
     struct State {
         var goalType: MakeType
-        
+        var isShowBackButton: Bool {
+            goalType != .firstGoal
+        }
         init(goalType: MakeType = .makeGoal) {
             self.goalType = goalType
         }
