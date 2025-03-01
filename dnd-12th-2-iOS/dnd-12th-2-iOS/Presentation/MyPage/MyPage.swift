@@ -13,15 +13,25 @@ struct MyPage {
     
     enum Action {
         case logoutButtonTapped
+        case logoutComplete
     }
+    
+    @Dependency(\.authClient) var authClient
     
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
-                default:
-                    return .none
+            case .logoutButtonTapped:
+                return .run { send in
+                    try await authClient.signOut()                    
+                    await send(.logoutComplete)
                 }
+            case .logoutComplete:
+                KeyChainManager.deleteItem(key: .accessToken)
+                KeyChainManager.deleteItem(key: .refreshToken)
+                return .none
             }
         }
     }
+}
 
