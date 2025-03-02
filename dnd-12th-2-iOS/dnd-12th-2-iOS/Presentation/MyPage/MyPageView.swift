@@ -22,7 +22,9 @@ struct MyPageView: View {
                 })
             }
             .navigationBar(left: {
-                DDBackButton(action: {})
+                DDBackButton(action: {
+                    store.send(.backButtonTapped)
+                })
             })
         }
     }

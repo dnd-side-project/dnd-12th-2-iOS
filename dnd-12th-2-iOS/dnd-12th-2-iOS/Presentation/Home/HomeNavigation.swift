@@ -30,6 +30,9 @@ struct HomeNavigation {
             case .goToMyPage:
                 state.path.append(.myPage(.init()))
                 return .none
+            case let .path(.element(id: id, action: .myPage(.backButtonTapped))):
+                state.path.pop(from: id)
+                return .none
             default:
                 return .none
             }
