@@ -19,6 +19,7 @@ struct HomeNavigation {
         var path = StackState<Path.State>()
         var isShowMenu = false
         var isShowGoalList = false
+        var calendar = MakeCalendar.State()
     }
     
     enum Action: BindableAction {
@@ -27,10 +28,14 @@ struct HomeNavigation {
         case goToMyPage
         case showMenu
         case showGoalList
+        case calendar(MakeCalendar.Action)
     }
     
     var body: some Reducer<State, Action> {
         BindingReducer()
+        Scope(state: \.calendar, action: \.calendar) {
+            MakeCalendar()
+        }
         Reduce { state, action in
             switch action {
             case .showMenu:

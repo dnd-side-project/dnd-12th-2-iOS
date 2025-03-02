@@ -15,7 +15,7 @@ struct HomeView: View {
         WithPerceptionTracking {
             NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
                 VStack(spacing: 0) {
-                    CalendarView()
+                    CalendarView(store: store.scope(state: \.calendar, action: \.calendar))
                         .padding(.top, 16)
                        
                     PlanListVIew()                 
@@ -26,9 +26,7 @@ struct HomeView: View {
                 .overlay(alignment: .bottomTrailing, content: {
                     DDFloatingButton {
                         
-                    }
-                    .offset(x: -16, y: -20)
-                    .shadow(color: .black.opacity(0.08), radius: 4, x: 0, y: 2)
+                    }                
                 })
                 .bottomSheet($store.isShowMenu) {
                     VStack {

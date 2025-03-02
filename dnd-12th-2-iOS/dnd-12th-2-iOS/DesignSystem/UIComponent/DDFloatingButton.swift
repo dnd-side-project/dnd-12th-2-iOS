@@ -21,6 +21,8 @@ struct DDFloatingButton: View {
         })
         .background(Color.purple500)
         .clipShape(Capsule())
+        .offset(x: -16, y: -20)
+        .shadow(color: .black.opacity(0.08), radius: 4, x: 0, y: 2)
     }
 }
 
