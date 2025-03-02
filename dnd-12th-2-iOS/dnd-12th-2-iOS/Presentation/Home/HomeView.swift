@@ -10,23 +10,34 @@ import ComposableArchitecture
 
 struct HomeView: View {
     @Perception.Bindable var store: StoreOf<HomeNavigation>
-    @State var isPresented = false
     
     var body: some View {
         WithPerceptionTracking {
             NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
-                VStack {
+                VStack(spacing: 0) {
                     CalendarView()
-                    PlanListVIew()
+                        .padding(.top, 16)
+                       
+                    PlanListVIew()                 
                 }
                 .navigationBar(center: {
                     navigationView
                 })
-                .bottomSheet($isPresented) {
-                    ScrollView {
-                        VStack {
-                          
-                        }
+                .overlay(alignment: .bottomTrailing, content: {
+                    DDFloatingButton {
+                        
+                    }
+                    .offset(x: -16, y: -20)
+                    .shadow(color: .black.opacity(0.08), radius: 4, x: 0, y: 2)
+                })
+                .bottomSheet($store.isShowMenu) {
+                    VStack {
+                        menuItem
+                    }
+                }
+                .bottomSheet($store.isShowGoalList, maxHeight: UIScreen.screenHeight * 0.75) {
+                    VStack {
+                        MyGoalList()
                     }
                 }
             } destination: { store in
@@ -43,7 +54,7 @@ extension HomeView {
     private var navigationView: some View {
         HStack {
             Button(action: {
-                
+                store.send(.showGoalList)
             }, label: {
                 Image("menuIcon")
             })
@@ -51,7 +62,7 @@ extension HomeView {
             // center
             
             Button(action: {
-                isPresented = true
+                store.send(.showMenu)
             }, label: {
                 HStack {
                     Text("3개월 안에 UX/UI 디자이너로 취업 취업 취업 취업")
@@ -61,7 +72,6 @@ extension HomeView {
                     Image("downButton")
                 }
             })
-            
             
             Spacer()
             // right
@@ -73,6 +83,40 @@ extension HomeView {
                     .bodyMediumSemibold()
                     .foregroundStyle(Color.purple700)
             })
+        }
+    }
+    
+    private var menuItem: some View {
+        VStack(spacing: 34) {
+            HStack {
+                HStack(spacing: 8) {
+                    Image("iconFlag")
+                    Text("목표 달성")
+                        .bodyLargeSemibold()
+                        .foregroundStyle(Color.gray900)
+                }
+                Spacer()
+            }
+            
+            HStack {
+                HStack(spacing: 8) {
+                    Image("iconEdit")
+                    Text("목표 수정")
+                        .bodyLargeSemibold()
+                        .foregroundStyle(Color.gray900)
+                }
+                Spacer()
+            }
+            
+            HStack {
+                HStack(spacing: 8) {
+                    Image("iconTrash")
+                    Text("삭제하기")
+                        .bodyLargeSemibold()
+                        .foregroundStyle(Color.gray900)
+                }
+                Spacer()
+            }
         }
     }
 }

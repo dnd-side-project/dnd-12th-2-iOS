@@ -29,7 +29,8 @@ struct DDBottomSheet<ContentView>: ViewModifier where ContentView: View {
                         VStack {
                             contentView()
                                 .padding(.horizontal, 16)
-                                .padding(.top, 38)                            
+                                .padding(.top, 38)
+                                .padding(.bottom, 30)
                                 .background(GeometryReader { proxy in
                                     Color.clear
                                         .onAppear {
@@ -43,7 +44,7 @@ struct DDBottomSheet<ContentView>: ViewModifier where ContentView: View {
                         .frame(maxWidth: .infinity, maxHeight: maxHeight)
                         .background(.white)
                         .cornerRadius(24)
-                        .offset(y: max(safeAreaInsets.bottom + 10, offset + translation))
+                        .offset(y: max(safeAreaInsets.bottom, offset + translation))
                         .gesture(
                             DragGesture()
                                 .updating($translation) { value, state, _ in

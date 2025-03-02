@@ -9,6 +9,7 @@ import SwiftUI
 import ComposableArchitecture
 
 struct CalendarView: View {
+    let store: StoreOf<Calendar>
     
     var body: some View {
         WithPerceptionTracking {
@@ -35,7 +36,23 @@ struct CalendarView: View {
                     }
                     .padding(.vertical, 8)
                 }
-                                
+                .hidden()
+                .overlay (
+                    TabView(selection: .constant(52)) {
+                        ForEach(1...104, id: \.self) { index in
+                            LazyVStack(spacing: 8) {
+                                HStack(spacing: 13) {
+                                    ForEach(1...7, id: \.self) { index in
+                                        DDayCell(day:  Day(day: "일", dayNumber: "7", successCount: 0, failureCount: 0, totalCount: 0), isSelected: false)
+                                    }
+                                }
+                                .padding(.vertical, 8)
+                            }.tag(index)
+                        }
+                    }
+                        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                )
+                .frame(maxWidth: .infinity)
             }
         }
     }

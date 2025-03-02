@@ -25,7 +25,11 @@ struct PlanListVIew: View {
                         }
                     }
                 }
+                .padding(.top, 11)
             }
+        }.overlay(alignment: .top) {
+            Divider()
+                .frame(width: UIScreen.screenWidth)
         }
     }
 }
