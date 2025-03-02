@@ -15,14 +15,62 @@ struct HomeView: View {
         WithPerceptionTracking {
             NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
                 VStack {
-                    Text("홈뷰")
-                        .font(.title)
-                    Button(action: {
-                        store.send(.goToMyPage)
-                    }) {
-                        Text("goToMypage")
-                    }
+                  
                 }
+                // navigtionBar
+                .navigationBar(center: {
+                    HStack {
+                        Button(action: {
+                            
+                        }, label: {
+                            Image("menuIcon")
+                        })
+                        Spacer()
+                        // center
+                        HStack {
+                            HStack {
+                                Text("3개월 안에 UX/UI 디자이너로 취업dddd")
+                                    .bodyLargeSemibold()
+                                    .foregroundStyle(Color.gray900)
+                                    .lineLimit(1)
+                                Image("downButton")
+                            }
+                        }
+                        
+                        Spacer()
+                        // right
+                        
+                        Button(action: {
+                            store.send(.goToMyPage)
+                        }, label: {
+                            Text("프로필")
+                                .bodyMediumSemibold()
+                                .foregroundStyle(Color.purple700)
+                        })
+                    }
+                })
+//                .navigationBar(center: {
+//                    HStack {
+//                        Text("3개월 안에 UX/UI 디자이너로 취업dddd")
+//                            .bodyLargeSemibold()
+//                            .foregroundStyle(Color.gray900)
+//                        Image("downButton")
+//                    }
+//                }, left: {
+//                    Button(action: {
+//                        
+//                    }, label: {
+//                        Image("menuIcon")
+//                    })
+//                }, right: {
+//                    Button(action: {
+//                        
+//                    }, label: {
+//                        Text("프로필")
+//                            .bodyMediumSemibold()
+//                            .foregroundStyle(Color.purple700)
+//                    })
+//                })
             } destination: { store in
                 switch store.case {
                 case let .myPage(store):

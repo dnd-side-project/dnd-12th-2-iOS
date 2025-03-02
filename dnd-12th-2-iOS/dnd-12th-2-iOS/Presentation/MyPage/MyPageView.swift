@@ -11,13 +11,18 @@ import ComposableArchitecture
 struct MyPageView: View {
     let store: StoreOf<MyPage>
     var body: some View {
-        VStack {
-            Text("마이페이지")
-                .font(.title)
-            Button(action: {
-                store.send(.logoutButtonTapped)
-            }, label: {
-                Text("logout")
+        WithPerceptionTracking {
+            VStack {
+                Text("마이페이지")
+                    .font(.title)
+                Button(action: {
+                    store.send(.logoutButtonTapped)
+                }, label: {
+                    Text("logout")
+                })
+            }
+            .navigationBar(left: {
+                DDBackButton(action: {})
             })
         }
     }
