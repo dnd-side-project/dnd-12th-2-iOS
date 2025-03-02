@@ -34,8 +34,8 @@ struct CalendarView: View {
                         ForEach(Array(store.dayList.enumerated()), id: \.offset) { (offset, dayList) in
                             LazyVStack(spacing: 8) {
                                 HStack(spacing: 13) {
-                                    ForEach(dayList, id: \.self) { day in
-                                        DDayCell(day: day, isSelected: false)
+                                    ForEach(Array(dayList.enumerated()), id: \.offset) { (offset, day) in
+                                        DDayCell(day: day, isSelected: offset == store.cellIndex)
                                     }
                                 }
                                 .padding(.vertical, 8)

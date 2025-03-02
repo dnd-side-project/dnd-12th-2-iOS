@@ -18,7 +18,7 @@ struct HomeView: View {
                     CalendarView(store: store.scope(state: \.calendar, action: \.calendar))
                         .padding(.top, 16)
                        
-                    PlanListVIew()                 
+                    PlanListVIew(store: store.scope(state: \.fetchPlan, action: \.fetchPlan))
                 }
                 .navigationBar(center: {
                     navigationView

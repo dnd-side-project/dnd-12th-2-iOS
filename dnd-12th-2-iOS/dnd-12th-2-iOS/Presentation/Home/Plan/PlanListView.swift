@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 struct PlanListVIew: View {
+    let store: StoreOf<FetchPlan>
     let list: [[Int]] = [[1, 2, 3], [4, 5, 6], [7, 8], [9, 10, 11, 12]]
     var body: some View {
         ScrollViewReader { proxy in
-            ScrollView(showsIndicators: false) {
+            ScrollView(showsIndicators: false) {                
                 LazyVStack(spacing: 24) {
                     ForEach(0...3, id: \.self) { index in
                         Text("2025.03.02")
@@ -34,6 +36,6 @@ struct PlanListVIew: View {
     }
 }
 
-#Preview {
-    PlanListVIew()
-}
+//#Preview {
+//    PlanListVIew()
+//}

@@ -13,6 +13,7 @@ struct DDBottomSheet<ContentView>: ViewModifier where ContentView: View {
     @GestureState var translation: CGFloat = 0
     @State private var offset: CGFloat = 0
     @State private var dynamicHeight: CGFloat = 300
+    @State private var lastDragHeight: CGFloat = 0
     @Environment(\.safeAreaInsets) private var safeAreaInsets
     let contentView: () -> ContentView
     
@@ -44,23 +45,26 @@ struct DDBottomSheet<ContentView>: ViewModifier where ContentView: View {
                         .frame(maxWidth: .infinity, maxHeight: maxHeight)
                         .background(.white)
                         .cornerRadius(24)
-                        .offset(y: max(safeAreaInsets.bottom, offset + translation))
+                        .offset(y: max(safeAreaInsets.bottom, offset + translation))                        
                         .gesture(
                             DragGesture()
+                                .onChanged { value in
+                                    lastDragHeight = value.translation.height
+                                }
                                 .updating($translation) { value, state, _ in
                                     if value.translation.height > 0 {
                                         state = value.translation.height
                                     }
                                 }
                                 .onEnded { value in
-                                    
                                     let dragHeight = value.translation.height
                                     let velocity = value.predictedEndTranslation.height
+                                    let dragDirection = dragHeight - lastDragHeight > 0
                                     
-                                    if dragHeight > 50 || velocity > 500 {
+                                    if dragDirection, (dragHeight > 50 || velocity > 500) {
                                         // offset을 드래그 위치로 업데이트
-                                        offset = dragHeight
-                                        dismissSheet()
+                                            offset = dragHeight
+                                            dismissSheet()
                                     } else {
                                         withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
                                             offset = 0
@@ -82,7 +86,7 @@ struct DDBottomSheet<ContentView>: ViewModifier where ContentView: View {
     
     private func dismissSheet() {
         withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-            offset = dynamicHeight
+            offset = dynamicHeight + safeAreaInsets.bottom
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             isPresented = false
