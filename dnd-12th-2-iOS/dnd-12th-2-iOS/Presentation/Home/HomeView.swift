@@ -15,18 +15,18 @@ struct HomeView: View {
         WithPerceptionTracking {
             NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
                 VStack(spacing: 0) {
-                    CalendarView(store: store.scope(state: \.calendar, action: \.calendar))
-                        .padding(.top, 16)
-                       
-                    PlanListVIew(store: store.scope(state: \.fetchPlan, action: \.fetchPlan))
+                    CalendarView(store: store.scope(state: \.calendar,
+                                                    action: \.calendar))
+                    PlanListVIew(store: store.scope(state: \.fetchPlan,
+                                                    action: \.fetchPlan))
                 }
                 .navigationBar(center: {
                     navigationView
                 })
                 .overlay(alignment: .bottomTrailing, content: {
                     DDFloatingButton {
-                        
-                    }                
+                        store.send(.goToGoalSetting)
+                    }
                 })
                 .bottomSheet($store.isShowMenu) {
                     VStack {
@@ -42,6 +42,8 @@ struct HomeView: View {
                 switch store.case {
                 case let .myPage(store):
                     MyPageView(store: store)
+                case let .GoalSetting(store):
+                    GoalView(store: store)
                 }
             }
         }
@@ -97,12 +99,16 @@ extension HomeView {
             }
             
             HStack {
-                HStack(spacing: 8) {
-                    Image("iconEdit")
-                    Text("목표 수정")
-                        .bodyLargeSemibold()
-                        .foregroundStyle(Color.gray900)
-                }
+                Button(action: {                    
+                    store.send(.goToGoalSettingWithPlan)
+                }, label: {
+                    HStack(spacing: 8) {
+                        Image("iconEdit")
+                        Text("목표 생성")
+                            .bodyLargeSemibold()
+                            .foregroundStyle(Color.gray900)
+                    }
+                })
                 Spacer()
             }
             

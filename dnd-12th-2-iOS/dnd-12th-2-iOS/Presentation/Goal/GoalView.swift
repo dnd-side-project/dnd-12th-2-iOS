@@ -14,19 +14,20 @@ struct GoalView: View {
         WithPerceptionTracking {
             ZStack(alignment: .bottom) {
                 VStack( spacing: 0) {
-                    Text("목표")
-                        .bodyXLargeSemibold()
-                        .alignmentLeading()
-                        .foregroundStyle(Color.gray900)
-                        .padding(.top, 16)
-                    DDRoundTextFiled(text: $store.goalInfo.goalTitle)
-                        .padding(.top, 8)
-                    
-                    Text(store.newGoalGuide)
-                        .bodyMediumMedium()
-                        .alignmentLeading()
-                        .foregroundStyle(Color.purple500)
-                        .padding(.top, 4)
+                    if store.goalType != .makePlan {
+                        Text("목표")
+                            .bodyXLargeSemibold()
+                            .alignmentLeading()
+                            .foregroundStyle(Color.gray900)
+                            .padding(.top, 16)
+                        DDRoundTextFiled(text: $store.goalInfo.goalTitle)
+                            .padding(.top, 8)
+                        Text(store.newGoalGuide)
+                            .bodyMediumMedium()
+                            .alignmentLeading()
+                            .foregroundStyle(Color.purple500)
+                            .padding(.top, 4)
+                    }
                     
                     Text("계획")
                         .bodyXLargeSemibold()
@@ -102,7 +103,9 @@ struct GoalView: View {
                 })
             }
             .navigationBar(left: {
-                DDBackButton(action: {})
+                DDBackButton(action: {
+                    store.send(.backButtonTapped)
+                })
                     .hidden(!store.isShowBackButton)
             })
             .onAppear {

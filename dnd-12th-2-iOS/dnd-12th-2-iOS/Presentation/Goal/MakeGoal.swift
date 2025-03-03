@@ -38,7 +38,7 @@ struct MakeGoal {
         
         // 텍스트필드 유효성 검사
         var textFieldValidate: Bool {
-            goalType != .makePlan ? !goalInfo.planTitle.isEmpty : !goalInfo.goalTitle.isEmpty && !goalInfo.planTitle.isEmpty
+            goalType == .makePlan ? !goalInfo.planTitle.isEmpty : !goalInfo.goalTitle.isEmpty && !goalInfo.planTitle.isEmpty
         }
         
         // 시간설정 유효성 검사
@@ -166,6 +166,7 @@ struct MakeGoal {
                 state.isShowStartPicker = false
                 state.isShowEndPicker = true
                 return .none
+                // goalType에 따라서 다른 요청보내기
             case .nextButtonTapped:
                 switch state.goalType {
                 case .firstGoal:
