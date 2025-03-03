@@ -25,6 +25,12 @@ struct MakeGoal {
         // 계획 설정
         var goalInfo: Goal
         
+        // 목표 가이드
+        var newGoalGuide = ""
+        
+        // 계획 가이드
+        var newPlanGuide = ""
+        
         // backButton 숨김여부
         var isShowBackButton: Bool {
             goalType != .firstGoal
@@ -126,12 +132,26 @@ struct MakeGoal {
         
         // startPickerTapped
         case endPickerTapped
+        
+        case fetchTips
+        case fetchTipsResponse(Guide)
     }
+    
+    @Dependency(\.guideClient) var guideClient
     
     var body: some Reducer<State, Action> {
         BindingReducer()
         Reduce { state, action in
             switch action {
+            case .fetchTips:
+                return .run { send in
+                    let response = try await guideClient.fetchTips()
+                    await send(.fetchTipsResponse(response))
+                }
+            case let .fetchTipsResponse(response):
+                state.newGoalGuide = response.newGoalGuide
+                state.newPlanGuide = response.newPlanGuide
+                return .none
             case .startPickerTapped:
                 state.isShowStartPicker = true
                 state.isShowEndPicker = false

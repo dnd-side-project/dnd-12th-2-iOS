@@ -13,7 +13,6 @@ struct GoalView: View {
     var body: some View {
         WithPerceptionTracking {
             ZStack(alignment: .bottom) {
-                
                 VStack( spacing: 0) {
                     Text("목표")
                         .bodyXLargeSemibold()
@@ -23,11 +22,11 @@ struct GoalView: View {
                     DDRoundTextFiled(text: $store.goalInfo.goalTitle)
                         .padding(.top, 8)
                     
-                    Text("진행 상황을 측정할 수 있도록 목표를 세워보세요.  예: ‘한 달 동안 영어책 1권 완독’")
+                    Text(store.newGoalGuide)
                         .bodyMediumMedium()
                         .alignmentLeading()
                         .foregroundStyle(Color.purple500)
-                        .padding(.top, 4)                    
+                        .padding(.top, 4)
                     
                     Text("계획")
                         .bodyXLargeSemibold()
@@ -37,7 +36,7 @@ struct GoalView: View {
                     DDRoundTextFiled(text: $store.goalInfo.planTitle)
                         .padding(.top, 8)
                     
-                    Text("빠르게 끝낼 것과 중요한 것을 구분해볼까요?")
+                    Text(store.newPlanGuide)
                         .bodyMediumMedium()
                         .alignmentLeading()
                         .foregroundStyle(Color.purple500)
@@ -102,11 +101,13 @@ struct GoalView: View {
                     store.send(.completeButtonTapped)
                 })
             }
-            
             .navigationBar(left: {
                 DDBackButton(action: {})
                     .hidden(!store.isShowBackButton)
             })
+            .onAppear {
+                store.send(.fetchTips)
+            }
         }
     }
 }

@@ -9,6 +9,7 @@ import Foundation
 import Moya
 
 enum GuideAPI {
+    case fetchNewTip
 }
 
 extension GuideAPI: TargetType {
@@ -18,8 +19,8 @@ extension GuideAPI: TargetType {
     
     var path: String {
         switch self {
-        default:
-            return ""
+        case .fetchNewTip:
+            return "/new"
         }
     }
     

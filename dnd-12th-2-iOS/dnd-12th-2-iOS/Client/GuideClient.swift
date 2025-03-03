@@ -10,17 +10,26 @@ import ComposableArchitecture
 import Moya
 
 struct GuideClient {
-    static let provider = MoyaProvider<GoalAPI>(session: Session(interceptor: AuthIntercepter.shared), plugins: [MoyaLoggingPlugin()])
+    var fetchTips: () async throws -> Guide
+    static let provider = MoyaProvider<GuideAPI>(session: Session(interceptor: AuthIntercepter.shared), plugins: [MoyaLoggingPlugin()])
 }
 
 extension GuideClient: DependencyKey {
     static let liveValue = Self (
-        
+        fetchTips: {
+            do {
+                let result: BaseResponse<GuideResponseDto> = try await provider.async.request(.fetchNewTip)
+                guard let result = result.data else {
+                    throw APIError.parseError
+                }
+                return result.toDomain()
+            }
+        }
     )
 }
 
 extension DependencyValues {
-    var guideClient: GoalClient {
+    var guideClient: GuideClient {
         get { self[GuideClient.self] }
         set { self[GuideClient.self] = newValue }
     }
