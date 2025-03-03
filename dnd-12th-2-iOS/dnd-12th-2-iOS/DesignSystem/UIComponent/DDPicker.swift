@@ -7,8 +7,9 @@
 import SwiftUI
 import UIKit
 
-struct DDPicker: UIViewRepresentable {
-    let items: [String]
+struct DDPicker<T: Hashable>: UIViewRepresentable {
+    @Binding var selected: T
+    let items: [T]
     
     func makeUIView(context: Context) -> UIPickerView {
         let picker = UIPickerView()
@@ -20,7 +21,9 @@ struct DDPicker: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: UIPickerView, context: Context) {
-        
+        if let index = items.firstIndex(where: { $0 == selected}) {
+            uiView.selectRow(index, inComponent: 0, animated: true)
+        }        
     }
     
     func makeCoordinator() -> Coordinator {
@@ -52,11 +55,10 @@ struct DDPicker: UIViewRepresentable {
             label.textColor = UIColor.gray700
             label.textAlignment = .center
             label.font = UIFont(name: "Pretendard-Medium", size: 22)
-            
-            if let numberItem = Int(parent.items[row])  {
+            if let numberItem = parent.items[row] as? Int {
                 label.text = String(format: "%02d", numberItem)
-            } else {
-                label.text = parent.items[row]
+            } else if let stringItem = parent.items[row] as? String {
+                label.text = stringItem
             }
             
             view.addSubview(label)
@@ -69,6 +71,7 @@ struct DDPicker: UIViewRepresentable {
         }
         
         func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+            self.parent.selected = parent.items[row]
             pickerView.reloadComponent(component)
         }
     }

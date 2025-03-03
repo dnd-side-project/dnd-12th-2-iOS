@@ -20,6 +20,10 @@ struct Onboarding {
         var isFirstPage: Bool {
             questionnaire.currentStep == 0
         }
+        
+        var buttonDisabled: Bool {
+            questionnaire.questions[questionnaire.currentStep].answers.filter { $0.isSelected }.isEmpty
+        }
     }
     
     enum Action {

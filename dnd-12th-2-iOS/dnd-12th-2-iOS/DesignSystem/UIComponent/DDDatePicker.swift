@@ -10,15 +10,14 @@ import UIKit
 
 struct DDatePicker: View {
     @Binding var date: Date
-    var onDateChange: (Date) -> Void
-
-    @State private var selectedDay: Int = 0
+    let calendar = Calendar.current
+    @State private var selectedDay: String = "오늘"
     @State private var selectedHour: Int = 0
     @State private var selectedMinute: Int = 0
 
     var body: some View {
         HStack {
-            DDPicker(items: ["오늘", "내일"])
+            DDPicker(selected: $selectedDay, items: ["오늘", "내일"])
                 .frame(height: 56 * 3)
                 .overlay(alignment: .top) {
                     Divider()
@@ -37,7 +36,7 @@ struct DDatePicker: View {
             Spacer()
                 .frame(width: 45)
             
-            DDPicker(items: Array(0...23).map {String(format: "%02d", $0)})
+            DDPicker(selected: $selectedHour, items: Array(0...23))
                 .frame(height: 56 * 3)
                 .overlay(alignment: .top) {
                     Divider()
@@ -56,7 +55,7 @@ struct DDatePicker: View {
             Spacer()
                 .frame(width: 24)
             
-            DDPicker(items: Array(0...59).map {String(format: "%02d", $0)})
+            DDPicker(selected: $selectedMinute, items: Array(0...59))
                 .frame(height: 56 * 3)
                 .overlay(alignment: .top) {
                     Divider()
@@ -89,28 +88,23 @@ struct DDatePicker: View {
                 .offset(y: -10)
         }
         .onAppear {
-            initializeFromDate()
-        }
-        .onChange(of: selectedDay) { _ in updateDate() }
-        .onChange(of: selectedHour) { _ in updateDate() }
-        .onChange(of: selectedMinute) { _ in updateDate() }
-    }
-
-    private func initializeFromDate() {
-        let components = Calendar.current.dateComponents([.hour, .minute], from: date)
-        selectedDay = Calendar.current.isDateInToday(date) ? 0 : 1
-        selectedHour = components.hour ?? 0
-        selectedMinute = components.minute ?? 0
-    }
-
-    private func updateDate() {
-        var components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: Date())
-        components.day! += selectedDay
-        components.hour = selectedHour
-        components.minute = selectedMinute
-        if let newDate = Calendar.current.date(from: components) {
-            date = newDate
-            onDateChange(newDate)
+            selectedHour = calendar.component(.hour, from: date)
+            selectedMinute = calendar.component(.minute, from: date)
+        }.onChange(of: [selectedHour, selectedMinute]) { newValue in
+            let hour = newValue[0]
+            let minute = newValue[1]
+            var component = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: date)
+            component.hour = hour
+            component.minute = minute
+            if let newDate = calendar.date(from: component) {
+                date = newDate
+            }
+        }.onChange(of: selectedDay) { newValue in            
+            if newValue == "오늘" {
+               date = calendar.date(byAdding: .day, value: -1, to: date) ?? Date()
+            } else {
+                date = calendar.date(byAdding: .day, value: 1, to: date) ?? Date()
+            }
         }
     }
 }

@@ -17,7 +17,7 @@ struct OnboardingView: View {
                                    action: \.questionnaire)
             )
             
-            DDButton(action: {
+            DDButton(isDisable: store.buttonDisabled, action: {
                 store.send(.goToNextPage)
             })
         }

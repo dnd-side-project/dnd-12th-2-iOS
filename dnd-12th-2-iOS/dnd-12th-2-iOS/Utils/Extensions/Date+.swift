@@ -13,15 +13,6 @@ extension Date {
         return formatter.string(from: self)
     }
     
-    func startOfWeek(using calendar: Calendar = Calendar.current) -> Date? {
-        let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)
-        return calendar.date(from: components)
-    }
-    
-    func addingWeeks(_ weeks: Int, using calendar: Calendar = Calendar.current) -> Date {
-        return calendar.date(byAdding: .weekOfYear, value: weeks, to: self)!
-    }
-    
     func formatted(_ format: String = "yyyy년 M월 d일") -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = format
