@@ -56,7 +56,7 @@ struct GoalView: View {
                             .foregroundStyle(Color.gray600)
                         Spacer()
                         HStack {
-                            Text(store.startDateStr)
+                            Text(store.startDateResultStr)
                                 .bodyMediumMedium()
                                 .foregroundStyle(Color.purple800)
                             Image(.iconUp)
@@ -76,7 +76,7 @@ struct GoalView: View {
                             .foregroundStyle(Color.gray600)
                         Spacer()
                         HStack {
-                            Text(store.endDateStr)
+                            Text(store.endDateResultStr)
                                 .bodyMediumMedium()
                                 .foregroundStyle(Color.purple800)
                             Image(.iconUp)

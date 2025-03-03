@@ -21,16 +21,16 @@ struct GoalCompleteView: View {
                 
                 Image("appLogoImage")
                     .padding(.top, 112)
-                Text("올해까지 오픽 AL받기")
+                Text(store.goalInfo.goalTitle)
                     .headingStyle2()
                     .foregroundStyle(Color.gray900)
                     .padding(.top, 50)
                 
-                Text("오픽노답 30페이지 스크립트 작성")
+                Text(store.goalInfo.planTitle)
                     .bodyLargeSemibold()
                     .foregroundStyle(Color.gray900)
                 
-                Text("오늘 22:28 ~ 23:42")
+                Text(store.resultTimeStr)
                     .bodySmallRegular()
                     .foregroundStyle(Color.gray600)
                 

@@ -30,10 +30,12 @@ struct MakeGoal {
             goalType != .firstGoal
         }
         
+        // 텍스트필드 유효성 검사
         var textFieldValidate: Bool {
             goalType != .makePlan ? !goalInfo.planTitle.isEmpty : !goalInfo.goalTitle.isEmpty && !goalInfo.planTitle.isEmpty
         }
         
+        // 시간설정 유효성 검사
         var timePickerValidate: Bool {
             goalInfo.startDate <= goalInfo.endDate
         }
@@ -43,20 +45,44 @@ struct MakeGoal {
             !textFieldValidate || !timePickerValidate
         }
         
+        // 시작날짜 구분
         var startDateTodayStr: String {
             calendar.isDate(goalInfo.startDate, inSameDayAs: .now) ? "오늘" : "내일"
         }
         
+        // 종료날짜 구분
         var endDateTodayStr: String {
             calendar.isDate(goalInfo.endDate, inSameDayAs: .now) ? "오늘" : "내일"
         }
         
+        // 시작날짜 문자 HH:mm
         var startDateStr: String {
-            startDateTodayStr + " " + goalInfo.startDate.formatted("HH:mm")
+            goalInfo.startDate.formatted("HH:mm")
         }
         
+        // 종료날짜 문자 HH:mm
         var endDateStr: String {
-            endDateTodayStr + " " + goalInfo.endDate.formatted("HH:mm")
+            goalInfo.endDate.formatted("HH:mm")
+        }
+        
+        // 오전/오후 + 시작날짜
+        var startDateResultStr: String {
+            startDateTodayStr + " " + startDateStr
+        }
+        
+        // 오전/오후 + 종료날짜
+        var endDateResultStr: String {
+            endDateTodayStr + " " + endDateStr
+        }
+        
+        // 종료날짜 결과 날짜가 다른경우 + 내일
+        var endTimeResultStr: String {
+            calendar.isDate(goalInfo.endDate, inSameDayAs: goalInfo.startDate) ? endDateStr : "내일" + " " + endDateStr
+        }
+        
+        // 최종적으료 표시되는 날짜
+        var resultTimeStr: String {
+            startDateResultStr + " ~ " + endTimeResultStr
         }
         
         // startPicker 숨김여부
@@ -90,7 +116,7 @@ struct MakeGoal {
         case goToMainView
         
         // 첫목표 설정 완료시
-        case goToCompleteView
+        case goToCompleteView(MakeGoal.State)
         
         // 뒤로가기
         case backButtonTapped
@@ -117,7 +143,7 @@ struct MakeGoal {
             case .completeButtonTapped:
                 switch state.goalType {
                 case .firstGoal:
-                    return .send(.goToCompleteView)
+                    return .send(.goToCompleteView(state))
                 case .makeGoal:
                     return .send(.backButtonTapped)
                 case .makePlan:
