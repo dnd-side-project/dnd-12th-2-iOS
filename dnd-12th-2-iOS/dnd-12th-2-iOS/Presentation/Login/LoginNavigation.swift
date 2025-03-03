@@ -6,6 +6,7 @@
 //
 
 import ComposableArchitecture
+import AuthenticationServices
 
 @Reducer
 struct LoginNavigation {
@@ -30,8 +31,25 @@ struct LoginNavigation {
     
     enum Action {
         case path(StackActionOf<Path>)
-        case loginButtonTapped
+        
+        // 애플로그인 버튼탭
+        case appleLoginButtonTapped(ASAuthorization)
+        
+        // 애플로그인 완료
+        case appleLoginComplete(AppleLoginResDto)
+        
+        // 로그인완료시 로그인체크
+        case loginCheckRequest
+        
+        // 메인으로 이동
+        case goToMain
+        
+        // 온보딩으로 이동
+        case goToOnboarding
     }
+    
+    @Dependency(\.authClient) var authClient
+    @Dependency(\.userClient) var userClient
     
     var body: some Reducer<State, Action> {
         Reduce { state, action in
@@ -53,9 +71,30 @@ struct LoginNavigation {
                 default:
                     return .none
                 }
-            case .loginButtonTapped:
-                // TODO: 로그인한 유저 온보딩 완료여부 확인 처리
-                state.path.append(.onboarding(.init()))
+            case let .appleLoginButtonTapped(authorization):
+                guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential,
+                      let IdentityToken = String(data: appleIDCredential.identityToken!, encoding: .utf8) else {
+                    return .none
+                }
+                // TODO: 로그인한 유저 온보딩 완료여부 확인 처리            
+                return .concatenate([
+                    .run { send in
+                        let result = try await authClient.signIn(IdentityToken)
+                        await send(.appleLoginComplete(result))
+                    },
+                    .run { send in
+                        let _ = try await userClient.fetchUserOnboarding()
+                        await send(.goToMain)
+                    } catch: { error, send in
+                        // 온보딩 데이터가 없는 경우 예외가 발생한다
+                        await send(.goToOnboarding)
+                    }
+                ])
+            case let .appleLoginComplete(response):
+                KeyChainManager.addItem(key: .accessToken, value: response.jwtTokenDto.accessToken)
+                KeyChainManager.addItem(key: .refreshToken, value: response.jwtTokenDto.refreshToken)
+                return .none
+            default:
                 return .none
             }
         }.forEach(\.path, action: \.path)

@@ -45,8 +45,16 @@ struct Navigation {
                 state = .loggedIn(.init())
                 return .none
                 // 마이페이지 로그아웃시
-            case .loggedIn(.path(.element(id: _, action: .myPage(.logoutButtonTapped)))):
+            case .loggedIn(.path(.element(id: _, action: .myPage(.logoutComplete)))):
                 state = .loggedOut(.init())
+                return .none
+                // 온보딩 완료된경우 메인으로 이동
+            case .loggedOut(.goToMain):
+                state = .loggedIn(.init())
+                return .none
+                // 온보딩 미완료시 온보딩으로 이동
+            case .loggedOut(.goToOnboarding):
+                state = .loggedOut(.init(isOnboarding: true))                
                 return .none
             default:
                 return .none
