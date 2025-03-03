@@ -15,6 +15,8 @@ struct MakeGoal {
         var isShowBackButton: Bool {
             goalType != .firstGoal
         }
+        var isShowStartPicker = true
+        var isShowEndPicker = false
         init(goalType: MakeType = .makeGoal) {
             self.goalType = goalType
         }
@@ -34,11 +36,21 @@ struct MakeGoal {
         case goToMainView
         case goToCompleteView
         case backButtonTapped
+        case startPickerTapped
+        case endPickerTapped
     }
     
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
+            case .startPickerTapped:
+                state.isShowStartPicker = true
+                state.isShowEndPicker = false
+                return .none
+            case .endPickerTapped:
+                state.isShowStartPicker = false
+                state.isShowEndPicker = true
+                return .none
             case .completeButtonTapped:
                 switch state.goalType {
                 case .firstGoal:
