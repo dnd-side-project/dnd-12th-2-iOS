@@ -22,17 +22,20 @@ struct MakeGoal {
         // goalType으로 예외처리
         var goalType: MakeType
         
+        // 계획 설정
+        var goalInfo: Goal
+        
         // backButton 숨김여부
         var isShowBackButton: Bool {
             goalType != .firstGoal
         }
         
         var textFieldValidate: Bool {
-            goalType != .makePlan ? !planTitle.isEmpty : !goalTitle.isEmpty && !planTitle.isEmpty
+            goalType != .makePlan ? !goalInfo.planTitle.isEmpty : !goalInfo.goalTitle.isEmpty && !goalInfo.planTitle.isEmpty
         }
         
         var timePickerValidate: Bool {
-            startDate <= endDate
+            goalInfo.startDate <= goalInfo.endDate
         }
         
         // 텍스트필드 유효성 검사
@@ -41,19 +44,19 @@ struct MakeGoal {
         }
         
         var startDateTodayStr: String {
-            calendar.isDate(startDate, inSameDayAs: .now) ? "오늘" : "내일"
+            calendar.isDate(goalInfo.startDate, inSameDayAs: .now) ? "오늘" : "내일"
         }
         
         var endDateTodayStr: String {
-            calendar.isDate(endDate, inSameDayAs: .now) ? "오늘" : "내일"
+            calendar.isDate(goalInfo.endDate, inSameDayAs: .now) ? "오늘" : "내일"
         }
         
         var startDateStr: String {
-            startDateTodayStr + " " + startDate.formatted("HH:mm")
+            startDateTodayStr + " " + goalInfo.startDate.formatted("HH:mm")
         }
         
         var endDateStr: String {
-            endDateTodayStr + " " + endDate.formatted("HH:mm")
+            endDateTodayStr + " " + goalInfo.endDate.formatted("HH:mm")
         }
         
         // startPicker 숨김여부
@@ -62,20 +65,9 @@ struct MakeGoal {
         // endPicker 숨김여부
         var isShowEndPicker = false
         
-        // 목표텍스트
-        var goalTitle = ""
-        
-        // 계획텍스트
-        var planTitle = ""
-        
-        // 시작날짜
-        var startDate = Date()
-        
-        // 종료날짜
-        var endDate = Date()
-        
         init(goalType: MakeType = .makeGoal) {
             self.goalType = goalType
+            self.goalInfo = .makeGoal
         }
     }
     

@@ -20,7 +20,7 @@ struct GoalView: View {
                         .alignmentLeading()
                         .foregroundStyle(Color.gray900)
                         .padding(.top, 16)
-                    DDRoundTextFiled(text: $store.goalTitle)
+                    DDRoundTextFiled(text: $store.goalInfo.goalTitle)
                         .padding(.top, 8)
                     
                     Text("진행 상황을 측정할 수 있도록 목표를 세워보세요.  예: ‘한 달 동안 영어책 1권 완독’")
@@ -34,7 +34,7 @@ struct GoalView: View {
                         .alignmentLeading()
                         .foregroundStyle(Color.gray900)
                         .padding(.top, 32)
-                    DDRoundTextFiled(text: $store.planTitle)
+                    DDRoundTextFiled(text: $store.goalInfo.planTitle)
                         .padding(.top, 8)
                     
                     Text("빠르게 끝낼 것과 중요한 것을 구분해볼까요?")
@@ -67,7 +67,7 @@ struct GoalView: View {
                         }
                     }
                     if store.isShowStartPicker {
-                        DDatePicker(date: $store.startDate)
+                        DDatePicker(date: $store.goalInfo.startDate)
                     }
                     
                     HStack {
@@ -88,7 +88,7 @@ struct GoalView: View {
                     }
                     
                     if store.isShowEndPicker {
-                        DDatePicker(date: $store.endDate)
+                        DDatePicker(date: $store.goalInfo.endDate)
                     }
                     Spacer()
                     
