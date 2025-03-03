@@ -1,5 +1,5 @@
 //
-//  GoalAPI.swift
+//  GuideAPI.swift
 //  dnd-12th-2-iOS
 //
 //  Created by 권석기 on 3/3/25.
@@ -8,12 +8,12 @@
 import Foundation
 import Moya
 
-enum GoalAPI {    
+enum GuideAPI {
 }
 
-extension GoalAPI: TargetType {
+extension GuideAPI: TargetType {
     var baseURL: URL {
-        return URL(string: "\(SecretKey.baseUrl)/api/goals")!
+        return URL(string: "\(SecretKey.baseUrl)/api/user-guides")!
     }
     
     var path: String {
