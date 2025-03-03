@@ -15,7 +15,6 @@ struct GoalView: View {
             ZStack(alignment: .bottom) {
                 
                 VStack( spacing: 0) {
-                    
                     Text("목표")
                         .bodyXLargeSemibold()
                         .alignmentLeading()
@@ -28,9 +27,7 @@ struct GoalView: View {
                         .bodyMediumMedium()
                         .alignmentLeading()
                         .foregroundStyle(Color.purple500)
-                        .padding(.top, 4)
-                    
-                    
+                        .padding(.top, 4)                    
                     
                     Text("계획")
                         .bodyXLargeSemibold()
@@ -54,16 +51,20 @@ struct GoalView: View {
                     Divider()
                         .padding(.vertical, 8)
                     HStack {
-                        Text("시작시간")
+                        Text("시작 시간")
                             .bodyMediumMedium()
                             .foregroundStyle(Color.gray600)
                         Spacer()
-                        Text(store.startDateStr)
-                            .bodyMediumMedium()
-                            .foregroundStyle(Color.purple800)
-                    }
-                    .onTapGesture {
-                        store.send(.startPickerTapped)
+                        HStack {
+                            Text(store.startDateStr)
+                                .bodyMediumMedium()
+                                .foregroundStyle(Color.purple800)
+                            Image(.iconUp)
+                                .rotationEffect(.degrees(store.isShowStartPicker ? 0 : 180))
+                        }
+                        .onTapGesture {
+                            store.send(.startPickerTapped)
+                        }
                     }
                     if store.isShowStartPicker {
                         DDatePicker(date: $store.startDate)
@@ -74,19 +75,24 @@ struct GoalView: View {
                             .bodyMediumMedium()
                             .foregroundStyle(Color.gray600)
                         Spacer()
-                        Text(store.endDateStr)
-                            .bodyMediumMedium()
-                            .foregroundStyle(Color.purple800)
+                        HStack {
+                            Text(store.endDateStr)
+                                .bodyMediumMedium()
+                                .foregroundStyle(Color.purple800)
+                            Image(.iconUp)
+                                .rotationEffect(.degrees(store.isShowEndPicker ? 0 : 180))
+                        }
+                        .onTapGesture {
+                            store.send(.endPickerTapped)
+                        }
                     }
-                    .onTapGesture {
-                        store.send(.endPickerTapped)
-                    }
+                    
                     if store.isShowEndPicker {
                         DDatePicker(date: $store.endDate)
                     }
                     Spacer()
-                  
-                   
+                    
+                    
                 }
                 .ignoresSafeArea(.keyboard)
                 .onTapGesture {
@@ -96,7 +102,7 @@ struct GoalView: View {
                     store.send(.completeButtonTapped)
                 })
             }
-      
+            
             .navigationBar(left: {
                 DDBackButton(action: {})
                     .hidden(!store.isShowBackButton)

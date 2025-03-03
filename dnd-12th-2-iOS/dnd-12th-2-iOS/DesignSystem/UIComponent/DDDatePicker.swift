@@ -8,7 +8,7 @@
 import SwiftUI
 import UIKit
 
-struct DDatePicker: View {    
+struct DDatePicker: View {
     @Binding var date: Date
     let calendar = Calendar.current
     @State private var selectedDay: String = "오늘"
@@ -93,13 +93,13 @@ struct DDatePicker: View {
         }.onChange(of: [selectedHour, selectedMinute]) { newValue in
             let hour = newValue[0]
             let minute = newValue[1]
-            var component = calendar.dateComponents([.hour, .minute], from: date)
+            var component = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: date)
             component.hour = hour
             component.minute = minute
             if let newDate = calendar.date(from: component) {
                 date = newDate
             }
-        }.onChange(of: selectedDay) { newValue in
+        }.onChange(of: selectedDay) { newValue in            
             if newValue == "오늘" {
                date = calendar.date(byAdding: .day, value: -1, to: date) ?? Date()
             } else {

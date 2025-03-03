@@ -10,8 +10,15 @@ import ComposableArchitecture
 
 @Reducer
 struct MakeGoal {
+    
     @ObservableState
     struct State {
+        let calendar: Calendar = {
+            var calendar = Calendar.current
+            calendar.timeZone = TimeZone.current
+            return calendar
+        }()
+        
         // goalType으로 예외처리
         var goalType: MakeType
         
@@ -20,17 +27,25 @@ struct MakeGoal {
             goalType != .firstGoal
         }
         
+        var textFieldValidate: Bool {
+            goalType != .makePlan ? !planTitle.isEmpty : !goalTitle.isEmpty && !planTitle.isEmpty
+        }
+        
+        var timePickerValidate: Bool {
+            startDate <= endDate
+        }
+        
         // 텍스트필드 유효성 검사
         var isButtonDisabled: Bool {
-            goalType != .makePlan ? goalTitle.isEmpty || planTitle.isEmpty : planTitle.isEmpty
+            !textFieldValidate || !timePickerValidate
         }
         
         var startDateTodayStr: String {
-            Calendar.current.isDateInToday(startDate) ? "오늘" : "내일"
+            calendar.isDate(startDate, inSameDayAs: .now) ? "오늘" : "내일"
         }
         
         var endDateTodayStr: String {
-            Calendar.current.isDateInToday(endDate) ? "오늘" : "내일"
+            calendar.isDate(endDate, inSameDayAs: .now) ? "오늘" : "내일"
         }
         
         var startDateStr: String {
