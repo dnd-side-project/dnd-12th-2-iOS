@@ -14,6 +14,7 @@ struct MyPage {
     enum Action {
         case logoutButtonTapped
         case logoutComplete
+        case backButtonTapped
     }
     
     @Dependency(\.authClient) var authClient
@@ -29,6 +30,8 @@ struct MyPage {
             case .logoutComplete:
                 KeyChainManager.deleteItem(key: .accessToken)
                 KeyChainManager.deleteItem(key: .refreshToken)
+                return .none
+            default:
                 return .none
             }
         }

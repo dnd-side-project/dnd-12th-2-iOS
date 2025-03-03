@@ -14,13 +14,28 @@ struct HomeView: View {
     var body: some View {
         WithPerceptionTracking {
             NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
-                VStack {
-                    Text("홈뷰")
-                        .font(.title)
-                    Button(action: {
-                        store.send(.goToMyPage)
-                    }) {
-                        Text("goToMypage")
+                VStack(spacing: 0) {
+                    CalendarView(store: store.scope(state: \.calendar, action: \.calendar))
+                        .padding(.top, 16)
+                       
+                    PlanListVIew(store: store.scope(state: \.fetchPlan, action: \.fetchPlan))
+                }
+                .navigationBar(center: {
+                    navigationView
+                })
+                .overlay(alignment: .bottomTrailing, content: {
+                    DDFloatingButton {
+                        
+                    }                
+                })
+                .bottomSheet($store.isShowMenu) {
+                    VStack {
+                        menuItem
+                    }
+                }
+                .bottomSheet($store.isShowGoalList, maxHeight: UIScreen.screenHeight * 0.75) {
+                    VStack {
+                        MyGoalList()
                     }
                 }
             } destination: { store in
@@ -30,7 +45,77 @@ struct HomeView: View {
                 }
             }
         }
+    }
+}
 
+extension HomeView {
+    private var navigationView: some View {
+        HStack {
+            Button(action: {
+                store.send(.showGoalList)
+            }, label: {
+                Image("menuIcon")
+            })
+            Spacer()
+            // center
+            
+            Button(action: {
+                store.send(.showMenu)
+            }, label: {
+                HStack {
+                    Text("3개월 안에 UX/UI 디자이너로 취업 취업 취업 취업")
+                        .bodyLargeSemibold()
+                        .foregroundStyle(Color.gray900)
+                        .lineLimit(1)
+                    Image("downButton")
+                }
+            })
+            
+            Spacer()
+            // right
+            
+            Button(action: {
+                store.send(.goToMyPage)
+            }, label: {
+                Text("프로필")
+                    .bodyMediumSemibold()
+                    .foregroundStyle(Color.purple700)
+            })
+        }
+    }
+    
+    private var menuItem: some View {
+        VStack(spacing: 34) {
+            HStack {
+                HStack(spacing: 8) {
+                    Image("iconFlag")
+                    Text("목표 달성")
+                        .bodyLargeSemibold()
+                        .foregroundStyle(Color.gray900)
+                }
+                Spacer()
+            }
+            
+            HStack {
+                HStack(spacing: 8) {
+                    Image("iconEdit")
+                    Text("목표 수정")
+                        .bodyLargeSemibold()
+                        .foregroundStyle(Color.gray900)
+                }
+                Spacer()
+            }
+            
+            HStack {
+                HStack(spacing: 8) {
+                    Image("iconTrash")
+                    Text("삭제하기")
+                        .bodyLargeSemibold()
+                        .foregroundStyle(Color.gray900)
+                }
+                Spacer()
+            }
+        }
     }
 }
 
