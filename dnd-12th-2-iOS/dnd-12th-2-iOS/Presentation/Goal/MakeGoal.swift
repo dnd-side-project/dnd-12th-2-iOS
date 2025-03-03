@@ -5,6 +5,7 @@
 //  Created by 권석기 on 2/28/25.
 //
 
+import Foundation
 import ComposableArchitecture
 
 @Reducer
@@ -24,6 +25,22 @@ struct MakeGoal {
             goalType != .makePlan ? goalTitle.isEmpty || planTitle.isEmpty : planTitle.isEmpty
         }
         
+        var startDateTodayStr: String {
+            Calendar.current.isDateInToday(startDate) ? "오늘" : "내일"
+        }
+        
+        var endDateTodayStr: String {
+            Calendar.current.isDateInToday(endDate) ? "오늘" : "내일"
+        }
+        
+        var startDateStr: String {
+            startDateTodayStr + " " + startDate.formatted("HH:mm")
+        }
+        
+        var endDateStr: String {
+            endDateTodayStr + " " + endDate.formatted("HH:mm")
+        }
+        
         // startPicker 숨김여부
         var isShowStartPicker = true
         
@@ -35,6 +52,13 @@ struct MakeGoal {
         
         // 계획텍스트
         var planTitle = ""
+        
+        // 시작날짜
+        var startDate = Date()
+        
+        // 종료날짜
+        var endDate = Date()
+        
         init(goalType: MakeType = .makeGoal) {
             self.goalType = goalType
         }

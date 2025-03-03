@@ -58,7 +58,7 @@ struct GoalView: View {
                             .bodyMediumMedium()
                             .foregroundStyle(Color.gray600)
                         Spacer()
-                        Text("오늘 22:28")
+                        Text(store.startDateStr)
                             .bodyMediumMedium()
                             .foregroundStyle(Color.purple800)
                     }
@@ -66,9 +66,7 @@ struct GoalView: View {
                         store.send(.startPickerTapped)
                     }
                     if store.isShowStartPicker {
-                        DDatePicker(date: .constant(.now)) { date in
-                            
-                        }
+                        DDatePicker(date: $store.startDate)
                     }
                     
                     HStack {
@@ -76,7 +74,7 @@ struct GoalView: View {
                             .bodyMediumMedium()
                             .foregroundStyle(Color.gray600)
                         Spacer()
-                        Text("오늘 22:28")
+                        Text(store.endDateStr)
                             .bodyMediumMedium()
                             .foregroundStyle(Color.purple800)
                     }
@@ -84,9 +82,7 @@ struct GoalView: View {
                         store.send(.endPickerTapped)
                     }
                     if store.isShowEndPicker {
-                        DDatePicker(date: .constant(.now)) { date in
-                            
-                        }
+                        DDatePicker(date: $store.endDate)
                     }
                     Spacer()
                   
