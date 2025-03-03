@@ -8,7 +8,8 @@
 import Foundation
 import Moya
 
-enum GoalAPI {    
+enum GoalAPI {
+    case makeGoalWithPlan(GoalReqDto)
 }
 
 extension GoalAPI: TargetType {
@@ -18,22 +19,22 @@ extension GoalAPI: TargetType {
     
     var path: String {
         switch self {
-        default:
-            return ""
+        case .makeGoalWithPlan:
+            return "/with-plan"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        default:
-            return .get
+        case .makeGoalWithPlan:
+            return .post
         }
     }
     
     var task: Moya.Task {
         switch self {
-        default:
-            return .requestPlain
+        case let .makeGoalWithPlan(goalReqDto):
+            return .requestJSONEncodable(goalReqDto)
         }
     }
     

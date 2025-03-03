@@ -21,4 +21,11 @@ extension Goal {
               startDate: .now,
               endDate: .now)
     }
+    
+    func toDto() -> GoalReqDto {
+        .init(goalTitle: goalTitle,
+              planTitle: planTitle,
+              startDate: startDate.toISO8601DateFormat(),
+              endDate: endDate.toISO8601DateFormat())
+    }
 }

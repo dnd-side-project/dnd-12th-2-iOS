@@ -23,6 +23,8 @@ extension GuideClient: DependencyKey {
                     throw APIError.parseError
                 }
                 return result.toDomain()
+            } catch {
+                throw error
             }
         }
     )

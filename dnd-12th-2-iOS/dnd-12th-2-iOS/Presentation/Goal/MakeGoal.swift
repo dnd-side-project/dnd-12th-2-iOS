@@ -115,7 +115,9 @@ struct MakeGoal {
     enum Action: BindableAction {
         case binding(BindingAction<State>)
         
-        // 완료버튼
+        // 다음 버튼
+        case nextButtonTapped
+        
         case completeButtonTapped
         
         // 메인뷰로 이동
@@ -133,11 +135,15 @@ struct MakeGoal {
         // startPickerTapped
         case endPickerTapped
         
+        // tip 요청
         case fetchTips
+        
+        // tip 요청 응답
         case fetchTipsResponse(Guide)
     }
     
     @Dependency(\.guideClient) var guideClient
+    @Dependency(\.goalClient) var goalClient
     
     var body: some Reducer<State, Action> {
         BindingReducer()
@@ -160,7 +166,7 @@ struct MakeGoal {
                 state.isShowStartPicker = false
                 state.isShowEndPicker = true
                 return .none
-            case .completeButtonTapped:
+            case .nextButtonTapped:
                 switch state.goalType {
                 case .firstGoal:
                     return .send(.goToCompleteView(state))
@@ -168,6 +174,11 @@ struct MakeGoal {
                     return .send(.backButtonTapped)
                 case .makePlan:
                     return .send(.backButtonTapped)
+                }
+            case .completeButtonTapped:
+                return .run { [state] send in
+                    try await goalClient.makeGoal(state.goalInfo)
+                    await send(.goToMainView)
                 }
             default:
                 return .none

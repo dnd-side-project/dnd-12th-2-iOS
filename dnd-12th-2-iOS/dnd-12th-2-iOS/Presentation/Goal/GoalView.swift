@@ -98,7 +98,7 @@ struct GoalView: View {
                     UIApplication.shared.hideKeyboard()
                 }
                 DDButton(isDisable: store.isButtonDisabled, action: {
-                    store.send(.completeButtonTapped)
+                    store.send(.nextButtonTapped)
                 })
             }
             .navigationBar(left: {
