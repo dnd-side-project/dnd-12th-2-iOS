@@ -16,24 +16,23 @@ struct DDResultRow: View {
                 Image("iconReady")
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    Text("시간")
+                    Text("14:30 ~ 18:00")
                         .font(.pretendard(size: 12, weight: .medium), lineHeight: 14)
-                        .foregroundStyle(.purple500)
+                        .foregroundStyle(.gray500)
                         .padding(.bottom, 1)
-                    Text("title")
-                        .font(.pretendard(size: 14, weight: .semibold), lineHeight: 24)
+                    Text("실무 과제 대비 연습")
+                        .bodyLargeSemibold()
                         .foregroundStyle(.gray900)
                 }
+                .padding(.leading, 12)
                 Spacer()
                 
                 Button(action: {}, label: {
                     Image(.iconRight)
                 })
             }
-            .padding(.vertical, 14)
+            .padding(.vertical, 13)
             .padding(.horizontal, 12)
         }
-        .background(.gray50)
-        .cornerRadius(12)
     }
 }

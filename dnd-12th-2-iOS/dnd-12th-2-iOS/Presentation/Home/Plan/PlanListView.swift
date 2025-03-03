@@ -16,10 +16,11 @@ struct PlanListVIew: View {
             ScrollView(showsIndicators: false) {                
                 LazyVStack(spacing: 24) {
                     ForEach(0...3, id: \.self) { index in
-                        Text("2025.03.02")
+                        Text("2월 22일")
                             .bodyMediumMedium()
                             .alignmentLeading()
-                            .foregroundStyle(Color.gray900)
+                            .foregroundStyle(Color.gray500)
+                            
                         ForEach(list[index], id: \.self) { _ in
                             LazyVStack(spacing: 16) {
                                 DDResultRow(action: {})
