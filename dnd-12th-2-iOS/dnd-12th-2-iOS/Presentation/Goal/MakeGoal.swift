@@ -11,12 +11,30 @@ import ComposableArchitecture
 struct MakeGoal {
     @ObservableState
     struct State {
+        // goalType으로 예외처리
         var goalType: MakeType
+        
+        // backButton 숨김여부
         var isShowBackButton: Bool {
             goalType != .firstGoal
         }
+        
+        // 텍스트필드 유효성 검사
+        var isButtonDisabled: Bool {
+            goalType != .makePlan ? goalTitle.isEmpty || planTitle.isEmpty : planTitle.isEmpty
+        }
+        
+        // startPicker 숨김여부
         var isShowStartPicker = true
+        
+        // endPicker 숨김여부
         var isShowEndPicker = false
+        
+        // 목표텍스트
+        var goalTitle = ""
+        
+        // 계획텍스트
+        var planTitle = ""
         init(goalType: MakeType = .makeGoal) {
             self.goalType = goalType
         }
@@ -31,16 +49,30 @@ struct MakeGoal {
         case makePlan
     }
     
-    enum Action {
+    enum Action: BindableAction {
+        case binding(BindingAction<State>)
+        
+        // 완료버튼
         case completeButtonTapped
+        
+        // 메인뷰로 이동
         case goToMainView
+        
+        // 첫목표 설정 완료시
         case goToCompleteView
+        
+        // 뒤로가기
         case backButtonTapped
+        
+        // startPickerTapped
         case startPickerTapped
+        
+        // startPickerTapped
         case endPickerTapped
     }
     
     var body: some Reducer<State, Action> {
+        BindingReducer()
         Reduce { state, action in
             switch action {
             case .startPickerTapped:

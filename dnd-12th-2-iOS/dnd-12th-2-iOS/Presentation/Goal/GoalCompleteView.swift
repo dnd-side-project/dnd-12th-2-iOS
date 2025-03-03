@@ -39,7 +39,9 @@ struct GoalCompleteView: View {
                 DDButton(action: {})
             }
             .navigationBar(left: {
-                DDBackButton(action: {})
+                DDBackButton(action: {
+                    store.send(.backButtonTapped)
+                })
             })
         }
     }

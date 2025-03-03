@@ -9,7 +9,7 @@ import SwiftUI
 import ComposableArchitecture
 
 struct GoalView: View {
-    let store: StoreOf<MakeGoal>
+    @Perception.Bindable var store: StoreOf<MakeGoal>
     var body: some View {
         WithPerceptionTracking {
             ZStack(alignment: .bottom) {
@@ -21,7 +21,7 @@ struct GoalView: View {
                         .alignmentLeading()
                         .foregroundStyle(Color.gray900)
                         .padding(.top, 16)
-                    DDRoundTextFiled(text: .constant(""))
+                    DDRoundTextFiled(text: $store.goalTitle)
                         .padding(.top, 8)
                     
                     Text("진행 상황을 측정할 수 있도록 목표를 세워보세요.  예: ‘한 달 동안 영어책 1권 완독’")
@@ -37,7 +37,7 @@ struct GoalView: View {
                         .alignmentLeading()
                         .foregroundStyle(Color.gray900)
                         .padding(.top, 32)
-                    DDRoundTextFiled(text: .constant(""))
+                    DDRoundTextFiled(text: $store.planTitle)
                         .padding(.top, 8)
                     
                     Text("빠르게 끝낼 것과 중요한 것을 구분해볼까요?")
@@ -96,7 +96,7 @@ struct GoalView: View {
                 .onTapGesture {
                     UIApplication.shared.hideKeyboard()
                 }
-                DDButton(action: {
+                DDButton(isDisable: store.isButtonDisabled, action: {
                     store.send(.completeButtonTapped)
                 })
             }
