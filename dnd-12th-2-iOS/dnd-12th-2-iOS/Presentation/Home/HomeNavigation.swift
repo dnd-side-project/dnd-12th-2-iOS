@@ -31,6 +31,7 @@ struct HomeNavigation {
         case showGoalList
         case calendar(MakeCalendar.Action)
         case fetchPlan(FetchPlan.Action)
+        case showAlert
     }
     
     var body: some Reducer<State, Action> {
@@ -65,6 +66,9 @@ struct HomeNavigation {
                 default:
                     return .none
                 }
+            case .showAlert:
+                state.isShowMenu = false
+                return .none
             default:
                 return .none
             }

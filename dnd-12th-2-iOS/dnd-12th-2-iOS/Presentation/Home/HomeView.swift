@@ -11,6 +11,8 @@ import ComposableArchitecture
 struct HomeView: View {
     @Perception.Bindable var store: StoreOf<HomeNavigation>
     
+    @State private var isCustomAlertPresented = false
+    
     var body: some View {
         WithPerceptionTracking {
             NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
@@ -42,6 +44,16 @@ struct HomeView: View {
                 switch store.case {
                 case let .myPage(store):
                     MyPageView(store: store)
+                }
+            }
+            .overlay {
+                Group {
+                    if isCustomAlertPresented {
+                        CustomAlert()
+                            .onTapGesture {
+                                isCustomAlertPresented = false
+                            }
+                    }
                 }
             }
         }
@@ -92,6 +104,10 @@ extension HomeView {
                     Text("목표 달성")
                         .bodyLargeSemibold()
                         .foregroundStyle(Color.gray900)
+                        .onTapGesture {
+                            isCustomAlertPresented = true
+                            store.send(.showAlert)
+                        }
                 }
                 Spacer()
             }
@@ -119,6 +135,9 @@ extension HomeView {
     }
 }
 
-//#Preview {
-//    HomeView()
-//}
+#Preview {
+    HomeView(store: Store(initialState:
+                            HomeNavigation.State()) {
+        HomeNavigation()
+    })
+}
