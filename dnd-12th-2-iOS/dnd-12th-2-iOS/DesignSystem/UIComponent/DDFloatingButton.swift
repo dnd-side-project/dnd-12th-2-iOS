@@ -13,7 +13,7 @@ struct DDFloatingButton: View {
         Button(action: action, label: {
             HStack(spacing: 4) {
                 Image("iconPlus")
-                Text("계획 추가하기")
+                Text("계획 추가")
                     .bodyLargeSemibold()
                     .foregroundStyle(Color.white)
             }
