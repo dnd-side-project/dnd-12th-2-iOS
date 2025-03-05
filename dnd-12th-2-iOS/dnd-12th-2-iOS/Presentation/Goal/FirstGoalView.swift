@@ -9,13 +9,56 @@ import SwiftUI
 import ComposableArchitecture
 
 struct FirstGoalView: View {
-    let store: StoreOf<FirstGoalFlow>
+    @Perception.Bindable var store: StoreOf<FirstGoalFlow>
     var body: some View {
-        Button(action: {
-            store.send(.goToMain)
-        }, label: {
-            Text("goToMain")
-        })
+        WithPerceptionTracking {
+            Group {
+                switch store.viewFlow {
+                case .setGoal:
+                    VStack {
+                        Text(store.viewFlow.title)
+                        TextField(text: $store.goalTitle, label: {Text("ex)OO에서 OO하기")})
+                        Text(store.newGoalGuide)
+                        Spacer()
+                        DDButton(action: { store.send(.goToNextStep) })
+                    }
+                    .navigationBar(left: {
+                        EmptyView()
+                    })
+                case .setPlan:
+                    VStack {
+                        Text(store.viewFlow.title)
+                        TextField(text: $store.planTitle, label: {Text("ex)OO에서 OO하기")})
+                        Text(store.newPlanGuide)
+                        Spacer()
+                        DDButton(action: { store.send(.goToNextStep) })
+                    }
+                    .navigationBar(left: {
+                        DDBackButton(action: { store.send(.goToPrevStep) })
+                    })
+                case .result:
+                    VStack {
+                        Text(store.goalTitle)
+                        Text(store.planTitle)
+                        
+                        Spacer()
+                        DDButton(action: {})
+                    }
+                    .navigationBar(left: {
+                        DDBackButton(action: { store.send(.goToPrevStep) })
+                    })
+                }
+            }
+            .animation(.default, value: store.viewFlow)
+            .transition(store.isForward ? AnyTransition.asymmetric(
+                insertion: .move(edge: .trailing),
+                removal: .move(edge: .leading)) :   AnyTransition.asymmetric(
+                    insertion: .move(edge: .leading),
+                    removal: .move(edge: .trailing)))
+            .onAppear {
+                store.send(.fetchTips)
+            }
+        }
     }
 }
 
