@@ -10,9 +10,7 @@ import ComposableArchitecture
 @Reducer
 struct HomeNavigation {
     @Reducer
-    enum Path {
-        case myPage(MyPage)
-    }
+    enum Path {}
     
     @ObservableState
     struct State {
@@ -69,14 +67,7 @@ struct HomeNavigation {
                 return .none
             case .showGoalList:
                 state.isShowGoalList = true
-                return .none
-                // MARK: - MyPage
-            case .goToMyPage:
-                state.path.append(.myPage(.init()))
-                return .none
-            case let .path(.element(id: id, action: .myPage(.backButtonTapped))):
-                state.path.pop(from: id)
-                return .none                
+                return .none                                
                 // MARK: - Calendar
             case let .calendar(action):
                 switch action {

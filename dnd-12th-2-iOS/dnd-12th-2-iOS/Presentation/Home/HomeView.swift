@@ -40,8 +40,8 @@ struct HomeView: View {
                 }
             } destination: { store in
                 switch store.case {
-                case let .myPage(store):
-                    MyPageView(store: store)
+                default:
+                    EmptyView()
                 }
             }
         }
@@ -52,34 +52,25 @@ extension HomeView {
     private var navigationView: some View {
         HStack {
             Button(action: {
-                store.send(.showGoalList)
+                
             }, label: {
-                Image("menuIcon")
+                DDBackButton(action: {})                    
             })
             Spacer()
             // center
             
-            Button(action: {
-                store.send(.showMenu)
-            }, label: {
-                HStack {
-                    Text("3개월 안에 UX/UI 디자이너로 취업 취업 취업 취업")
-                        .bodyLargeSemibold()
-                        .foregroundStyle(Color.gray900)
-                        .lineLimit(1)
-                    Image("downButton")
-                }
-            })
+            Text("3개월 안에 UX/UI 디자이너로 취업 취업 취업 취업")
+                .bodyLargeSemibold()
+                .foregroundStyle(Color.gray900)
+                .lineLimit(1)
             
             Spacer()
             // right
             
             Button(action: {
-                store.send(.goToMyPage)
+                store.send(.showMenu)
             }, label: {
-                Text("프로필")
-                    .bodyMediumSemibold()
-                    .foregroundStyle(Color.purple700)
+                Image("menuIcon")
             })
         }
     }
@@ -93,20 +84,6 @@ extension HomeView {
                         .bodyLargeSemibold()
                         .foregroundStyle(Color.gray900)
                 }
-                Spacer()
-            }
-            
-            HStack {
-                Button(action: {                    
-                    
-                }, label: {
-                    HStack(spacing: 8) {
-                        Image("iconEdit")
-                        Text("목표 생성")
-                            .bodyLargeSemibold()
-                            .foregroundStyle(Color.gray900)
-                    }
-                })
                 Spacer()
             }
             

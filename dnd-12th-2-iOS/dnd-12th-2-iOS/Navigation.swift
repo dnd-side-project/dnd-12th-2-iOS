@@ -43,9 +43,9 @@ struct Navigation {
                 return .none
                 // MARK: - LoggedIn
                 // 마이페이지 로그아웃시
-            case .loggedIn(.path(.element(id: _, action: .myPage(.logoutComplete)))):
-                state = .loggedOut(.init())
-                return .none
+//            case .loggedIn(.path(.element(id: _, action: .myPage(.logoutComplete)))):
+//                state = .loggedOut(.init())
+//                return .none
                 // MARK: - LoggedOut
                 // 온보딩 완료된경우 메인으로 이동
             case .loggedOut(.goToMain):
