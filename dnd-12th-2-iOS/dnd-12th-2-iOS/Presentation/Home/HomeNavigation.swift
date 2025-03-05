@@ -12,7 +12,6 @@ struct HomeNavigation {
     @Reducer
     enum Path {
         case myPage(MyPage)
-        case GoalSetting(MakeGoal)
     }
     
     @ObservableState
@@ -31,12 +30,6 @@ struct HomeNavigation {
         
         // 마이페이지 이동
         case goToMyPage
-        
-        // 목표 설정
-        case goToGoalSetting
-        
-        // 목표 계획 설정
-        case goToGoalSettingWithPlan
         
         // 메뉴 숨김여부
         case showMenu
@@ -83,17 +76,7 @@ struct HomeNavigation {
                 return .none
             case let .path(.element(id: id, action: .myPage(.backButtonTapped))):
                 state.path.pop(from: id)
-                return .none
-                // MARK: - GoalSetting
-            case .goToGoalSetting:
-                state.path.append(.GoalSetting(.init(goalType: .makePlan)))
-                return .none
-            case .goToGoalSettingWithPlan:
-                state.path.append(.GoalSetting(.init(goalType: .makeGoal)))
-                return .send(.hideMenu)
-            case let .path(.element(id: id, action: .GoalSetting(.backButtonTapped))):
-                state.path.pop(from: id)
-                return .none
+                return .none                
                 // MARK: - Calendar
             case let .calendar(action):
                 switch action {

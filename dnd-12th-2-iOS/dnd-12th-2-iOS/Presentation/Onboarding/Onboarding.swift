@@ -28,15 +28,10 @@ struct Onboarding {
     
     enum Action {
         // 첫목표설정으로 이동
-        case goToGoalView
-        
-        // 온보딩 완료시 결과화면이동
-        case goToResultView(Onboarding.State)
+        case goToFirstGoalView
         
         // 이전화면 이동
-        case backButtonTapped
-        
-        case viewAppear
+        case backButtonTapped            
         
         // 다음질문지로 이동
         case goToNextPage
@@ -69,7 +64,7 @@ struct Onboarding {
             case .createOnboardingRequest:
                 return .run { [state] send in
                     try await userClient.createOnboarding(state.questionnaire.questions)
-                    await send(.goToGoalView)
+                    await send(.goToFirstGoalView)
                 } catch: { error, send in
                     print(error.localizedDescription)
                 }
@@ -81,11 +76,9 @@ struct Onboarding {
             case let .fetchQuestionResponse(questions):
                 state.questionnaire = .init(question: questions)
                 return .none
-            case .viewAppear:
-                return .send(.fetchQuestion)
             case .goToNextPage:
                 if state.isLastPage {
-                    return .send(.goToResultView(state))
+                    return .send(.createOnboardingRequest)
                 } else {
                     return .send(.questionnaire(.incrementStep))
                 }

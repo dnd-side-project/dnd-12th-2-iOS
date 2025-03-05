@@ -11,6 +11,7 @@ import Moya
 
 struct GoalClient {
     var makeGoal: (Goal) async throws -> Void
+    var makePlan: (Goal) async throws -> Void
     static let provider = MoyaProvider<GoalAPI>(session: Session(interceptor: AuthIntercepter.shared), plugins: [MoyaLoggingPlugin()])
 }
 
@@ -22,6 +23,9 @@ extension GoalClient: DependencyKey {
             } catch {
                 throw error
             }
+        },
+        makePlan: { goalInfo in
+            
         }
     )
 }

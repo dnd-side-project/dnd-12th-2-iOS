@@ -25,7 +25,7 @@ struct HomeView: View {
                 })
                 .overlay(alignment: .bottomTrailing, content: {
                     DDFloatingButton {
-                        store.send(.goToGoalSetting)
+                        
                     }
                 })
                 .bottomSheet($store.isShowMenu) {
@@ -42,8 +42,6 @@ struct HomeView: View {
                 switch store.case {
                 case let .myPage(store):
                     MyPageView(store: store)
-                case let .GoalSetting(store):
-                    GoalView(store: store)
                 }
             }
         }
@@ -100,7 +98,7 @@ extension HomeView {
             
             HStack {
                 Button(action: {                    
-                    store.send(.goToGoalSettingWithPlan)
+                    
                 }, label: {
                     HStack(spacing: 8) {
                         Image("iconEdit")
