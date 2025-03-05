@@ -66,7 +66,7 @@ struct MakeCalendar {
                     state.yearMonthString = "\(firstString) - \(lastString)"
                 }
                 return .none
-            case .viewAppear:
+            case .viewAppear:                
                 let weekday = calendar.component(.weekday, from: .now)
                 let startWeek = calendar.date(byAdding: .day, value: 1 - weekday, to: .now)!
                 

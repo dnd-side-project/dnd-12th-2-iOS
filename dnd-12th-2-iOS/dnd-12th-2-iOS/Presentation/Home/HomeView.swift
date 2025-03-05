@@ -13,35 +13,23 @@ struct HomeView: View {
     
     var body: some View {
         WithPerceptionTracking {
-            NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
-                VStack(spacing: 0) {
-                    CalendarView(store: store.scope(state: \.calendar,
-                                                    action: \.calendar))
-                    PlanListVIew(store: store.scope(state: \.fetchPlan,
-                                                    action: \.fetchPlan))
+            VStack(spacing: 0) {
+                CalendarView(store: store.scope(state: \.calendar,
+                                                action: \.calendar))
+                PlanListVIew(store: store.scope(state: \.fetchPlan,
+                                                action: \.fetchPlan))
+            }
+            .navigationBar(center: {
+                navigationView
+            })
+            .overlay(alignment: .bottomTrailing, content: {
+                DDFloatingButton {
+                    
                 }
-                .navigationBar(center: {
-                    navigationView
-                })
-                .overlay(alignment: .bottomTrailing, content: {
-                    DDFloatingButton {
-                        
-                    }
-                })
-                .bottomSheet($store.isShowMenu) {
-                    VStack {
-                        menuItem
-                    }
-                }
-                .bottomSheet($store.isShowGoalList, maxHeight: UIScreen.screenHeight * 0.75) {
-                    VStack {
-                        MyGoalList()
-                    }
-                }
-            } destination: { store in
-                switch store.case {
-                default:
-                    EmptyView()
+            })
+            .bottomSheet($store.isShowMenu) {
+                VStack {
+                    menuItem
                 }
             }
         }
@@ -51,21 +39,17 @@ struct HomeView: View {
 extension HomeView {
     private var navigationView: some View {
         HStack {
-            Button(action: {
-                
-            }, label: {
-                DDBackButton(action: {})                    
+            DDBackButton(action: {
+                store.send(.backButtonTapped)
             })
             Spacer()
-            // center
-            
+                        
             Text("3개월 안에 UX/UI 디자이너로 취업 취업 취업 취업")
                 .bodyLargeSemibold()
                 .foregroundStyle(Color.gray900)
                 .lineLimit(1)
             
             Spacer()
-            // right
             
             Button(action: {
                 store.send(.showMenu)

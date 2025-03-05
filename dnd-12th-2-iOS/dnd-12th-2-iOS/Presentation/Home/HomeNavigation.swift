@@ -9,12 +9,9 @@ import ComposableArchitecture
 
 @Reducer
 struct HomeNavigation {
-    @Reducer
-    enum Path {}
     
     @ObservableState
     struct State {
-        var path = StackState<Path.State>()
         var isShowMenu = false
         var isShowGoalList = false
         var calendar = MakeCalendar.State()
@@ -23,21 +20,13 @@ struct HomeNavigation {
     
     enum Action: BindableAction {
         case binding(BindingAction<State>)
-        // 라우팅액션
-        case path(StackActionOf<Path>)
-        
-        // 마이페이지 이동
-        case goToMyPage
         
         // 메뉴 숨김여부
         case showMenu
-        
-        // 목표리스트 숨김여부
-        case showGoalList
-        
+                
         case hideMenu
         
-        case hideGoalList
+        case backButtonTapped
         
         // 캘린더
         case calendar(MakeCalendar.Action)
@@ -62,12 +51,6 @@ struct HomeNavigation {
             case .showMenu:
                 state.isShowMenu = true
                 return .none
-            case .hideGoalList:
-                state.isShowGoalList = false
-                return .none
-            case .showGoalList:
-                state.isShowGoalList = true
-                return .none                                
                 // MARK: - Calendar
             case let .calendar(action):
                 switch action {
@@ -80,7 +63,6 @@ struct HomeNavigation {
             default:
                 return .none
             }
-        }
-        .forEach(\.path, action: \.path)
+        }    
     }
 }
