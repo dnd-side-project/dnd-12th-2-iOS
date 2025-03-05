@@ -19,9 +19,9 @@ struct FirstGoalFlow {
         // 계획
         var planTitle = ""
         // 시작날짜
-        var startTime = Date()
+        var startDate = Date()
         // 종료날짜
-        var endTime = Date()
+        var endDate = Date()
         var isForward: Bool {
             viewFlow.rawValue >= oldViewFlow.rawValue
         }
@@ -64,6 +64,8 @@ struct FirstGoalFlow {
         case fetchTips
         // tip 가져오기 완료
         case fetchTipsResponse(Guide)
+        // 목표설정 완료버튼탭
+        case completeButtonTapped
     }
     
     @Dependency(\.guideClient) var guideClient
@@ -90,6 +92,11 @@ struct FirstGoalFlow {
                 state.newGoalGuide = response.newGoalGuide
                 state.newPlanGuide = response.newPlanGuide
                 return .none
+            case .completeButtonTapped:
+                return .run { [state] send in
+                    try await goalClient.makeGoal(.init(goalTitle: state.goalTitle, planTitle: state.planTitle, startDate: state.startDate, endDate: state.endDate))
+                    await send(.goToMain)
+                }
             default:
                 return .none
             }

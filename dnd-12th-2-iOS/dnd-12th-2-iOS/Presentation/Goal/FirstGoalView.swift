@@ -40,9 +40,12 @@ struct FirstGoalView: View {
                     VStack {
                         Text(store.goalTitle)
                         Text(store.planTitle)
-                        
+                        Text("시작날짜")
+                        DDatePicker(date: $store.startDate)
+                        Text("종료날짜")
+                        DDatePicker(date: $store.endDate)
                         Spacer()
-                        DDButton(action: {})
+                        DDButton(action: { store.send(.completeButtonTapped) })
                     }
                     .navigationBar(left: {
                         DDBackButton(action: { store.send(.goToPrevStep) })
