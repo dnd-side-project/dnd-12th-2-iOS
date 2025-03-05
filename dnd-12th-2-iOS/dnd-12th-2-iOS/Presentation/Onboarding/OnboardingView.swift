@@ -16,10 +16,6 @@ struct OnboardingView: View {
                 store: store.scope(state: \.questionnaire,
                                    action: \.questionnaire)
             )
-            
-            DDButton(isDisable: store.buttonDisabled, action: {
-                store.send(.goToNextPage)
-            })
         }
         .navigationBar(left: {
             DDBackButton(action: {
