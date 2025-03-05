@@ -37,4 +37,10 @@ extension Date {
                 
         return weekday - 1
     }
+    
+    func toISO8601DateFormat() -> String {
+        let dateFormatter = ISO8601DateFormatter()
+        dateFormatter.formatOptions = [.withFullDate, .withTime, .withColonSeparatorInTime]
+        return dateFormatter.string(from: self)
+    }
 }

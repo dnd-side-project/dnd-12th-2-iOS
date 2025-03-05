@@ -36,6 +36,8 @@ struct QuestionForm: View {
                 .padding(.top, 50)
                 
                 Spacer()
+                
+                DDButton(action: {store.send(.incrementStep)})
             }
             .background(Color.white)
             .id(store.currentStep)

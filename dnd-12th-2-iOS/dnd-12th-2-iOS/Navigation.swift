@@ -28,6 +28,7 @@ struct Navigation {
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
+                // MARK: - LoginCheck
                 // 온보딩 완료
             case .loginCheck(.onboardingComplete):
                 state = .loggedIn(.init())
@@ -40,21 +41,19 @@ struct Navigation {
             case .loginCheck(.loginNotComplete):
                 state = .loggedOut(.init())
                 return .none
-                // 첫목표 설정 완료시
-            case .loggedOut(.path(.element(id: _, action: .goalComplete(.goToMainView)))):
-                state = .loggedIn(.init())
-                return .none
+                // MARK: - LoggedIn
                 // 마이페이지 로그아웃시
             case .loggedIn(.path(.element(id: _, action: .myPage(.logoutComplete)))):
                 state = .loggedOut(.init())
                 return .none
+                // MARK: - LoggedOut
                 // 온보딩 완료된경우 메인으로 이동
             case .loggedOut(.goToMain):
                 state = .loggedIn(.init())
                 return .none
                 // 온보딩 미완료시 온보딩으로 이동
             case .loggedOut(.goToOnboarding):
-                state = .loggedOut(.init(isOnboarding: true))                
+                state = .loggedOut(.init(isOnboarding: true))
                 return .none
             default:
                 return .none
