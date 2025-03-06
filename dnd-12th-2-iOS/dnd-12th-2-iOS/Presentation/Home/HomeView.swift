@@ -15,10 +15,10 @@ struct HomeView: View {
         WithPerceptionTracking {
             NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
                 VStack(spacing: 0) {
-                    CalendarView(store: store.scope(state: \.calendar, action: \.calendar))
-                        .padding(.top, 16)
-                       
-                    PlanListVIew(store: store.scope(state: \.fetchPlan, action: \.fetchPlan))
+                    CalendarView(store: store.scope(state: \.calendar,
+                                                    action: \.calendar))
+                    PlanListVIew(store: store.scope(state: \.fetchPlan,
+                                                    action: \.fetchPlan))
                 }
                 .navigationBar(center: {
                     navigationView
@@ -26,7 +26,7 @@ struct HomeView: View {
                 .overlay(alignment: .bottomTrailing, content: {
                     DDFloatingButton {
                         
-                    }                
+                    }
                 })
                 .bottomSheet($store.isShowMenu) {
                     VStack {
@@ -97,12 +97,16 @@ extension HomeView {
             }
             
             HStack {
-                HStack(spacing: 8) {
-                    Image("iconEdit")
-                    Text("목표 수정")
-                        .bodyLargeSemibold()
-                        .foregroundStyle(Color.gray900)
-                }
+                Button(action: {                    
+                    
+                }, label: {
+                    HStack(spacing: 8) {
+                        Image("iconEdit")
+                        Text("목표 생성")
+                            .bodyLargeSemibold()
+                            .foregroundStyle(Color.gray900)
+                    }
+                })
                 Spacer()
             }
             

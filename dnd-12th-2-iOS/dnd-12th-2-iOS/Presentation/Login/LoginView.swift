@@ -55,14 +55,10 @@ struct LoginView: View {
                 .ignoresSafeArea(.container, edges: .bottom)
             } destination: { store in
                 switch store.case {
-                case let .complete(store):
-                    OnboardingCompleteView(store: store)
                 case let .onboarding(store):
                     OnboardingView(store: store)
-                case let .goal(store):
-                    GoalView(store: store)
-                case let .goalComplete(store):
-                    GoalCompleteView(store: store)
+                case let .setFirstGoal(store):
+                    FirstGoalView(store: store)
                 }
             }
         }

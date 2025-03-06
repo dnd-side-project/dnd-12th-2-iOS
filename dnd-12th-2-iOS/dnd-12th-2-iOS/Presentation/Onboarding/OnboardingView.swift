@@ -16,10 +16,6 @@ struct OnboardingView: View {
                 store: store.scope(state: \.questionnaire,
                                    action: \.questionnaire)
             )
-            
-            DDButton(isDisable: store.buttonDisabled, action: {
-                store.send(.goToNextPage)
-            })
         }
         .navigationBar(left: {
             DDBackButton(action: {
@@ -30,7 +26,7 @@ struct OnboardingView: View {
             StepCircle(currentStep: store.questionnaire.currentStep + 1)
         })
         .onAppear {
-            store.send(.viewAppear)
+            store.send(.fetchQuestion)
         }
     }
 }

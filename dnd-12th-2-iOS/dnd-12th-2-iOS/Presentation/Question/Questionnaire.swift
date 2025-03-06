@@ -28,6 +28,8 @@ struct Questionnaire {
         case incrementStep
         // 이전 질문으로 이동
         case decrementStep
+        // 마지막 페이지
+        case questionCompleted
     }
     
     @Dependency(\.userClient) var userClient
@@ -46,7 +48,7 @@ struct Questionnaire {
                 return .none
             case .incrementStep:
                 guard state.currentStep < state.questions.count - 1 else {
-                    return .none
+                    return .send(.questionCompleted)
                 }
                 state.prevStep = state.currentStep
                 state.currentStep += 1
@@ -57,6 +59,8 @@ struct Questionnaire {
                 }
                 state.prevStep = state.currentStep
                 state.currentStep -= 1
+                return .none
+            default:
                 return .none
             }
         }
