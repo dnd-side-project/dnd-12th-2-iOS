@@ -46,12 +46,15 @@ struct MainNavigation {
                 state.path.append(.myPage(.init()))
                 return .none
                 // goalID 넘겨주고 상세화면 이동
-            case let .fetchGoal(.cellTapped(goalId)):
-                state.path.append(.home(.init(goalId: goalId)))
+            case let .fetchGoal(.cellTapped(goalInfo)):
+                state.path.append(.home(.init(goalId: goalInfo.goalId, goalTitle: goalInfo.title)))
                 return .none
                 // MARK: - Flow
             case let .path(action):
                 switch action {
+                case let .element(id: id, action: .myPage(.backButtonTapped)):
+                    state.path.pop(from: id)
+                    return .none
                 case let .element(id: id, action: .home(.backButtonTapped)):
                     state.path.pop(from: id)
                     return .none

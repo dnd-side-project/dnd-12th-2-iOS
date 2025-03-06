@@ -16,10 +16,12 @@ struct HomeNavigation {
         var isShowGoalList = false
         var calendar: MakeCalendar.State
         var fetchPlan = FetchPlan.State()
+        let goalTitle: String
         let goalId: Int
         
-        init(goalId: Int) {
+        init(goalId: Int, goalTitle: String) {
             self.goalId = goalId
+            self.goalTitle = goalTitle
             self.calendar = .init(goalId: goalId)
         }
     }

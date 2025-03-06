@@ -44,7 +44,7 @@ extension HomeView {
             })
             Spacer()
                         
-            Text("3개월 안에 UX/UI 디자이너로 취업 취업 취업 취업")
+            Text(store.goalTitle)
                 .bodyLargeSemibold()
                 .foregroundStyle(Color.gray900)
                 .lineLimit(1)

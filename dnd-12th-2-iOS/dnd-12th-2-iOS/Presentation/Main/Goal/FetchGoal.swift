@@ -17,7 +17,7 @@ struct FetchGoal {
     enum Action{
         case fetchGoals
         case fetchGoalResponse([Goal])
-        case cellTapped(goalId: Int)
+        case cellTapped(Goal)
     }
     
     @Dependency(\.goalClient) var goalClient

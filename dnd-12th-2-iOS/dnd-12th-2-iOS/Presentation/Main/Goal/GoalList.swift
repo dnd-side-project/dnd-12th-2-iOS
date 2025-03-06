@@ -18,7 +18,7 @@ struct GoalList: View {
             }
             .padding()
             .onTapGesture {
-                store.send(.cellTapped(goalId: item.goalId))
+                store.send(.cellTapped(item))
             }
         }
         .onAppear {
