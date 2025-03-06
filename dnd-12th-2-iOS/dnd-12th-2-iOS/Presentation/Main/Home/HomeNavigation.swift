@@ -28,6 +28,8 @@ struct HomeNavigation {
         
         case backButtonTapped
         
+        case goToArchiveGoal
+        
         // 캘린더
         case calendar(MakeCalendar.Action)
         

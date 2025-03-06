@@ -17,13 +17,29 @@ struct MainView: View {
                     Button(action: {
                         store.send(.goToHome)
                     }, label: {
-                        Text("goToHome")
+                        Text("홈")
+                    })
+                    
+                    Button(action: {
+                        store.send(.goToSetGoalView)
+                    }, label: {
+                        Text("목표추가")
+                    })
+                    
+                    Button(action: {
+                        store.send(.goToMyPage)
+                    }, label: {
+                        Text("마이페이지")
                     })
                 }
             } destination: { store in
                 switch store.case {
                 case let .home(store):
                     HomeView(store: store)
+                case let .setGoal(store):
+                    SetGoalView(store: store)
+                case let .myPage(store):
+                    MyPageView(store: store)
                 }
             }
         }
