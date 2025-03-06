@@ -12,3 +12,13 @@ struct GoalResonseDto: Decodable {
     let failureCount: Int
     let totalCount: Int
 }
+
+extension Array where Element == GoalResonseDto {
+    func toDomain() -> [Goal] {
+        self.map { Goal(goalId: $0.goalId,
+                        title: $0.title,
+                        successCount: $0.successCount,
+                        failureCount: $0.failureCount,
+                        totalCount: $0.totalCount)}
+    }
+}

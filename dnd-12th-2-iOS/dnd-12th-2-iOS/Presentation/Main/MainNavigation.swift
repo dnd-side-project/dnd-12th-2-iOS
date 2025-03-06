@@ -19,6 +19,7 @@ struct MainNavigation {
     @ObservableState
     struct State {
         var path = StackState<Path.State>()
+        var fetchGoal = FetchGoal.State()
     }
     
     enum Action: BindableAction {
@@ -27,9 +28,13 @@ struct MainNavigation {
         case goToHome
         case goToSetGoalView
         case goToMyPage
+        case fetchGoal(FetchGoal.Action)
     }
     
     var body: some Reducer<State, Action> {
+        Scope(state: \.fetchGoal, action: \.fetchGoal) {
+            FetchGoal()
+        }
         Reduce { state, action in
             switch action {
                 // MARK: - MainView

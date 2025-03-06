@@ -2,30 +2,13 @@
 //  Goal.swift
 //  dnd-12th-2-iOS
 //
-//  Created by 권석기 on 3/3/25.
+//  Created by 권석기 on 3/6/25.
 //
 
-import Foundation
-
-struct Goal: Equatable {
-    var goalTitle: String
-    var planTitle: String
-    var startDate: Date
-    var endDate: Date
-}
-
-extension Goal {
-    static var makeGoal: Goal {
-        .init(goalTitle: "",
-              planTitle: "",
-              startDate: .now,
-              endDate: .now)
-    }
-    
-    func toDto() -> GoalReqDto {
-        .init(goalTitle: goalTitle,
-              planTitle: planTitle,
-              startDate: startDate.toISO8601DateFormat(),
-              endDate: endDate.toISO8601DateFormat())
-    }
+struct Goal: Hashable {
+    let goalId: Int
+    let title: String
+    let successCount: Int
+    let failureCount: Int
+    let totalCount: Int
 }

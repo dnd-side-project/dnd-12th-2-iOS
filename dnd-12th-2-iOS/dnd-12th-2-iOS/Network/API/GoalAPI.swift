@@ -11,6 +11,7 @@ import Moya
 enum GoalAPI {
     case makeGoalWithPlan(GoalReqDto)
     case makePlan
+    case fetchGoal
 }
 
 extension GoalAPI: TargetType {
@@ -22,7 +23,7 @@ extension GoalAPI: TargetType {
         switch self {
         case .makeGoalWithPlan:
             return "/with-plan"
-        case .makePlan:
+        default:
             return ""
         }
     }
@@ -33,6 +34,8 @@ extension GoalAPI: TargetType {
             return .post
         case .makePlan:
             return .post
+        case .fetchGoal:
+            return .get
         }
     }
     
@@ -40,7 +43,7 @@ extension GoalAPI: TargetType {
         switch self {
         case let .makeGoalWithPlan(goalReqDto):
             return .requestJSONEncodable(goalReqDto)
-        case let .makePlan:
+        default:
             return .requestPlain
         }
     }
