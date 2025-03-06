@@ -10,7 +10,7 @@ import ComposableArchitecture
 @Reducer
 struct Navigation {
     enum State {
-        case loggedIn(HomeNavigation.State)
+        case loggedIn(MainNavigation.State)
         case loggedOut(LoginNavigation.State)
         case loginCheck(LoginCheck.State)
         
@@ -20,7 +20,7 @@ struct Navigation {
     }
     
     enum Action {
-        case loggedIn(HomeNavigation.Action)
+        case loggedIn(MainNavigation.Action)
         case loggedOut(LoginNavigation.Action)
         case loginCheck(LoginCheck.Action)
     }
@@ -63,7 +63,7 @@ struct Navigation {
             LoginNavigation()
         }
         .ifCaseLet(\.loggedIn, action: \.loggedIn) {
-            HomeNavigation()
+            MainNavigation()
         }
         .ifCaseLet(\.loginCheck, action: \.loginCheck) {
             LoginCheck()
