@@ -12,10 +12,15 @@ import ComposableArchitecture
 struct MakeCalendar {
     @ObservableState
     struct State {
+        let goalId: Int
         var yearMonthString = ""
         var dayList: [[Day]] = []
         var index = 0
         var cellIndex = 0
+        
+        init(goalId: Int) {
+            self.goalId = goalId
+        }
     }
     
     enum Action: BindableAction {
@@ -28,8 +33,16 @@ struct MakeCalendar {
         // 상단에뜨는 날짜 설정
         case setYearMonth(index: Int)
         
+        // 날짜데이터 생성
+        case makeCalendar
+        
         // 해당 날짜를 기준으로 계획리스트를 불러온다
         case requestDate(Date)
+        
+        // 주별 도달률 조회
+        case fetchWeeklyGoal
+        
+        case fetchWeeklyGoalResponse([Day])
     }
     
     let calendar = Calendar.current
@@ -40,6 +53,8 @@ struct MakeCalendar {
         return formatter
     }()
     
+    @Dependency(\.goalClient) var goalClient
+    
     var body: some Reducer<State, Action> {
         BindingReducer()
         Reduce { state, action in
@@ -49,7 +64,8 @@ struct MakeCalendar {
                 let requestDate = state.dayList[state.index][3].date
                 return .merge([
                     .send(.setYearMonth(index: state.index)),
-                    .send(.requestDate(requestDate))
+                    .send(.requestDate(requestDate)),
+                    .send(.fetchWeeklyGoal)
                 ])
                 // 상단에 나타나는 날짜 변경
             case let .setYearMonth(index):
@@ -66,7 +82,22 @@ struct MakeCalendar {
                     state.yearMonthString = "\(firstString) - \(lastString)"
                 }
                 return .none
-            case .viewAppear:                
+            case .viewAppear:
+                return .concatenate([
+                    .send(.makeCalendar),
+                    .send(.fetchWeeklyGoal)
+                ])
+            case .fetchWeeklyGoal:
+                let requestDate = state.dayList[state.index][0].date.toShortDateFormat()
+                let goalId = state.goalId
+                return .run { send in                    
+                    let result = try await goalClient.fetchWeeklyGoal(goalId, requestDate)
+                    await send(.fetchWeeklyGoalResponse(result))
+                }
+            case let .fetchWeeklyGoalResponse(response):
+                state.dayList[state.index] = response
+                return .none
+            case .makeCalendar:
                 let weekday = calendar.component(.weekday, from: .now)
                 let startWeek = calendar.date(byAdding: .day, value: 1 - weekday, to: .now)!
                 

@@ -14,10 +14,9 @@ struct GoalList: View {
         List(store.goalList, id: \.self) { item in
             VStack {
                 Text("goalID: \(item.goalId)")
-                Text(item.title)
+                Text("title: \(item.title)")
             }
-            .padding(20)
-            .background(.gray)
+            .padding()
             .onTapGesture {
                 store.send(.cellTapped(goalId: item.goalId))
             }

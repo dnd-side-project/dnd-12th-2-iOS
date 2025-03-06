@@ -12,6 +12,7 @@ enum GoalAPI {
     case makeGoalWithPlan(GoalReqDto)
     case makePlan
     case fetchGoal
+    case fetchWeeklyGoal(Int, String)
 }
 
 extension GoalAPI: TargetType {
@@ -23,35 +24,41 @@ extension GoalAPI: TargetType {
         switch self {
         case .makeGoalWithPlan:
             return "/with-plan"
-        default:
-            return ""
-        }
+        case let .fetchWeeklyGoal(goalId, _):
+            return "/\(goalId)/statistics/weekly"
+    default:
+        return ""
     }
-    
-    var method: Moya.Method {
-        switch self {
-        case .makeGoalWithPlan:
-            return .post
-        case .makePlan:
-            return .post
-        case .fetchGoal:
-            return .get
-        }
+}
+
+var method: Moya.Method {
+    switch self {
+    case .makeGoalWithPlan:
+        return .post
+    case .makePlan:
+        return .post
+    case .fetchGoal:
+        return .get
+    case .fetchWeeklyGoal:
+        return .get
     }
-    
-    var task: Moya.Task {
-        switch self {
-        case let .makeGoalWithPlan(goalReqDto):
-            return .requestJSONEncodable(goalReqDto)
-        default:
-            return .requestPlain
-        }
+}
+
+var task: Moya.Task {
+    switch self {
+    case let .makeGoalWithPlan(goalReqDto):
+        return .requestJSONEncodable(goalReqDto)
+    case let .fetchWeeklyGoal(_, date):
+        return .requestParameters(parameters: ["date": date], encoding: URLEncoding.queryString)
+    default:
+        return .requestPlain
     }
-    
-    var headers: [String : String]? {
-        switch self {
-        default:
-            return ["Content-type": "application/json"]
-        }
+}
+
+var headers: [String : String]? {
+    switch self {
+    default:
+        return ["Content-type": "application/json"]
     }
+}
 }
