@@ -17,6 +17,7 @@ struct FetchGoal {
     enum Action{
         case fetchGoals
         case fetchGoalResponse([Goal])
+        case cellTapped(goalId: Int)
     }
     
     @Dependency(\.goalClient) var goalClient
@@ -31,6 +32,8 @@ struct FetchGoal {
                 }
             case let .fetchGoalResponse(response):
                 state.goalList = response
+                return .none
+            default:
                 return .none
             }
         }

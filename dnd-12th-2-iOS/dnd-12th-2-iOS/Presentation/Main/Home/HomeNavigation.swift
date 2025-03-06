@@ -16,6 +16,11 @@ struct HomeNavigation {
         var isShowGoalList = false
         var calendar = MakeCalendar.State()
         var fetchPlan = FetchPlan.State()
+        let goalId: Int
+        
+        init(goalId: Int) {
+            self.goalId = goalId
+        }
     }
     
     enum Action: BindableAction {

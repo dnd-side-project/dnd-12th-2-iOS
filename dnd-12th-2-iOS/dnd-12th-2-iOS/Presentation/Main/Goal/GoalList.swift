@@ -18,6 +18,9 @@ struct GoalList: View {
             }
             .padding(20)
             .background(.gray)
+            .onTapGesture {
+                store.send(.cellTapped(goalId: item.goalId))
+            }
         }
         .onAppear {
             store.send(.fetchGoals)

@@ -25,8 +25,9 @@ struct MainNavigation {
     enum Action: BindableAction {
         case binding(BindingAction<State>)
         case path(StackActionOf<Path>)
-        case goToHome
+        // 목표설정으로 이동
         case goToSetGoalView
+        // 마이페이지로 이동
         case goToMyPage
         case fetchGoal(FetchGoal.Action)
     }
@@ -38,14 +39,15 @@ struct MainNavigation {
         Reduce { state, action in
             switch action {
                 // MARK: - MainView
-            case .goToHome:
-                state.path.append(.home(.init()))
-                return .none
             case .goToSetGoalView:
                 state.path.append(.setGoal(.init()))
                 return .none
             case .goToMyPage:
                 state.path.append(.myPage(.init()))
+                return .none
+                // goalID 넘겨주고 상세화면 이동
+            case let .fetchGoal(.cellTapped(goalId)):
+                state.path.append(.home(.init(goalId: goalId)))
                 return .none
                 // MARK: - Flow
             case let .path(action):
