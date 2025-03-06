@@ -21,12 +21,7 @@ struct HomeView: View {
             }
             .navigationBar(center: {
                 navigationView
-            })
-            .overlay(alignment: .bottomTrailing, content: {
-                DDFloatingButton {
-                    
-                }
-            })
+            })           
             .bottomSheet($store.isShowMenu) {
                 VStack {
                     menuItem
