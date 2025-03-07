@@ -15,7 +15,7 @@ struct DDFloatingButton: View {
             HStack(spacing: 4) {
                 Image("iconPlus")
                 if isExpanded {
-                    Text("계획 추가")
+                    Text("할 일 추가")
                         .bodyLargeSemibold()
                         .foregroundStyle(Color.white)
                 }

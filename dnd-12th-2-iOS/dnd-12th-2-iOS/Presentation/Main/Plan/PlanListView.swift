@@ -6,34 +6,39 @@
 //
 
 import SwiftUI
-import ComposableArchitecture
 import UIKit
 import Combine
+import ComposableArchitecture
+
 struct PlanListVIew: View {
     let store: StoreOf<FetchPlan>
-    @State private var isScrolling = false
     let publisher = CurrentValueSubject<CGFloat, Never>(0)
+    @State private var isScrolling = false
     @State var offsetDict: [String: CGFloat] = [:]
+    
     var body: some View {
         WithPerceptionTracking {
             ScrollViewReader { proxy in
                 WithPerceptionTracking {
                     ScrollViewWrapper(isScrolling: $isScrolling, publisher: publisher) {
                         VStack(spacing: 24) {
-                            ForEach(Array(store.planGroup), id: \.key) { (key, items) in
-                                Text(key)
-                                    .bodyMediumMedium()
-                                    .alignmentLeading()
-                                    .foregroundStyle(Color.gray500)
-                                    .background(GeometryReader { geo in
-                                        Color.clear
-                                            .onAppear {
-                                                offsetDict[key] = geo.frame(in: .named("scroll")).minY
-                                            }
-                                    })
-                                ForEach(items, id: \.self) { _ in
-                                    LazyVStack(spacing: 16) {
-                                        DDResultRow(action: {})
+                            ForEach(store.planGroup, id: \.self) { planDictionary in
+                                ForEach(Array(planDictionary.keys), id: \.self.key) { section in
+                                    Text(section.date)
+                                        .bodyMediumMedium()
+                                        .alignmentLeading()
+                                        .foregroundStyle(Color.gray500)
+                                        .background(GeometryReader { geo in
+                                            Color.clear
+                                                .onAppear {
+                                                    offsetDict[section.key] = geo.frame(in: .named("scroll")).minY
+                                                }
+                                        })
+                                    
+                                    ForEach(planDictionary[section] ?? [], id: \.self) { plan in
+                                        LazyVStack(spacing: 16) {
+                                            DDResultRow(action: {})
+                                        }
                                     }
                                 }
                             }
@@ -41,12 +46,14 @@ struct PlanListVIew: View {
                         .padding(.top, 11)
                         .coordinateSpace(name: "scroll")
                     }
-                    .id(store.planGroup.count)
+                    .id(store.renderKey)
+                    .onChange(of: store.renderKey) { _ in
+                        offsetDict.removeAll()
+                    }
                     .onChange(of: store.scrollKey) { newScrollKey in
                         if let scrollOffset = offsetDict[newScrollKey] {
                             publisher.send(scrollOffset)
                         }
-                        
                     }
                 }
             }
@@ -121,6 +128,7 @@ struct ScrollViewWrapper<Content: View>: UIViewRepresentable {
             super.init()
             parent.publisher
                 .receive(on: DispatchQueue.main)
+                .dropFirst()
                 .sink { offset in
                     UIView.animate(withDuration: 0.5) {
                         parent.scrollView.contentOffset = .init(x: 0, y: offset - 10)
