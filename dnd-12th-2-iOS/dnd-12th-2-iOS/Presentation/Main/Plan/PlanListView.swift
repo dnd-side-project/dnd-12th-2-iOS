@@ -43,9 +43,11 @@ struct PlanListVIew: View {
                                 }
                             }
                         }
+                        .padding(.horizontal, 16)
                         .padding(.top, 11)
                         .coordinateSpace(name: "scroll")
                     }
+                    
                     .id(store.renderKey)
                     .onChange(of: store.renderKey) { _ in
                         offsetDict.removeAll()
@@ -55,6 +57,7 @@ struct PlanListVIew: View {
                             publisher.send(scrollOffset)
                         }
                     }
+                    
                 }
             }
             .ignoresSafeArea(.container, edges: [.bottom, .top])
@@ -68,7 +71,16 @@ struct PlanListVIew: View {
                 }
                 .offset(y: -10)
                 .animation(.easeInOut(duration: 0.2), value: isScrolling)
+                .padding(.horizontal, 16)
             })
+            .overlay(alignment: .bottom) {
+                if !store.isTipHidden {
+                    TipBubble()
+                        .offset(x: 0, y: -70)
+                        .padding(.horizontal, 16)                      
+                }
+                
+            }
         }
     }
 }
@@ -97,9 +109,10 @@ struct ScrollViewWrapper<Content: View>: UIViewRepresentable {
     func makeUIView(context: Context) -> UIScrollView {
         let hostingController = UIHostingController(rootView: content)
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false
-        
         scrollView.addSubview(hostingController.view)
         scrollView.delegate = context.coordinator
+        scrollView.backgroundColor = .customBackground
+        hostingController.view.backgroundColor = .customBackground
         
         NSLayoutConstraint.activate([
             hostingController.view.topAnchor.constraint(equalTo: scrollView.topAnchor),

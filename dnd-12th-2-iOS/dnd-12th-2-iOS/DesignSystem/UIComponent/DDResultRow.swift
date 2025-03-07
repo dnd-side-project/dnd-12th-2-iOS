@@ -45,5 +45,7 @@ struct DDResultRow: View {
             .padding(.vertical, 13)
             .padding(.horizontal, 12)
         }
+        .background(.white)
+        .cornerRadius(12)
     }
 }

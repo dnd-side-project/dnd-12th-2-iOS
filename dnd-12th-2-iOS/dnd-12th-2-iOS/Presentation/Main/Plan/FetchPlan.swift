@@ -22,6 +22,10 @@ struct FetchPlan {
         var scrollKey = ""
         var renderKey = ""
         
+        var isTipHidden: Bool {
+            return !(planGroup.flatMap { $0.values.flatMap { $0 } }.count <= 2)
+        }
+        
         init(goalId: Int) {
             self.goalId = goalId
         }

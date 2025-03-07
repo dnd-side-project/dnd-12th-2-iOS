@@ -37,6 +37,7 @@ struct DDNavigationModifier<C, L, R>: ViewModifier where C: View, L: View, R: Vi
                 }
             }
             .frame(height: 48)
+            .background(.white)
             
             Spacer(minLength: 0)
             
@@ -44,7 +45,7 @@ struct DDNavigationModifier<C, L, R>: ViewModifier where C: View, L: View, R: Vi
             
             Spacer(minLength: 0)
         }
-        .background(.white)
+//        .background(.white)
         .navigationBarHidden(true)
         .padding(.horizontal, 16)
     }

@@ -17,11 +17,13 @@ struct HomeView: View {
                 CalendarView(store: store.scope(state: \.calendar,
                                                 action: \.calendar))
                 PlanListVIew(store: store.scope(state: \.fetchPlan,
-                                                action: \.fetchPlan))
+                                                    action: \.fetchPlan))
+                .padding(.horizontal, -16)
+                .background(Color.customBackground)
             }
             .navigationBar(center: {
                 navigationView
-            })           
+            })
             .bottomSheet($store.isShowMenu) {
                 VStack {
                     menuItem
