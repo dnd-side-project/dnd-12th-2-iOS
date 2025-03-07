@@ -15,10 +15,24 @@ struct CalendarView: View {
         WithPerceptionTracking {
             
             VStack(spacing: 8){
-                Text(store.yearMonthString)
-                    .bodyLargeMedium()
-                    .alignmentLeading()
-                    .foregroundStyle(Color.gray600)
+                HStack {
+                    Text(store.yearMonthString)
+                        .bodyLargeMedium()
+                        .alignmentLeading()
+                        .foregroundStyle(Color.gray600)
+                    Spacer()
+                    Button(action: {
+                        store.send(.todayButtonTapped)
+                    }, label: {
+                        Text("오늘")
+                            .bodyMediumMedium()
+                            .foregroundStyle(Color.purple600)
+                            .padding(.vertical, 5)
+                            .padding(.horizontal, 8)
+                            .background(Color.purple50)
+                            .cornerRadius(4)
+                    })
+                }
                 
                 VStack(spacing: 8) {
                     HStack(spacing: 13) {

@@ -45,6 +45,7 @@ struct MakeCalendar {
         case fetchWeeklyGoalResponse([Day])
         case cellTapped(index: Int)
         case requestScrollId(Date)
+        case todayButtonTapped
     }
     
     let calendar = Calendar.current
@@ -140,6 +141,15 @@ struct MakeCalendar {
                 state.index = midIndex
                 state.cellIndex = dayList[midIndex].firstIndex(where: {calendar.isDate($0.date, inSameDayAs: .now)}) ?? 0
                
+                return .merge([
+                    .send(.setYearMonth(index: midIndex)),
+                    .send(.requestDate(requestDate))
+                ])
+            case .todayButtonTapped:
+                let midIndex = state.dayList.count / 2
+                state.index = midIndex
+                state.cellIndex = state.dayList[midIndex].firstIndex(where: {calendar.isDate($0.date, inSameDayAs: .now)}) ?? 0
+                let requestDate = state.dayList[midIndex][3].date
                 return .merge([
                     .send(.setYearMonth(index: midIndex)),
                     .send(.requestDate(requestDate))
