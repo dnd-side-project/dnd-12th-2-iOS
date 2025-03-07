@@ -37,7 +37,7 @@ struct PlanListVIew: View {
                                     
                                     ForEach(planDictionary[section] ?? [], id: \.self) { plan in
                                         LazyVStack(spacing: 16) {
-                                            DDResultRow(action: {})
+                                            DDResultRow(planInfo: plan, action: {})
                                         }
                                     }
                                 }

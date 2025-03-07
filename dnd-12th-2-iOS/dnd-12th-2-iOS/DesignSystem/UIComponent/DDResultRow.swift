@@ -8,19 +8,20 @@
 import SwiftUI
 
 struct DDResultRow: View {
+    let planInfo: Plan
     let action: () -> Void
     
     var body: some View {
         VStack {
             HStack(spacing: 0) {
-                Image("iconReady")
+                planInfo.image
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    Text("14:30 ~ 18:00")
+                    Text(planInfo.period)
                         .font(.pretendard(size: 12, weight: .medium), lineHeight: 14)
                         .foregroundStyle(.gray500)
                         .padding(.bottom, 1)
-                    Text("실무 과제 대비 연습")
+                    Text(planInfo.title)
                         .bodyLargeSemibold()
                         .foregroundStyle(.gray900)
                 }
@@ -28,7 +29,17 @@ struct DDResultRow: View {
                 Spacer()
                 
                 Button(action: {}, label: {
-                    Image(.iconRight)
+                    if planInfo.resultType == .ready {
+                        Text("실행하셨나요?")
+                            .bodySmallSemibold()
+                            .foregroundStyle(Color.purple600)
+                            .padding(.vertical, 6)
+                            .padding(.horizontal, 8)
+                            .background(Color.gray50)
+                            .cornerRadius(6)
+                    } else {
+                        Image(.iconRight)
+                    }
                 })
             }
             .padding(.vertical, 13)

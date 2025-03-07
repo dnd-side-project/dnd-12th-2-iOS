@@ -32,7 +32,7 @@ struct FetchPlan {
         case fetchPlans(Date)
         case groupByStartDate([Plan])
         case responseScrollId(Date)
-        case setRequestDate
+        case setRenderKey
     }
     
     @Dependency(\.goalClient) var goalClient
@@ -51,7 +51,7 @@ struct FetchPlan {
                         let result = try await goalClient.fetchPlans(state.goalId, date.toShortDateFormat(), 3)
                         await send(.groupByStartDate(result))
                     },
-                    .send(.setRequestDate)
+                    .send(.setRenderKey)
                 ])
             case let .groupByStartDate(response):
                 var groupedPlan : [Date: [Plan]] = [:]
@@ -79,7 +79,7 @@ struct FetchPlan {
                         return [key: value]
                  }
                 return .none
-            case .setRequestDate:
+            case .setRenderKey:
                 state.renderKey = UUID().uuidString
                 return .none
             }
