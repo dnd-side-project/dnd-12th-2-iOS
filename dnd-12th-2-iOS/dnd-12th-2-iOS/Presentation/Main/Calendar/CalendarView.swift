@@ -36,6 +36,9 @@ struct CalendarView: View {
                                 HStack(spacing: 13) {
                                     ForEach(Array(dayList.enumerated()), id: \.offset) { (offset, day) in
                                         DDayCell(day: day, isSelected: offset == store.cellIndex)
+                                            .onTapGesture {
+                                                store.send(.cellTapped(index: offset))
+                                            }
                                     }
                                 }
                                 .padding(.vertical, 8)

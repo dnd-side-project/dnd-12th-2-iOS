@@ -4,7 +4,7 @@
 //
 //  Created by 권석기 on 3/6/25.
 //
-
+import Foundation
 import ComposableArchitecture
 
 @Reducer
@@ -17,7 +17,7 @@ struct FetchGoal {
     enum Action{
         case fetchGoals
         case fetchGoalResponse([Goal])
-        case cellTapped(Goal)
+        case cellTapped(Goal)        
     }
     
     @Dependency(\.goalClient) var goalClient

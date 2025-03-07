@@ -13,6 +13,7 @@ enum GoalAPI {
     case makePlan
     case fetchGoal
     case fetchWeeklyGoal(Int, String)
+    case fetchPlans(goalId: Int, date: String, range: Int)
 }
 
 extension GoalAPI: TargetType {
@@ -26,39 +27,45 @@ extension GoalAPI: TargetType {
             return "/with-plan"
         case let .fetchWeeklyGoal(goalId, _):
             return "/\(goalId)/statistics/weekly"
-    default:
-        return ""
+        case let .fetchPlans(goalId, _, _):
+            return "/\(goalId)/plans"
+        default:
+            return ""
+        }
     }
-}
-
-var method: Moya.Method {
-    switch self {
-    case .makeGoalWithPlan:
-        return .post
-    case .makePlan:
-        return .post
-    case .fetchGoal:
-        return .get
-    case .fetchWeeklyGoal:
-        return .get
+    
+    var method: Moya.Method {
+        switch self {
+        case .makeGoalWithPlan:
+            return .post
+        case .makePlan:
+            return .post
+        case .fetchGoal:
+            return .get
+        case .fetchWeeklyGoal:
+            return .get
+        case .fetchPlans:
+            return .get
+        }
     }
-}
-
-var task: Moya.Task {
-    switch self {
-    case let .makeGoalWithPlan(goalReqDto):
-        return .requestJSONEncodable(goalReqDto)
-    case let .fetchWeeklyGoal(_, date):
-        return .requestParameters(parameters: ["date": date], encoding: URLEncoding.queryString)
-    default:
-        return .requestPlain
+    
+    var task: Moya.Task {
+        switch self {
+        case let .makeGoalWithPlan(goalReqDto):
+            return .requestJSONEncodable(goalReqDto)
+        case let .fetchWeeklyGoal(_, date):
+            return .requestParameters(parameters: ["date": date], encoding: URLEncoding.queryString)
+        case let .fetchPlans(_, date, range):
+            return .requestParameters(parameters: ["date": date, "range": range], encoding: URLEncoding.queryString)
+        default:
+            return .requestPlain
+        }
     }
-}
-
-var headers: [String : String]? {
-    switch self {
-    default:
-        return ["Content-type": "application/json"]
+    
+    var headers: [String : String]? {
+        switch self {
+        default:
+            return ["Content-type": "application/json"]
+        }
     }
-}
 }
