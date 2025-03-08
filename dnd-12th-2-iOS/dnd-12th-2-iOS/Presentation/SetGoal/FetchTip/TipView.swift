@@ -14,7 +14,7 @@ struct TipView: View {
     var body: some View {
         HStack(spacing: 8) {
             Image("iconMagic")
-            Text("진행 상황을 측정할 수 있도록 목표를 세워보세요.")
+            Text(store.guideString)
                 .bodyMediumSemibold()
                 .alignmentLeading()
                 .foregroundStyle(Color.purple600)
@@ -23,6 +23,9 @@ struct TipView: View {
         .padding(.horizontal, 12)
         .background(Color.purple50)
         .cornerRadius(8)
+        .onAppear {
+            store.send(.fetchTip)
+        }
     }
 }
 

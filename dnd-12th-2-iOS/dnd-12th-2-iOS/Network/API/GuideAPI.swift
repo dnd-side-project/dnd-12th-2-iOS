@@ -10,6 +10,7 @@ import Moya
 
 enum GuideAPI {
     case fetchNewTip
+    case fetchTip(type: String)
 }
 
 extension GuideAPI: TargetType {
@@ -21,6 +22,8 @@ extension GuideAPI: TargetType {
         switch self {
         case .fetchNewTip:
             return "/new"
+        default:
+            return ""
         }
     }
     
@@ -33,6 +36,8 @@ extension GuideAPI: TargetType {
     
     var task: Moya.Task {
         switch self {
+        case let .fetchTip(type):
+            return .requestParameters(parameters: ["type": type], encoding: URLEncoding.default)
         default:
             return .requestPlain
         }

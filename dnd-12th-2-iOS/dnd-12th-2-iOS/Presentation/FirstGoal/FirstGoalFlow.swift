@@ -103,7 +103,7 @@ struct FirstGoalFlow {
                 return .none
             case .fetchTips:
                 return .run { send in
-                    let response = try await guideClient.fetchTips()
+                    let response = try await guideClient.fetchNewTip()
                     await send(.fetchTipsResponse(response))
                 }
             case let .fetchTipsResponse(response):

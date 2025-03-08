@@ -10,19 +10,30 @@ import ComposableArchitecture
 import Moya
 
 struct GuideClient {
-    var fetchTips: () async throws -> Guide
+    var fetchNewTip: () async throws -> Guide
+    var fetchTip: (String) async throws -> String
     static let provider = MoyaProvider<GuideAPI>(session: Session(interceptor: AuthIntercepter.shared), plugins: [MoyaLoggingPlugin()])
 }
 
 extension GuideClient: DependencyKey {
     static let liveValue = Self (
-        fetchTips: {
+        fetchNewTip: {
             do {
                 let result: BaseResponse<GuideResponseDto> = try await provider.async.request(.fetchNewTip)
                 guard let result = result.data else {
                     throw APIError.parseError
                 }
                 return result.toDomain()
+            } catch {
+                throw error
+            }
+        }, fetchTip: { path in
+            do {
+                let result: BaseResponse<TipResponseDto> = try await provider.async.request(.fetchTip(type: path))
+                guard let result = result.data else {
+                    throw APIError.parseError
+                }
+                return result.guide
             } catch {
                 throw error
             }
