@@ -11,7 +11,9 @@ import ComposableArchitecture
 struct SetGoalView: View {
     let store: StoreOf<SetGoal>
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            TipView(store: store.scope(state: \.fetchTip, action: \.fetchTip))
+        }
     }
 }
 

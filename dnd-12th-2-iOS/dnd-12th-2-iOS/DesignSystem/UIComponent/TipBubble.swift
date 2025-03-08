@@ -27,8 +27,7 @@ struct TipBubble: View {
                                 .bodyMediumRegular()
                                 .foregroundStyle(Color.gray50)
                             Spacer()
-                        }
-                        
+                        }                        
                     }
                 }
                 .padding(.bottom, 15)

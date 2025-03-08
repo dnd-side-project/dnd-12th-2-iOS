@@ -37,7 +37,11 @@ struct HomeNavigation {
         
         case backButtonTapped
         
+        // 목표달성
         case goToArchiveGoal
+        
+        // 계획설정으로 이동
+        case goToSetPlan
         
         // 캘린더
         case calendar(MakeCalendar.Action)

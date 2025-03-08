@@ -9,11 +9,18 @@ import ComposableArchitecture
 
 @Reducer
 struct SetGoal {
-    struct State {}
+    struct State {
+        var fetchTip = FetchTip.State()
+    }
     
-    enum Action {}
+    enum Action {
+        case fetchTip(FetchTip.Action)
+    }
     
     var body: some Reducer<State, Action> {
+        Scope(state: \.fetchTip, action: \.fetchTip) {
+            FetchTip()
+        }
         Reduce { state, action in
             switch action {
             default:

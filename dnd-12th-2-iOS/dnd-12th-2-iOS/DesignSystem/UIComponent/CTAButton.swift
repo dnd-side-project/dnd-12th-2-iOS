@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-struct DDFloatingButton: View {
-    var isExpanded: Bool
+struct CTAButton: View {
+    var isScrolling: Bool
     let action: () -> Void
     var body: some View {
         Button(action: action, label: {
             HStack(spacing: 4) {
                 Image("iconPlus")
-                if isExpanded {
+                if !isScrolling {
                     Text("할 일 추가")
                         .bodyLargeSemibold()
                         .foregroundStyle(Color.white)
@@ -25,6 +25,7 @@ struct DDFloatingButton: View {
         .background(Color.purple500)
         .clipShape(Capsule())        
         .shadow(color: .black.opacity(0.08), radius: 4, x: 0, y: 2)
+        .animation(.easeInOut(duration: 0.2), value: isScrolling)
     }
 }
 

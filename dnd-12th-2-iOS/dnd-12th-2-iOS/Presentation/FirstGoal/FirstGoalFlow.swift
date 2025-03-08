@@ -12,25 +12,37 @@ import ComposableArchitecture
 struct FirstGoalFlow {
     @ObservableState
     struct State{
+        // 현재 viewFlow
         var viewFlow: GoalViewFlow = .setGoal
+        
+        // 이전 viewFlow
         var oldViewFlow: GoalViewFlow = .setGoal
+        
         // 목표
         var goalTitle = ""
+        
         // 계획
         var planTitle = ""
+        
         // 시작날짜
         var startDate = Date()
+        
         // 종료날짜
         var endDate = Date()
+        
+        // 화면이동 애니메이션
         var isForward: Bool {
             viewFlow.rawValue >= oldViewFlow.rawValue
         }
+        
         // 목표 가이드
         var newGoalGuide = ""
+        
         // 계획 가이드
         var newPlanGuide = ""
     }
     
+    // 첫목표설정 Flow
     enum GoalViewFlow: Int {
         case setGoal
         case setPlan
@@ -54,16 +66,22 @@ struct FirstGoalFlow {
     
     enum Action: BindableAction {
         case binding(BindingAction<State>)
+        
         // 메인화면 이동
         case goToMain
+        
         // 다음 스텝으로
         case goToNextStep
+        
         // 이전 스텝으로
         case goToPrevStep
+        
         // tip 가져오기
         case fetchTips
+        
         // tip 가져오기 완료
         case fetchTipsResponse(Guide)
+        
         // 목표설정 완료버튼탭
         case completeButtonTapped
     }

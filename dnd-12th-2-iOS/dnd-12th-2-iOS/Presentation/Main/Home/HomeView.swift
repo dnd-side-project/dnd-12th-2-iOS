@@ -10,37 +10,45 @@ import ComposableArchitecture
 
 struct HomeView: View {
     @Perception.Bindable var store: StoreOf<HomeNavigation>
-    
+    @State var isScrolling = false
     var body: some View {
         WithPerceptionTracking {
             VStack(spacing: 0) {
                 CalendarView(store: store.scope(state: \.calendar,
                                                 action: \.calendar))
-                PlanListVIew(store: store.scope(state: \.fetchPlan,
-                                                    action: \.fetchPlan))
+                PlanListVIew(isScrolling: $isScrolling,
+                             store: store.scope(state: \.fetchPlan,
+                                                action: \.fetchPlan))
                 .padding(.horizontal, -16)
                 .background(Color.customBackground)
             }
             .navigationBar(center: {
-                navigationView
+                HomeNavigation()
             })
             .bottomSheet($store.isShowMenu) {
                 VStack {
-                    menuItem
+                    MenuItem()
                 }
             }
+            .overlay(alignment: .bottomTrailing, content: {
+                CTAButton(isScrolling: isScrolling) {
+                    store.send(.goToSetPlan)
+                }
+                .offset(y: -10)
+                .padding(.horizontal, 16)
+            })
         }
     }
 }
 
 extension HomeView {
-    private var navigationView: some View {
+    private func HomeNavigation() -> some View {
         HStack {
             DDBackButton(action: {
                 store.send(.backButtonTapped)
             })
             Spacer()
-                        
+            
             Text(store.goalTitle)
                 .bodyLargeSemibold()
                 .foregroundStyle(Color.gray900)
@@ -56,7 +64,7 @@ extension HomeView {
         }
     }
     
-    private var menuItem: some View {
+    private func MenuItem() -> some View {
         VStack(spacing: 34) {
             HStack {
                 HStack(spacing: 8) {
