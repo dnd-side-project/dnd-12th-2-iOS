@@ -20,8 +20,11 @@ extension UserClient: DependencyKey {
     static let liveValue = Self (
         fetchUserOnboarding: {
             do {
-                try await provider.async.requestPlain(.meOnboarding)
-                return true
+                let result: BaseResponse<UserOnboardingResDto> = try await provider.async.request(.meOnboarding)
+                guard let data = result.data else {
+                    throw APIError.parseError
+                }
+                return data.checkOnboardingDone
             } catch {
                 throw error
             }

@@ -22,7 +22,7 @@ struct Plan: Hashable {
     let completedDate: String?
     
     var period: String {
-        return "\(startDate.toTimeFormat(inputFormat: "yyyy-MM-dd")) ~ \(endDate.toTimeFormat(inputFormat: "yyyy-MM-dd"))"
+        return "\(startDate.toTimeFormat()) ~ \(endDate.toTimeFormat())"
     }
     
     var resultType: ResultType {

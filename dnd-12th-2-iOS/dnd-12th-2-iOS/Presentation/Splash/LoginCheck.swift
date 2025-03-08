@@ -29,24 +29,18 @@ struct LoginCheck {
             switch action {
             case .loginCheck:
                 // 온보딩 완료여부 체크
-                let isLogin = KeyChainManager.readItem(key: .accessToken) != nil && KeyChainManager.readItem(key: .refreshToken) != nil
                 return .run { send in
-                    // TODO: 단순히 온보딩 데이터가 없는경우 예외처리
                     let isOnboarding = try await userClient.fetchUserOnboarding()
                     
-                    if isOnboarding && isLogin {
+                    // 온보딩성공시
+                    if isOnboarding {
                         await send(.onboardingComplete)
-                    } else if isLogin {
+                    } else if !isOnboarding {
                         await send(.loginComplete)
-                    } else {
-                        await send(.loginNotComplete)
                     }
                 } catch: { error, send in
-                    if isLogin {
-                        await send(.loginComplete)
-                    } else {
-                        await send(.loginNotComplete)
-                    }
+                    // 토큰이 유효하지 않거나 다른문제 발생시
+                    await send(.loginNotComplete)
                 }
             default:
                 return .none
