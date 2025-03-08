@@ -14,8 +14,17 @@ struct HomeNavigation {
     struct State {
         var isShowMenu = false
         var isShowGoalList = false
-        var calendar = MakeCalendar.State()
-        var fetchPlan = FetchPlan.State()
+        var calendar: MakeCalendar.State
+        var fetchPlan: FetchPlan.State
+        let goalTitle: String
+        let goalId: Int
+        
+        init(goalId: Int, goalTitle: String) {
+            self.goalId = goalId
+            self.goalTitle = goalTitle
+            self.calendar = .init(goalId: goalId)
+            self.fetchPlan = .init(goalId: goalId)
+        }
     }
     
     enum Action: BindableAction {
@@ -57,6 +66,8 @@ struct HomeNavigation {
             case let .calendar(action):
                 switch action {
                     // 캘린더 날짜변경시 계획리스트 새로고침
+                case let .requestScrollId(date):
+                    return .send(.fetchPlan(.responseScrollId(date)))
                 case let .requestDate(date):
                     return .send(.fetchPlan(.requestPlan(date)))
                 default:

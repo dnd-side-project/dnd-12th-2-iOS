@@ -14,24 +14,15 @@ struct MainView: View {
         WithPerceptionTracking {
             NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
                 VStack {
-                    Button(action: {
-                        store.send(.goToHome)
-                    }, label: {
-                        Text("홈")
-                    })
-                    
-                    Button(action: {
-                        store.send(.goToSetGoalView)
-                    }, label: {
-                        Text("목표추가")
-                    })
-                    
+                    GoalList(store: store.scope(state: \.fetchGoal, action: \.fetchGoal))
+                }
+                .navigationBar(right: {
                     Button(action: {
                         store.send(.goToMyPage)
                     }, label: {
                         Text("마이페이지")
                     })
-                }
+                })
             } destination: { store in
                 switch store.case {
                 case let .home(store):

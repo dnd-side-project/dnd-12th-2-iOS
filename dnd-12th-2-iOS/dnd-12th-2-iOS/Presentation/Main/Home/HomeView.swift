@@ -17,15 +17,12 @@ struct HomeView: View {
                 CalendarView(store: store.scope(state: \.calendar,
                                                 action: \.calendar))
                 PlanListVIew(store: store.scope(state: \.fetchPlan,
-                                                action: \.fetchPlan))
+                                                    action: \.fetchPlan))
+                .padding(.horizontal, -16)
+                .background(Color.customBackground)
             }
             .navigationBar(center: {
                 navigationView
-            })
-            .overlay(alignment: .bottomTrailing, content: {
-                DDFloatingButton {
-                    
-                }
             })
             .bottomSheet($store.isShowMenu) {
                 VStack {
@@ -44,7 +41,7 @@ extension HomeView {
             })
             Spacer()
                         
-            Text("3개월 안에 UX/UI 디자이너로 취업 취업 취업 취업")
+            Text(store.goalTitle)
                 .bodyLargeSemibold()
                 .foregroundStyle(Color.gray900)
                 .lineLimit(1)

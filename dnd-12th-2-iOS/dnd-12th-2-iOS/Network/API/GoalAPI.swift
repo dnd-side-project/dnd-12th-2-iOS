@@ -11,6 +11,9 @@ import Moya
 enum GoalAPI {
     case makeGoalWithPlan(GoalReqDto)
     case makePlan
+    case fetchGoal
+    case fetchWeeklyGoal(Int, String)
+    case fetchPlans(goalId: Int, date: String, range: Int)
 }
 
 extension GoalAPI: TargetType {
@@ -22,7 +25,11 @@ extension GoalAPI: TargetType {
         switch self {
         case .makeGoalWithPlan:
             return "/with-plan"
-        case .makePlan:
+        case let .fetchWeeklyGoal(goalId, _):
+            return "/\(goalId)/statistics/weekly"
+        case let .fetchPlans(goalId, _, _):
+            return "/\(goalId)/plans"
+        default:
             return ""
         }
     }
@@ -33,6 +40,12 @@ extension GoalAPI: TargetType {
             return .post
         case .makePlan:
             return .post
+        case .fetchGoal:
+            return .get
+        case .fetchWeeklyGoal:
+            return .get
+        case .fetchPlans:
+            return .get
         }
     }
     
@@ -40,7 +53,11 @@ extension GoalAPI: TargetType {
         switch self {
         case let .makeGoalWithPlan(goalReqDto):
             return .requestJSONEncodable(goalReqDto)
-        case let .makePlan:
+        case let .fetchWeeklyGoal(_, date):
+            return .requestParameters(parameters: ["date": date], encoding: URLEncoding.queryString)
+        case let .fetchPlans(_, date, range):
+            return .requestParameters(parameters: ["date": date, "range": range], encoding: URLEncoding.queryString)
+        default:
             return .requestPlain
         }
     }
