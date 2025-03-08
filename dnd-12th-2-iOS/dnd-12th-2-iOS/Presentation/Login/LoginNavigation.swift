@@ -76,8 +76,12 @@ struct LoginNavigation {
                         await send(.appleLoginComplete(result))
                     },
                     .run { send in
-                        let _ = try await userClient.fetchUserOnboarding()
-                        await send(.goToMain)
+                        let isOnboarding = try await userClient.fetchUserOnboarding()
+                        if isOnboarding {
+                            await send(.goToMain)
+                        } else {
+                            await send(.goToOnboarding)
+                        }                        
                     } catch: { error, send in
                         // 온보딩 데이터가 없는 경우 예외가 발생한다
                         await send(.goToOnboarding)
