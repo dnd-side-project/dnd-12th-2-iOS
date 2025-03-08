@@ -82,6 +82,7 @@ struct DDBottomSheet<ContentView>: ViewModifier where ContentView: View {
                     }
                 }
             }
+            .zIndex(10)
     }
     
     private func dismissSheet() {

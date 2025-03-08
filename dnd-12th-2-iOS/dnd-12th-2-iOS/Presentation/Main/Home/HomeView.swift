@@ -25,11 +25,6 @@ struct HomeView: View {
             .navigationBar(center: {
                 HomeNavigation()
             })
-            .bottomSheet($store.isShowMenu) {
-                VStack {
-                    MenuItem()
-                }
-            }
             .overlay(alignment: .bottomTrailing, content: {
                 CTAButton(isScrolling: isScrolling) {
                     store.send(.goToSetPlan)
@@ -37,6 +32,11 @@ struct HomeView: View {
                 .offset(y: -10)
                 .padding(.horizontal, 16)
             })
+            .bottomSheet($store.isShowMenu) {
+                VStack {
+                    MenuItem()
+                }
+            }        
         }
     }
 }
