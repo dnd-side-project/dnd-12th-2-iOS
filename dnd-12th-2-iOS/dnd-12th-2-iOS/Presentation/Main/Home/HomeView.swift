@@ -27,7 +27,7 @@ struct HomeView: View {
             })
             .overlay(alignment: .bottomTrailing, content: {
                 CTAButton(isScrolling: isScrolling) {
-                    store.send(.goToSetPlan)
+                    store.send(.addPlanButtonTapped)
                 }
                 .offset(y: -10)
                 .padding(.horizontal, 16)
@@ -36,7 +36,7 @@ struct HomeView: View {
                 VStack {
                     MenuItem()
                 }
-            }        
+            }
         }
     }
 }

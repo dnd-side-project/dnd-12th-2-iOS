@@ -11,7 +11,7 @@ import Moya
 
 struct GoalClient {
     var makeGoal: (GoalInfo) async throws -> Void
-    var makePlan: (GoalInfo) async throws -> Void
+    var makePlan: (Int, PlanInfo) async throws -> Void
     var fetchGoal: () async throws -> [Goal]
     var fetchWeeklyGoal: (Int, String) async throws -> [Day]
     var fetchPlans: (Int, String, Int) async throws -> [Plan]
@@ -27,8 +27,12 @@ extension GoalClient: DependencyKey {
                 throw error
             }
         },
-        makePlan: { goalInfo in
-            
+        makePlan: { goalId, planInfo in
+            do {
+                try await provider.async.requestPlain(.makePlan(goalID: goalId, planReqDto: planInfo.toDto()))
+            } catch {
+                throw error
+            }
         }, fetchGoal: {
             do {
                 let result: BaseResponse<[GoalResonseDto]> = try await provider.async.request(.fetchGoal)

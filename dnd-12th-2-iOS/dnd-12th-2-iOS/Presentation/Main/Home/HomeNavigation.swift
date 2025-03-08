@@ -40,8 +40,10 @@ struct HomeNavigation {
         // 목표달성
         case goToArchiveGoal
         
+        case addPlanButtonTapped
+        
         // 계획설정으로 이동
-        case goToSetPlan
+        case goToSetPlan(goalId: Int)
         
         // 캘린더
         case calendar(MakeCalendar.Action)
@@ -66,6 +68,8 @@ struct HomeNavigation {
             case .showMenu:
                 state.isShowMenu = true
                 return .none
+            case .addPlanButtonTapped:
+                return .send(.goToSetPlan(goalId: state.goalId))
                 // MARK: - Calendar
             case let .calendar(action):
                 switch action {

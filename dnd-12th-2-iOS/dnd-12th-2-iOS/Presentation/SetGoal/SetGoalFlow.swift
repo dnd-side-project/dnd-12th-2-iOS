@@ -10,6 +10,7 @@ import ComposableArchitecture
 
 @Reducer
 struct SetGoalFlow {
+    // MARK: - State
     @ObservableState
     struct State {
         // Tip 받아오기
@@ -21,21 +22,40 @@ struct SetGoalFlow {
         // 현재 화면단계
         var viewFlow: ViewFlow
         
+        var goalId = 0
+        
         // 목표타이틀
         var goalTitle = ""
         
         // 계획타이틀
         var planTitle = ""
         
+        // 시작 날짜
+        var startDate = Date()
+        
+        // 종료날짜
+        var endDate = Date()
+        
         var isFoward = true
         
-        init(makeType: MakeType = .makeGoal) {
-            self.makeType = makeType
-            self.viewFlow = makeType == .makeGoal ? .setGoal : .setPlan
-            self.fetchTip = .init(guideType: makeType == .makeGoal ? .newGoal : .newPlan)
+        /// 새로운 목표생성
+        init() {
+            self.makeType = .makeGoal
+            self.viewFlow = .setGoal
+            self.fetchTip = .init(guideType: .newGoal)
+        }
+        
+        /// 새로운 계획생성(goalID 필수)
+        /// - Parameter goalId: 계획을 생성할 목표의 goalID
+        init(goalId: Int) {
+            self.goalId = goalId
+            self.makeType = .makePlan
+            self.viewFlow = .setPlan
+            self.fetchTip = .init(guideType: .newPlan)
         }
     }
     
+    // MARK: - Action
     enum Action: BindableAction {
         case binding(BindingAction<State>)
         case fetchTip(FetchTip.Action)
@@ -57,9 +77,15 @@ struct SetGoalFlow {
         
         // flow취소 화면에서 제거
         case requestRemoveFromStack
+        
+        // 계획생성
+        case requestMakePlan
+        
+        // 목표생성
+        case requestMakeGoal
     }
     
-    // 진행단계
+    // MARK: - ViewFlow
     enum ViewFlow: Int, CaseIterable {
         case setGoal = 1
         case setPlan
@@ -73,12 +99,12 @@ struct SetGoalFlow {
             }
         }
         
-        var guideType: FetchTip.GuideType {
+        var guideType: FetchTip.GuideType? {
             switch self {
             case .setGoal:
-                    .newGoal
+                return .newGoal
             case .setPlan:
-                    .newPlan
+                return .newPlan
             }
         }
         
@@ -88,7 +114,7 @@ struct SetGoalFlow {
         }
     }
     
-    // 생성모드
+    // MARK: - Make Type
     enum MakeType {
         
         // 목표&계획 생성
@@ -98,6 +124,10 @@ struct SetGoalFlow {
         case makePlan
     }
     
+    // MARK: - Dependencies
+    @Dependency(\.goalClient) var goalClient
+    
+    // MARK: - Reducer
     var body: some Reducer<State, Action> {
         BindingReducer()
         Scope(state: \.fetchTip, action: \.fetchTip) {
@@ -110,19 +140,33 @@ struct SetGoalFlow {
             case .backButtonTapped:
                 return self.setBackButtonAction(&state)
             case .completeAction:
-                return .none
+                return self.setCompleteAction(&state)
             case .nextAction:
                 let currentIndex = state.viewFlow.rawValue
                 state.viewFlow = .init(rawValue: currentIndex + 1)!
-                state.fetchTip = .init(guideType: state.viewFlow.guideType)
                 state.isFoward = true
+                if let guideType = state.viewFlow.guideType {
+                    state.fetchTip = .init(guideType: guideType)
+                }
                 return .none
             case .cancleAction:
                 let currentIndex = state.viewFlow.rawValue
                 state.viewFlow = .init(rawValue: currentIndex - 1)!
-                state.fetchTip = .init(guideType: state.viewFlow.guideType)
                 state.isFoward = false
+                if let guideType = state.viewFlow.guideType {
+                    state.fetchTip = .init(guideType: guideType)
+                }
                 return .none
+                // API
+            case .requestMakePlan:
+                return .run { [state] send in
+                    try await goalClient.makePlan(state.goalId, .init(title: state.planTitle, startDate: state.startDate, endDate: state.endDate))
+                    await send(.requestRemoveFromStack)
+                }
+            case .requestMakeGoal:
+                return .run { send in
+                    
+                }
             default:
                 return .none
             }
@@ -131,6 +175,7 @@ struct SetGoalFlow {
     }
 }
 
+// MARK: - Helper
 extension SetGoalFlow {
     // 현재뷰의 인덱스에 따라서 다음 액션을 호출
     func setNextButtonAction(_ state: inout State) -> Effect<Action> {
@@ -151,6 +196,15 @@ extension SetGoalFlow {
             return .send(.requestRemoveFromStack)
         } else {
             return .send(.cancleAction)
+        }
+    }
+    
+    func setCompleteAction(_ state: inout State) -> Effect<Action>  {
+        switch state.makeType {
+        case .makeGoal:
+            return .send(.requestMakeGoal)
+        case .makePlan:
+            return .send(.requestMakePlan)
         }
     }
 }

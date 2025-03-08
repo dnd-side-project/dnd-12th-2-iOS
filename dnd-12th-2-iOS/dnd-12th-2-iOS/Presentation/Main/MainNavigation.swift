@@ -65,8 +65,8 @@ struct MainNavigation {
                 case .element(id: _, action: .home(.goToArchiveGoal)):
                     // 목표달성 경로 추가
                     return .none
-                case .element(id: _, action: .home(.goToSetPlan)):
-                    state.path.append(.setGoal(.init(makeType: .makeGoal)))
+                case let .element(id: _, action: .home(.goToSetPlan(goalId))):
+                    state.path.append(.setGoal(.init(goalId: goalId)))
                     return .none
                 default:
                     return .none
