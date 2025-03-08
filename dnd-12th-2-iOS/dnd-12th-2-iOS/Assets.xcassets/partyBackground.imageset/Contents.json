@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "partyBackground.svg",
+      "filename" : "partyBackground.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Property 1=컨페티@2x.png",
+      "filename" : "partyBackground@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Property 1=컨페티@3x.png",
+      "filename" : "partyBackground@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

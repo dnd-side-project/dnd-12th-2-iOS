@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "목표 달성 성공!.png",
+      "filename" : "목표 달성 성공!.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "목표 달성 성공!@2x 1.png",
+      "filename" : "목표 달성 성공!@2x 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "목표 달성 성공!@3x 1.png",
+      "filename" : "목표 달성 성공!@3x 1.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
